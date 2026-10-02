@@ -1,0 +1,1178 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-03T12:00:00+00:00",
+  "title": "Design System: Bird-Watcher",
+  "extensions": {
+    "colorMeta": {
+      "cover-yellow": {
+        "role": "primary",
+        "displayName": "Cover Yellow",
+        "canonical": "#e2cc2a",
+        "oklch": "oklch(83.8% 0.165 100.9)",
+        "cssVar": "--cover",
+        "tonalRamp": [
+          "#140900",
+          "#332300",
+          "#554000",
+          "#776000",
+          "#998300",
+          "#bca600",
+          "#dfcb46",
+          "#fff191"
+        ]
+      },
+      "cover-yellow-deep": {
+        "role": "primary",
+        "displayName": "Cover Yellow Deep",
+        "canonical": "#cdb71d",
+        "oklch": "oklch(77.5% 0.155 100.2)",
+        "cssVar": "--cover-deep",
+        "tonalRamp": [
+          "#140900",
+          "#332300",
+          "#554000",
+          "#776000",
+          "#998200",
+          "#bca600",
+          "#decb52",
+          "#fff197"
+        ]
+      },
+      "cover-ink": {
+        "role": "primary",
+        "displayName": "Cover Ink",
+        "canonical": "#1b2420",
+        "oklch": "oklch(25.0% 0.015 166.3)",
+        "cssVar": "--cover-ink",
+        "tonalRamp": [
+          "#080c0a",
+          "#202724",
+          "#3b4440",
+          "#5a645f",
+          "#7a8580",
+          "#9da8a3",
+          "#c1ccc7",
+          "#e8f1ed"
+        ]
+      },
+      "cover-pencil": {
+        "role": "primary",
+        "displayName": "Cover Pencil",
+        "canonical": "#4b4411",
+        "oklch": "oklch(38.3% 0.069 101.3)",
+        "cssVar": "--cover-pencil",
+        "tonalRamp": [
+          "#0f0b00",
+          "#2a2603",
+          "#494315",
+          "#696332",
+          "#8b8452",
+          "#aea774",
+          "#d1cb9c",
+          "#f5f0ca"
+        ]
+      },
+      "chestnut-attention": {
+        "role": "secondary",
+        "displayName": "Chestnut Attention Ink",
+        "canonical": "#8a4a22",
+        "oklch": "oklch(47.9% 0.102 50.1)",
+        "cssVar": "--attention",
+        "tonalRamp": [
+          "#1c0300",
+          "#401700",
+          "#683007",
+          "#8e4e26",
+          "#b36f48",
+          "#d9926a",
+          "#fbb893",
+          "#ffe1c3"
+        ]
+      },
+      "chestnut-wash": {
+        "role": "secondary",
+        "displayName": "Chestnut Wash",
+        "canonical": "#f6ebe3",
+        "oklch": "oklch(94.7% 0.016 58.6)",
+        "cssVar": "--attention-wash",
+        "tonalRamp": [
+          "#0e0a08",
+          "#2a241f",
+          "#48403a",
+          "#685f58",
+          "#8a8079",
+          "#ada39b",
+          "#d1c7c0",
+          "#f5ede7"
+        ]
+      },
+      "survey-done": {
+        "role": "tertiary",
+        "displayName": "Survey Done Green",
+        "canonical": "#4f8460",
+        "oklch": "oklch(56.6% 0.080 153.5)",
+        "cssVar": "--done",
+        "tonalRamp": [
+          "#001004",
+          "#072d17",
+          "#1c4d2f",
+          "#3a6e4c",
+          "#5b916c",
+          "#7eb48e",
+          "#a5d8b3",
+          "#d2fadd"
+        ],
+        "purpose": "Completion only: the strike across a done key and the welcome checklist's done tick."
+      },
+      "waterproof-page": {
+        "role": "neutral",
+        "displayName": "Waterproof Page",
+        "canonical": "#fafbf8",
+        "oklch": "oklch(98.6% 0.004 121.6)",
+        "cssVar": "--page",
+        "tonalRamp": [
+          "#0b0b0a",
+          "#252524",
+          "#424240",
+          "#61625f",
+          "#828380",
+          "#a4a5a3",
+          "#c9c9c7",
+          "#eeefed"
+        ]
+      },
+      "page-sunk": {
+        "role": "neutral",
+        "displayName": "Page Sunk",
+        "canonical": "#f1f5ef",
+        "oklch": "oklch(96.5% 0.009 134.9)",
+        "cssVar": "--page-sunk",
+        "tonalRamp": [
+          "#0a0c0a",
+          "#242623",
+          "#40433f",
+          "#5f625d",
+          "#80847e",
+          "#a3a6a1",
+          "#c7cac5",
+          "#edefeb"
+        ]
+      },
+      "field-ground": {
+        "role": "neutral",
+        "displayName": "Field Ground",
+        "canonical": "#eef2ec",
+        "oklch": "oklch(95.6% 0.009 134.9)",
+        "cssVar": "--ground",
+        "tonalRamp": [
+          "#0a0c0a",
+          "#242623",
+          "#40433f",
+          "#5f625d",
+          "#80847e",
+          "#a3a6a1",
+          "#c7cac5",
+          "#edefeb"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "canonical": "#1b2420",
+        "oklch": "oklch(25.0% 0.015 166.3)",
+        "cssVar": "--ink",
+        "tonalRamp": [
+          "#080c0a",
+          "#202724",
+          "#3b4440",
+          "#5a645f",
+          "#7a8580",
+          "#9da8a3",
+          "#c1ccc7",
+          "#e8f1ed"
+        ]
+      },
+      "pencil": {
+        "role": "neutral",
+        "displayName": "Pencil",
+        "canonical": "#5c6762",
+        "oklch": "oklch(50.3% 0.016 166.7)",
+        "cssVar": "--pencil",
+        "tonalRamp": [
+          "#080c0a",
+          "#202724",
+          "#3b4540",
+          "#59645f",
+          "#7a8580",
+          "#9ca8a3",
+          "#c1ccc7",
+          "#e8f1ed"
+        ]
+      },
+      "rule-minor": {
+        "role": "neutral",
+        "displayName": "Rule Minor",
+        "canonical": "#c7dccc",
+        "oklch": "oklch(87.4% 0.031 152.8)",
+        "cssVar": "--rule",
+        "tonalRamp": [
+          "#060d08",
+          "#1d2820",
+          "#36473b",
+          "#546759",
+          "#75887a",
+          "#97ab9c",
+          "#bccfc0",
+          "#e4f3e7"
+        ]
+      },
+      "rule-mid": {
+        "role": "neutral",
+        "displayName": "Rule Mid",
+        "canonical": "#8db59a",
+        "oklch": "oklch(73.6% 0.058 155.2)",
+        "cssVar": "--rule-mid",
+        "tonalRamp": [
+          "#010f06",
+          "#122b1c",
+          "#294b35",
+          "#466b53",
+          "#668d73",
+          "#88b095",
+          "#afd4bb",
+          "#daf7e3"
+        ]
+      },
+      "rule-strong": {
+        "role": "neutral",
+        "displayName": "Rule Strong",
+        "canonical": "#5f8f6e",
+        "oklch": "oklch(60.6% 0.072 153.8)",
+        "cssVar": "--rule-strong",
+        "tonalRamp": [
+          "#001004",
+          "#0c2c19",
+          "#214c31",
+          "#3e6d4e",
+          "#5f8f6e",
+          "#82b390",
+          "#a9d6b6",
+          "#d5f9df"
+        ]
+      },
+      "selection-highlighter": {
+        "role": "neutral",
+        "displayName": "Selection Highlighter",
+        "canonical": "#f1e27e",
+        "oklch": "oklch(90.4% 0.123 100.9)",
+        "cssVar": "--selection",
+        "tonalRamp": [
+          "#120a00",
+          "#2f2400",
+          "#504200",
+          "#716200",
+          "#938410",
+          "#b6a741",
+          "#d9cb73",
+          "#fbf1ac"
+        ]
+      },
+      "epic-ink-1": {
+        "role": "tertiary",
+        "displayName": "Epic Line Ink 1",
+        "canonical": "#2f6f8f",
+        "oklch": "oklch(51.4% 0.082 233.3)",
+        "cssVar": "--ink-epic-1",
+        "tonalRamp": [
+          "#000d1b",
+          "#00293e",
+          "#044864",
+          "#286988",
+          "#4c8bac",
+          "#6faed1",
+          "#98d2f2",
+          "#c8f6ff"
+        ],
+        "purpose": "Shared by epics (3x16 tick, progress meter fill) and labels (8px swatch, printed tag); never on text."
+      },
+      "epic-ink-2": {
+        "role": "tertiary",
+        "displayName": "Epic Line Ink 2",
+        "canonical": "#7a4e8c",
+        "oklch": "oklch(49.8% 0.107 315.6)",
+        "cssVar": "--ink-epic-2",
+        "tonalRamp": [
+          "#14031c",
+          "#33163f",
+          "#562f66",
+          "#784c8a",
+          "#9b6eae",
+          "#bf90d3",
+          "#e2b6f5",
+          "#ffdfff"
+        ],
+        "purpose": "Shared by epics (3x16 tick, progress meter fill) and labels (8px swatch, printed tag); never on text."
+      },
+      "epic-ink-3": {
+        "role": "tertiary",
+        "displayName": "Epic Line Ink 3",
+        "canonical": "#3f7f4f",
+        "oklch": "oklch(54.1% 0.100 150.1)",
+        "cssVar": "--ink-epic-3",
+        "tonalRamp": [
+          "#001101",
+          "#002e10",
+          "#114f26",
+          "#307142",
+          "#539362",
+          "#76b784",
+          "#9fdaaa",
+          "#cdfdd6"
+        ],
+        "purpose": "Shared by epics (3x16 tick, progress meter fill) and labels (8px swatch, printed tag); never on text."
+      },
+      "epic-ink-4": {
+        "role": "tertiary",
+        "displayName": "Epic Line Ink 4",
+        "canonical": "#a8740f",
+        "oklch": "oklch(59.8% 0.121 76.4)",
+        "cssVar": "--ink-epic-4",
+        "tonalRamp": [
+          "#1a0500",
+          "#3d1c00",
+          "#633600",
+          "#875500",
+          "#ab7715",
+          "#d09a43",
+          "#f2c074",
+          "#ffe7ad"
+        ],
+        "purpose": "Shared by epics (3x16 tick, progress meter fill) and labels (8px swatch, printed tag); never on text."
+      },
+      "epic-ink-5": {
+        "role": "tertiary",
+        "displayName": "Epic Line Ink 5",
+        "canonical": "#2f7d78",
+        "oklch": "oklch(54.1% 0.076 189.3)",
+        "cssVar": "--ink-epic-5",
+        "tonalRamp": [
+          "#00100f",
+          "#002d2b",
+          "#004e4a",
+          "#1d6f6a",
+          "#45918c",
+          "#69b5af",
+          "#94d8d2",
+          "#c6fbf6"
+        ],
+        "purpose": "Shared by epics (3x16 tick, progress meter fill) and labels (8px swatch, printed tag); never on text."
+      },
+      "epic-ink-6": {
+        "role": "tertiary",
+        "displayName": "Epic Line Ink 6",
+        "canonical": "#5a5fa8",
+        "oklch": "oklch(51.6% 0.114 278.6)",
+        "cssVar": "--ink-epic-6",
+        "tonalRamp": [
+          "#070625",
+          "#1d1e4d",
+          "#373979",
+          "#5458a1",
+          "#747ac6",
+          "#959dec",
+          "#bac3ff",
+          "#e2eaff"
+        ],
+        "purpose": "Shared by epics (3x16 tick, progress meter fill) and labels (8px swatch, printed tag); never on text."
+      },
+      "night-ground": {
+        "role": "neutral",
+        "displayName": "Night Field Ground",
+        "canonical": "#0d211c",
+        "oklch": "oklch(22.9% 0.028 175.5)",
+        "cssVar": "--ground (night)",
+        "tonalRamp": [
+          "#050d0b",
+          "#1a2825",
+          "#334741",
+          "#516760",
+          "#718881",
+          "#94aba4",
+          "#b9cfc8",
+          "#e1f3ee"
+        ]
+      },
+      "night-page": {
+        "role": "neutral",
+        "displayName": "Night Waterproof Page",
+        "canonical": "#13302a",
+        "oklch": "oklch(28.5% 0.037 178.2)",
+        "cssVar": "--page (night)",
+        "tonalRamp": [
+          "#030e0b",
+          "#162925",
+          "#2d4842",
+          "#4a6861",
+          "#6b8a82",
+          "#8dada5",
+          "#b3d1c9",
+          "#ddf5ee"
+        ]
+      },
+      "night-page-sunk": {
+        "role": "neutral",
+        "displayName": "Night Page Sunk",
+        "canonical": "#183a33",
+        "oklch": "oklch(32.1% 0.042 178.2)",
+        "cssVar": "--page-sunk (night)",
+        "tonalRamp": [
+          "#020e0b",
+          "#132a25",
+          "#2a4942",
+          "#476961",
+          "#678b82",
+          "#8aaea5",
+          "#b0d2c9",
+          "#daf6ee"
+        ]
+      },
+      "night-ink": {
+        "role": "neutral",
+        "displayName": "Night Ink",
+        "canonical": "#e6ede7",
+        "oklch": "oklch(93.9% 0.011 149.9)",
+        "cssVar": "--ink (night)",
+        "tonalRamp": [
+          "#090c0a",
+          "#222623",
+          "#3e443f",
+          "#5d635e",
+          "#7e847f",
+          "#a0a7a1",
+          "#c5cbc6",
+          "#ebf0ec"
+        ]
+      },
+      "night-pencil": {
+        "role": "neutral",
+        "displayName": "Night Pencil",
+        "canonical": "#a3b6ab",
+        "oklch": "oklch(75.8% 0.026 160.4)",
+        "cssVar": "--pencil (night)",
+        "tonalRamp": [
+          "#060d09",
+          "#1d2822",
+          "#37463e",
+          "#55665c",
+          "#75877d",
+          "#98aaa0",
+          "#bdcec4",
+          "#e4f3ea"
+        ]
+      },
+      "night-rule-minor": {
+        "role": "neutral",
+        "displayName": "Night Rule Minor",
+        "canonical": "#284a40",
+        "oklch": "oklch(38.0% 0.044 173.0)",
+        "cssVar": "--rule (night)",
+        "tonalRamp": [
+          "#020e0a",
+          "#132a23",
+          "#2a4940",
+          "#476a5f",
+          "#678b80",
+          "#8aaea2",
+          "#b0d2c7",
+          "#daf6ec"
+        ]
+      },
+      "night-rule-mid": {
+        "role": "neutral",
+        "displayName": "Night Rule Mid",
+        "canonical": "#3c6a5b",
+        "oklch": "oklch(48.6% 0.057 170.9)",
+        "cssVar": "--rule-mid (night)",
+        "tonalRamp": [
+          "#000f09",
+          "#0b2c22",
+          "#214b3e",
+          "#3e6c5d",
+          "#5f8e7e",
+          "#81b1a0",
+          "#a8d5c5",
+          "#d5f8eb"
+        ]
+      },
+      "night-rule-strong": {
+        "role": "neutral",
+        "displayName": "Night Rule Strong",
+        "canonical": "#6f9f80",
+        "oklch": "oklch(65.9% 0.069 155.7)",
+        "cssVar": "--rule-strong (night)",
+        "tonalRamp": [
+          "#001005",
+          "#0c2c1a",
+          "#224c33",
+          "#3f6d50",
+          "#608f71",
+          "#82b293",
+          "#a9d6b8",
+          "#d5f9e1"
+        ]
+      },
+      "night-cover-yellow": {
+        "role": "primary",
+        "displayName": "Night Cover Yellow",
+        "canonical": "#cdb824",
+        "oklch": "oklch(77.7% 0.153 100.5)",
+        "cssVar": "--cover (night)",
+        "tonalRamp": [
+          "#140900",
+          "#322300",
+          "#544000",
+          "#766000",
+          "#988300",
+          "#bba600",
+          "#decb54",
+          "#fff199"
+        ]
+      },
+      "night-cover-yellow-deep": {
+        "role": "primary",
+        "displayName": "Night Cover Yellow Deep",
+        "canonical": "#b5a11a",
+        "oklch": "oklch(70.5% 0.141 99.9)",
+        "cssVar": "--cover-deep (night)",
+        "tonalRamp": [
+          "#130900",
+          "#322300",
+          "#534100",
+          "#756100",
+          "#978300",
+          "#baa623",
+          "#ddcb62",
+          "#fef1a1"
+        ]
+      },
+      "night-chestnut-attention": {
+        "role": "secondary",
+        "displayName": "Night Chestnut Attention Ink",
+        "canonical": "#e59d6c",
+        "oklch": "oklch(75.6% 0.108 54.6)",
+        "cssVar": "--attention (night)",
+        "tonalRamp": [
+          "#1c0300",
+          "#411700",
+          "#693000",
+          "#8f4e1a",
+          "#b46f3f",
+          "#d99261",
+          "#fbb88c",
+          "#ffe2be"
+        ]
+      },
+      "night-chestnut-wash": {
+        "role": "secondary",
+        "displayName": "Night Chestnut Wash",
+        "canonical": "#3a2c1f",
+        "oklch": "oklch(30.5% 0.030 64.2)",
+        "cssVar": "--attention-wash (night)",
+        "tonalRamp": [
+          "#100a05",
+          "#2d231a",
+          "#4d3f32",
+          "#6e5e50",
+          "#907f70",
+          "#b3a292",
+          "#d6c6b7",
+          "#f9ece0"
+        ]
+      },
+      "night-survey-done": {
+        "role": "tertiary",
+        "displayName": "Night Survey Done Green",
+        "canonical": "#86b894",
+        "oklch": "oklch(73.7% 0.074 153.1)",
+        "cssVar": "--done (night)",
+        "tonalRamp": [
+          "#001004",
+          "#0b2d18",
+          "#214c30",
+          "#3e6e4d",
+          "#5f906d",
+          "#81b38f",
+          "#a8d6b5",
+          "#d5fade"
+        ]
+      },
+      "chart-plan": {
+        "role": "tertiary",
+        "displayName": "Survey Slate",
+        "canonical": "#206e9e",
+        "oklch": "oklch(51.5% 0.105 240.9)",
+        "cssVar": "--chart-plan",
+        "tonalRamp": [
+          "#000c21",
+          "#002847",
+          "#004771",
+          "#176797",
+          "#408abb",
+          "#64ade1",
+          "#8fd2ff",
+          "#c2f6ff"
+        ]
+      },
+      "chart-done": {
+        "role": "tertiary",
+        "displayName": "Tally Green",
+        "canonical": "#2f8a4a",
+        "oklch": "oklch(56.4% 0.130 149.8)",
+        "cssVar": "--chart-done",
+        "tonalRamp": [
+          "#001200",
+          "#003106",
+          "#00521a",
+          "#117536",
+          "#3e9757",
+          "#63bc78",
+          "#90dfa0",
+          "#c2ffce"
+        ]
+      },
+      "night-chart-plan": {
+        "role": "tertiary",
+        "displayName": "Night Survey Slate",
+        "canonical": "#438fc4",
+        "oklch": "oklch(62.5% 0.110 241.9)",
+        "cssVar": "--chart-plan (night)",
+        "tonalRamp": [
+          "#000c22",
+          "#002848",
+          "#004673",
+          "#12679a",
+          "#3d89be",
+          "#62ade4",
+          "#8dd1ff",
+          "#c0f6ff"
+        ]
+      },
+      "night-chart-done": {
+        "role": "tertiary",
+        "displayName": "Night Tally Green",
+        "canonical": "#3d9d5c",
+        "oklch": "oklch(62.3% 0.133 151.2)",
+        "cssVar": "--chart-done (night)",
+        "tonalRamp": [
+          "#001200",
+          "#003107",
+          "#00531b",
+          "#007537",
+          "#389858",
+          "#5ebc79",
+          "#8ce0a1",
+          "#c0ffce"
+        ]
+      },
+      "scrim": {
+        "role": "neutral",
+        "displayName": "Scrim",
+        "canonical": "rgb(27 36 32 / 0.32)",
+        "purpose": "Dims the page behind the entry drawer, command palette and shortcut sheet.",
+        "tonalRamp": [
+          "rgb(27 36 32 / 0.08)",
+          "rgb(27 36 32 / 0.16)",
+          "rgb(27 36 32 / 0.24)",
+          "rgb(27 36 32 / 0.32)",
+          "rgb(27 36 32 / 0.40)",
+          "rgb(27 36 32 / 0.48)",
+          "rgb(27 36 32 / 0.56)",
+          "rgb(27 36 32 / 0.64)"
+        ]
+      },
+      "night-scrim": {
+        "role": "neutral",
+        "displayName": "Night Scrim",
+        "canonical": "rgb(0 0 0 / 0.5)",
+        "purpose": "The scrim on the night page.",
+        "tonalRamp": [
+          "rgb(0 0 0 / 0.15)",
+          "rgb(0 0 0 / 0.25)",
+          "rgb(0 0 0 / 0.35)",
+          "rgb(0 0 0 / 0.45)",
+          "rgb(0 0 0 / 0.5)",
+          "rgb(0 0 0 / 0.6)",
+          "rgb(0 0 0 / 0.7)",
+          "rgb(0 0 0 / 0.8)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Cover Wordmark",
+        "purpose": "The stacked BIRD- / WATCHER wordmark on the auth cover only; uppercase."
+      },
+      "headline": {
+        "displayName": "Page Title",
+        "purpose": "Page header title, uppercase, desktop."
+      },
+      "title": {
+        "displayName": "Thumb Tab",
+        "purpose": "Thumb-tab labels, uppercase."
+      },
+      "body": {
+        "displayName": "Entry",
+        "purpose": "Entry titles and running text; prose max 60ch."
+      },
+      "label": {
+        "displayName": "Stamp",
+        "purpose": "Column captions, tally captions, drawer property names, chart axis captions; uppercase."
+      },
+      "numeral": {
+        "displayName": "Measure",
+        "purpose": "Keys, dates, counts and points; tabular-nums slashed-zero."
+      },
+      "wordmark": {
+        "displayName": "Spine Wordmark",
+        "purpose": "The spine wordmark, uppercase."
+      },
+      "title-entry": {
+        "displayName": "Entry Page Title",
+        "purpose": "The written entry title at the head of the entry drawer; sentence case."
+      },
+      "title-board": {
+        "displayName": "Board Name",
+        "purpose": "Board names listed on a workspace page; uppercase."
+      },
+      "title-written": {
+        "displayName": "Written Title",
+        "purpose": "Epic titles and sprint names heading rows and bands; Barlow sentence case."
+      },
+      "body-field": {
+        "displayName": "Field Text",
+        "purpose": "Text written on a full-size writing line (1rem)."
+      },
+      "body-compact": {
+        "displayName": "Compact Entry",
+        "purpose": "Filter selects, drawer selects, sprint goals, references."
+      },
+      "body-cell": {
+        "displayName": "Cell",
+        "purpose": "Status, where and sprint cells; chart legends."
+      },
+      "body-meta": {
+        "displayName": "Meta",
+        "purpose": "Compact meta lines, label tags, footnotes."
+      },
+      "label-heading": {
+        "displayName": "Heading Stamp",
+        "purpose": "Board column names, backlog band captions, report headings; uppercase."
+      },
+      "label-button": {
+        "displayName": "Button Stamp",
+        "purpose": "Button labels (0.875rem) and settings group headings; uppercase."
+      },
+      "label-section": {
+        "displayName": "Section Stamp",
+        "purpose": "Section-rule captions and view tabs; uppercase."
+      },
+      "label-field": {
+        "displayName": "Field Stamp",
+        "purpose": "Field labels (0.75rem) and segmented toggles; uppercase."
+      },
+      "numeral-tally": {
+        "displayName": "Tally",
+        "purpose": "Header tally values and the drawer key."
+      },
+      "numeral-small": {
+        "displayName": "Small Measure",
+        "purpose": "Tab numbers, board keys, card keys, chart readouts."
+      },
+      "headline-compact": {
+        "displayName": "Page Title, Phone",
+        "purpose": "Page header title below 768px; uppercase."
+      },
+      "headline-form": {
+        "displayName": "Form Title",
+        "purpose": "Title of an auth form page; uppercase."
+      }
+    },
+    "shadows": [
+      {
+        "name": "writing-line-focus",
+        "value": "inset 0 -2px 0 var(--ink)",
+        "purpose": "Thickens a focused field's underline to 2px ink. The only shadow in the system; not elevation."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-field",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "The single easing curve for all state changes, tab pulls and strikes."
+      },
+      {
+        "name": "duration-state",
+        "value": "120ms",
+        "purpose": "Background and colour changes on buttons and fields."
+      },
+      {
+        "name": "duration-tab-pull",
+        "value": "160ms",
+        "purpose": "Thumb tab sliding flush into the page; also the drop of a lifted slip back into place."
+      },
+      {
+        "name": "duration-strike",
+        "value": "260ms",
+        "purpose": "The done strike drawn left to right across an entry key (scaleX 0 to 1)."
+      },
+      {
+        "name": "scrim-in",
+        "value": "160ms opacity 0 to 1, ease-field",
+        "purpose": "The scrim fading in behind the entry drawer."
+      },
+      {
+        "name": "drawer-in",
+        "value": "200ms translateX(24px) and opacity 0.6 to rest, ease-field",
+        "purpose": "The entry drawer sliding in from the right."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "1ms",
+        "purpose": "All animation and transition durations collapse under prefers-reduced-motion."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "md",
+        "value": "768px",
+        "purpose": "Spine becomes a side column; table columns and the calendar month grid appear (the phone agenda and table meta line give way). Entry drawer becomes a 600px side page; lanes cap at 360px."
+      },
+      {
+        "name": "lg",
+        "value": "1024px",
+        "purpose": "Where column appears."
+      },
+      {
+        "name": "xl",
+        "value": "1280px",
+        "purpose": "Sprint column appears."
+      }
+    ],
+    "themes": {
+      "day": ":root",
+      "night": "@media (prefers-color-scheme: dark) :root:not([data-theme=light]), and :root[data-theme=dark]",
+      "mechanism": "theme cookie sets data-theme on <html>; absent means follow system"
+    },
+    "fonts": {
+      "--font-sans": "Barlow 400/500/600 via next/font",
+      "--font-stamp": "Barlow Condensed 500/600/700 via next/font",
+      "--font-mono": "Overpass Mono 400/500/600 via next/font"
+    },
+    "pointsRamp": {
+      "0": "3px",
+      "1": "5px",
+      "2": "7px",
+      "3": "9px",
+      "5": "11px",
+      "8": "13px",
+      "13": "15px",
+      ">13": "17px"
+    },
+    "shapes": {
+      "lifted-slip": "rotate(-1deg); border:1px solid var(--ink); background:var(--page); no shadow",
+      "source-while-dragging": "opacity 0.3-0.4",
+      "chart-data-end": "4px rounded top corners on bars; square baseline",
+      "chart-point": "r 4-5px, 2px page-colour ring",
+      "hairline-2px": "buttons, board lanes, board tiles, tile edit slots, calendar chips, the drawn checkbox",
+      "modal-edge": "2px solid var(--ink): entry drawer left edge; command palette and shortcut sheet frame",
+      "board-tile": "1px rule-mid border, 2px radius, page fill, 8px gap; hover border ink; open tile border ink + 1px ink outline; no shadow",
+      "check": "16px, 1px rule-strong border, 2px radius; checked ink fill with a page tick"
+    },
+    "charts": {
+      "gridline": "1px var(--rule), crispEdges",
+      "line": "2px, round caps and joins",
+      "bar": "max 24px wide, 2px gap within a pair, 4px data end",
+      "axis": "11px mono pencil",
+      "legend": "16px line key, 2px (1px for reference lines), required for 2+ series",
+      "readout": "bars: reserved line between minor rules above the plot; lines: floating box, page fill, 1px ink border",
+      "table": "<details> 'Show as table' mono table",
+      "nonSeries": {
+        "ideal": "var(--pencil)",
+        "average": "var(--ink)"
+      }
+    },
+    "laneTint": {
+      "token": "--lane-tint",
+      "day": "10%",
+      "night": "4%",
+      "formula": "color-mix(in oklab, <board ink> var(--lane-tint), var(--ground))",
+      "purpose": "Washes board lanes with the board's chosen ink (one of the six epic/label inks). Lanes without a board colour stay plain ground."
+    }
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Main action on a page or form; cover yellow pressed into the page.",
+      "html": "<button class=\"ds-btn ds-btn-primary\">Create</button>",
+      "css": ".ds-btn { display:inline-flex; align-items:center; justify-content:center; gap:8px; min-height:36px; padding:0 14px; border:1px solid var(--ink); border-radius:2px; background:transparent; color:var(--ink); font-family:var(--font-stamp); font-weight:600; font-size:14px; letter-spacing:0.07em; text-transform:uppercase; white-space:nowrap; cursor:pointer; transition:background-color 120ms cubic-bezier(0.16,1,0.3,1), color 120ms cubic-bezier(0.16,1,0.3,1); } .ds-btn:hover { background:var(--page-sunk); } .ds-btn:focus-visible { outline:2px solid var(--ink); outline-offset:2px; } .ds-btn:disabled { opacity:0.55; cursor:progress; } .ds-btn-primary { background:var(--cover); border-color:var(--cover-ink); color:var(--cover-ink); } .ds-btn-primary:hover { background:var(--cover-deep); }"
+    },
+    {
+      "name": "Plain Button",
+      "kind": "button",
+      "refersTo": "button",
+      "description": "Secondary action: ink stroke, no fill.",
+      "html": "<button class=\"ds-btn\">Rename</button>",
+      "css": ".ds-btn { display:inline-flex; align-items:center; justify-content:center; gap:8px; min-height:36px; padding:0 14px; border:1px solid var(--ink); border-radius:2px; background:transparent; color:var(--ink); font-family:var(--font-stamp); font-weight:600; font-size:14px; letter-spacing:0.07em; text-transform:uppercase; white-space:nowrap; cursor:pointer; transition:background-color 120ms cubic-bezier(0.16,1,0.3,1), color 120ms cubic-bezier(0.16,1,0.3,1); } .ds-btn:hover { background:var(--page-sunk); } .ds-btn:focus-visible { outline:2px solid var(--ink); outline-offset:2px; } .ds-btn:disabled { opacity:0.55; cursor:progress; }"
+    },
+    {
+      "name": "Quiet Button",
+      "kind": "button",
+      "refersTo": "button-quiet",
+      "description": "Low-emphasis and icon-only actions.",
+      "html": "<button class=\"ds-btn ds-btn-quiet\">Cancel</button>",
+      "css": ".ds-btn { display:inline-flex; align-items:center; justify-content:center; gap:8px; min-height:36px; padding:0 14px; border:1px solid var(--ink); border-radius:2px; background:transparent; color:var(--ink); font-family:var(--font-stamp); font-weight:600; font-size:14px; letter-spacing:0.07em; text-transform:uppercase; white-space:nowrap; cursor:pointer; transition:background-color 120ms cubic-bezier(0.16,1,0.3,1), color 120ms cubic-bezier(0.16,1,0.3,1); } .ds-btn:hover { background:var(--page-sunk); } .ds-btn:focus-visible { outline:2px solid var(--ink); outline-offset:2px; } .ds-btn:disabled { opacity:0.55; cursor:progress; } .ds-btn-quiet { border-color:transparent; color:var(--pencil); } .ds-btn-quiet:hover { color:var(--ink); background:var(--page-sunk); }"
+    },
+    {
+      "name": "Danger Button",
+      "kind": "button",
+      "refersTo": "button-danger",
+      "description": "Destructive actions in chestnut, the only attention ink.",
+      "html": "<button class=\"ds-btn ds-btn-danger\">Remove member</button>",
+      "css": ".ds-btn { display:inline-flex; align-items:center; justify-content:center; gap:8px; min-height:36px; padding:0 14px; border:1px solid var(--ink); border-radius:2px; background:transparent; color:var(--ink); font-family:var(--font-stamp); font-weight:600; font-size:14px; letter-spacing:0.07em; text-transform:uppercase; white-space:nowrap; cursor:pointer; transition:background-color 120ms cubic-bezier(0.16,1,0.3,1), color 120ms cubic-bezier(0.16,1,0.3,1); } .ds-btn:hover { background:var(--page-sunk); } .ds-btn:focus-visible { outline:2px solid var(--ink); outline-offset:2px; } .ds-btn:disabled { opacity:0.55; cursor:progress; } .ds-btn-danger { border-color:var(--attention); color:var(--attention); } .ds-btn-danger:hover { background:var(--attention-wash); }"
+    },
+    {
+      "name": "Writing-Line Field",
+      "kind": "input",
+      "refersTo": "field",
+      "description": "Input on a ruled line with a stamped label above.",
+      "html": "<label class=\"ds-field-label\" for=\"ds-f\">Workspace name</label><input id=\"ds-f\" class=\"ds-field\" placeholder=\"e.g. Field Lab\">",
+      "css": ".ds-field-label { display:block; margin-bottom:2px; font-family:var(--font-stamp); font-weight:600; font-size:12px; letter-spacing:0.08em; text-transform:uppercase; color:var(--pencil); } .ds-field { display:block; width:100%; min-height:40px; padding:6px 4px 4px; border:0; border-bottom:1px solid var(--rule-strong); border-radius:0; background:transparent; color:var(--ink); font-family:var(--font-sans); font-size:16px; transition:background-color 120ms cubic-bezier(0.16,1,0.3,1); } .ds-field::placeholder { color:var(--pencil); opacity:1; } .ds-field:hover { background:var(--page-sunk); } .ds-field:focus { outline:none; background:var(--page-sunk); box-shadow:inset 0 -2px 0 var(--ink); } .ds-field:focus-visible { outline:2px solid var(--ink); outline-offset:2px; }"
+    },
+    {
+      "name": "Spine with Thumb Tabs",
+      "kind": "nav",
+      "refersTo": "thumb-tab",
+      "description": "Cover-yellow spine; inactive tabs sit back, the active tab slides flush and turns page-coloured.",
+      "html": "<nav class=\"ds-spine\"><a class=\"ds-tab ds-tab-active\" href=\"#\"><span class=\"ds-tab-n\">0</span><span class=\"ds-tab-l\">My Work</span><span class=\"ds-tab-c\">13</span></a><a class=\"ds-tab\" href=\"#\"><span class=\"ds-tab-n\">1</span><span class=\"ds-tab-l\">Personal</span><span class=\"ds-tab-c\">private</span></a><a class=\"ds-tab\" href=\"#\"><span class=\"ds-tab-n\">2</span><span class=\"ds-tab-l\">Field Lab</span><span class=\"ds-tab-c\">3</span></a></nav>",
+      "css": ".ds-spine { width:256px; padding:12px 0; background:var(--cover); color:var(--cover-ink); display:flex; flex-direction:column; gap:1px; } .ds-tab { display:flex; align-items:center; gap:12px; margin-left:20px; padding:9px 12px; border:1px solid color-mix(in srgb, var(--cover-ink) 25%, transparent); border-right:0; background:color-mix(in srgb, var(--cover-deep) 60%, transparent); color:var(--cover-ink); text-decoration:none; transform:translateX(-8px); transition:transform 160ms cubic-bezier(0.16,1,0.3,1), background-color 160ms cubic-bezier(0.16,1,0.3,1); } .ds-tab:hover { background:var(--cover-deep); transform:translateX(-4px); } .ds-tab:focus-visible { outline:2px solid var(--ink); outline-offset:2px; } .ds-tab-active, .ds-tab-active:hover { transform:none; margin-right:-1px; background:var(--page); border-color:var(--rule-strong); color:var(--ink); } .ds-tab-n, .ds-tab-c { font-family:var(--font-mono); font-size:12px; color:var(--cover-pencil); } .ds-tab-c { margin-left:auto; font-size:11px; } .ds-tab-active .ds-tab-n, .ds-tab-active .ds-tab-c { color:var(--pencil); } .ds-tab-l { font-family:var(--font-stamp); font-size:17px; font-weight:600; text-transform:uppercase; letter-spacing:0.03em; line-height:1.25; }"
+    },
+    {
+      "name": "Page Header Strip",
+      "kind": "custom",
+      "refersTo": "page-header",
+      "description": "Stamped title at left, captioned mono tallies at right, closed by the double rule.",
+      "html": "<header class=\"ds-ph\"><h1 class=\"ds-ph-t\">My Work</h1><dl class=\"ds-ph-f\"><div><dt>Open</dt><dd>13</dd></div><div><dt>Overdue</dt><dd class=\"ds-att\">2</dd></div><div><dt>Sprint pts</dt><dd>12</dd></div></dl></header>",
+      "css": ".ds-ph { display:flex; flex-wrap:wrap; align-items:flex-end; gap:12px 32px; padding:28px 32px 12px; background:var(--page); color:var(--ink); border-bottom:3px double var(--rule-strong); } .ds-ph-t { margin:0; font-family:var(--font-stamp); font-size:34px; font-weight:600; line-height:1; letter-spacing:0.02em; text-transform:uppercase; } .ds-ph-f { display:flex; gap:24px; margin:0 0 0 auto; } .ds-ph-f div { display:flex; align-items:baseline; gap:8px; } .ds-ph-f dt { font-family:var(--font-stamp); font-weight:600; font-size:11px; letter-spacing:0.07em; text-transform:uppercase; color:var(--pencil); } .ds-ph-f dd { margin:0; font-family:var(--font-mono); font-size:14px; font-variant-numeric:tabular-nums slashed-zero; } .ds-ph-f .ds-att { color:var(--attention); font-weight:600; }"
+    },
+    {
+      "name": "Ledger Rows",
+      "kind": "custom",
+      "refersTo": "ledger-row",
+      "description": "Section-rule band and 40px ruled entries with printed marks: epic tick, struck key, status square, magnitude dot, chestnut overdue.",
+      "html": "<table class=\"ds-led\"><tbody><tr><th colspan=\"5\" class=\"ds-sec ds-sec-att\"><span>Overdue</span><span class=\"ds-n\">1</span></th></tr><tr class=\"ds-urgent\"><td><span class=\"ds-tick\" style=\"background:var(--ink-epic-3)\"></span></td><td class=\"ds-mono\">MS-11</td><td>Methods section draft</td><td><svg width=\"10\" height=\"10\" viewBox=\"0 0 10 10\"><rect x=\".5\" y=\".5\" width=\"9\" height=\"9\" fill=\"none\" stroke=\"currentColor\"/><rect x=\".5\" y=\".5\" width=\"4.5\" height=\"9\" fill=\"currentColor\"/></svg> Review</td><td class=\"ds-mono ds-late\">01 OCT · 1d late</td></tr><tr><th colspan=\"5\" class=\"ds-sec\"><span>Done this week</span><span class=\"ds-n\">1</span></th></tr><tr><td></td><td class=\"ds-mono\"><span class=\"ds-struck\">MS-3</span></td><td class=\"ds-done\">Write field protocol v2</td><td><span class=\"ds-dot\" style=\"width:9px;height:9px\"></span> <span class=\"ds-mono\">3</span></td><td class=\"ds-mono\">18 SEP</td></tr></tbody></table>",
+      "css": ".ds-led { width:100%; border-collapse:collapse; background:var(--page); color:var(--ink); font-family:var(--font-sans); font-size:15px; } .ds-led td { height:40px; padding:0 12px; border-top:1px solid var(--rule); font-size:13px; } .ds-led tr:hover td { background:var(--page-sunk); } .ds-sec { text-align:left; padding:12px 32px 6px; background:var(--page-sunk); border-top:1px solid var(--rule-strong); font-family:var(--font-stamp); font-weight:600; font-size:13px; letter-spacing:0.07em; text-transform:uppercase; } .ds-sec-att { color:var(--attention); } .ds-n { margin-left:8px; font-family:var(--font-mono); font-size:12px; color:var(--pencil); letter-spacing:0; } .ds-urgent td { background:var(--attention-wash); font-weight:600; } .ds-tick { display:block; width:3px; height:16px; } .ds-mono { font-family:var(--font-mono); font-variant-numeric:tabular-nums slashed-zero; } .ds-late { color:var(--attention); font-weight:600; } .ds-done { color:var(--pencil); } .ds-dot { display:inline-block; border-radius:9999px; background:var(--ink); vertical-align:middle; } .ds-struck { position:relative; color:var(--pencil); } .ds-struck::after { content:''; position:absolute; left:-2px; right:-2px; top:52%; height:1.5px; background:var(--done); transform-origin:left center; animation:ds-strike 260ms cubic-bezier(0.16,1,0.3,1) both; } @keyframes ds-strike { from { transform:scaleX(0); } to { transform:scaleX(1); } }"
+    },
+    {
+      "name": "Theme Switch",
+      "kind": "custom",
+      "refersTo": "theme-switch",
+      "description": "Day page / night page / follow system as a square segmented strip; pressed segment inverts.",
+      "html": "<div class=\"ds-ts\" role=\"group\" aria-label=\"Theme\"><button aria-pressed=\"false\" title=\"Day page\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\"><circle cx=\"12\" cy=\"12\" r=\"4\"/><path d=\"M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41\"/></svg></button><button aria-pressed=\"true\" title=\"Night page\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\"><path d=\"M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z\"/></svg></button><button aria-pressed=\"false\" title=\"Follow system\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\"><rect x=\"2\" y=\"3\" width=\"20\" height=\"14\" rx=\"2\"/><path d=\"M8 21h8M12 17v4\"/></svg></button></div>",
+      "css": ".ds-ts { display:flex; width:216px; border:1px solid var(--rule-strong); } .ds-ts button { flex:1; display:flex; align-items:center; justify-content:center; padding:6px 0; border:0; background:transparent; color:var(--pencil); cursor:pointer; } .ds-ts button:hover { background:var(--page-sunk); color:var(--ink); } .ds-ts button:focus-visible { outline:2px solid var(--ink); outline-offset:2px; } .ds-ts button[aria-pressed='true'] { background:var(--ink); color:var(--page); }"
+    },
+    {
+      "name": "View Tabs",
+      "kind": "nav",
+      "refersTo": "view-tab",
+      "description": "Board views as horizontal index tabs standing on the header's rule; the current tab is cut from the page below.",
+      "html": "<nav class=\"ds-vt\"><a href=\"#\">Board</a><a href=\"#\" aria-current=\"page\">Backlog</a><a href=\"#\">Epics</a><a href=\"#\">Reports</a><a href=\"#\">Settings</a></nav>",
+      "css": ".ds-vt { display:flex; gap:4px; padding:8px 32px 0; border-bottom:1px solid var(--rule-strong); background:var(--page); } .ds-vt a { margin-bottom:-1px; padding:6px 14px; border:1px solid transparent; border-bottom:0; font-family:var(--font-stamp); font-weight:600; text-transform:uppercase; letter-spacing:0.07em; font-size:13px; color:var(--pencil); text-decoration:none; transition:background-color 120ms cubic-bezier(0.16,1,0.3,1); } .ds-vt a:hover { border-color:var(--rule); background:var(--page-sunk); color:var(--ink); } .ds-vt a:focus-visible { outline:2px solid var(--ink); outline-offset:2px; } .ds-vt a[aria-current='page'] { border-color:var(--rule-strong); border-bottom:1px solid var(--page); background:var(--page); color:var(--ink); }"
+    },
+    {
+      "name": "Filter Bar",
+      "kind": "input",
+      "refersTo": "filter-select",
+      "description": "Writing-line search and selects, an Only mine toggle, and the scope segmented strip.",
+      "html": "<div class=\"ds-fb\"><input class=\"ds-fl\" type=\"search\" placeholder=\"Find by key or title\" style=\"width:180px\"><button class=\"ds-fbtn\" aria-pressed=\"true\">Only mine</button><select class=\"ds-fl\"><option>Any label</option></select><div class=\"ds-seg\" role=\"group\"><button aria-pressed=\"true\">Sprint 4</button><button aria-pressed=\"false\">All entries</button></div></div>",
+      "css": ".ds-fb { display:flex; flex-wrap:wrap; align-items:flex-end; gap:8px 16px; padding:10px 32px; border-bottom:1px solid var(--rule); background:var(--page); } .ds-fl { width:132px; min-height:32px; padding:6px 4px 4px; border:0; border-bottom:1px solid var(--rule-strong); border-radius:0; background:transparent; color:var(--ink); font-family:var(--font-sans); font-size:14px; } .ds-fl::placeholder { color:var(--pencil); } .ds-fl:focus { outline:none; background:var(--page-sunk); box-shadow:inset 0 -2px 0 var(--ink); } .ds-fbtn { min-height:32px; padding:0 14px; border:1px solid var(--ink); border-radius:2px; background:transparent; color:var(--ink); font-family:var(--font-stamp); font-weight:600; text-transform:uppercase; letter-spacing:0.07em; font-size:14px; cursor:pointer; } .ds-fbtn[aria-pressed='true'] { background:var(--ink); color:var(--page); } .ds-fbtn:focus-visible, .ds-seg button:focus-visible { outline:2px solid var(--ink); outline-offset:2px; } .ds-seg { display:flex; margin-left:auto; border:1px solid var(--rule-strong); } .ds-seg button { padding:6px 12px; border:0; background:transparent; color:var(--pencil); font-family:var(--font-stamp); font-weight:600; text-transform:uppercase; letter-spacing:0.07em; font-size:12px; cursor:pointer; } .ds-seg button:hover { background:var(--page-sunk); color:var(--ink); } .ds-seg button[aria-pressed='true'] { background:var(--ink); color:var(--page); }"
+    },
+    {
+      "name": "Entry Drawer",
+      "kind": "custom",
+      "refersTo": "entry-drawer",
+      "description": "The entry's page laid over the board from the right on a scrim, held by a 2px ink edge, with a page-sunk header band: written title, ruled property rows, a date field with a pencil dash when empty.",
+      "html": "<div class=\"ds-dr-wrap\"><div class=\"ds-dr-scrim\"></div><aside class=\"ds-dr\"><header class=\"ds-dr-h\"><span class=\"ds-dr-type\">Task</span><span class=\"ds-dr-key\">MS-18</span></header><div class=\"ds-dr-t\">Methods section draft</div><dl class=\"ds-dr-rows\"><div><dt>Status</dt><dd>Review</dd></div><div><dt>Start</dt><dd class=\"ds-dr-dash\">—</dd></div><div><dt>Due</dt><dd class=\"ds-dr-late\">01 OCT 2026</dd></div><div><dt>Labels</dt><dd><span class=\"ds-tag\"><span class=\"ds-sw\" style=\"background:var(--ink-epic-2)\"></span>writing</span></dd></div></dl></aside></div>",
+      "css": ".ds-dr-wrap { position:relative; padding-left:40px; } .ds-dr-scrim { position:absolute; inset:0; background:var(--scrim); animation:ds-scrim-in 160ms cubic-bezier(0.16,1,0.3,1); } @keyframes ds-scrim-in { from { opacity:0; } } @keyframes ds-drawer-in { from { transform:translateX(24px); opacity:0.6; } } .ds-dr { position:relative; width:100%; max-width:600px; margin-left:auto; border-left:2px solid var(--ink); animation:ds-drawer-in 200ms cubic-bezier(0.16,1,0.3,1); background:var(--page); color:var(--ink); } .ds-dr-h { display:flex; align-items:center; gap:12px; padding:12px 20px; background:var(--page-sunk); border-bottom:3px double var(--rule-strong); } .ds-dr-type { font-family:var(--font-stamp); font-weight:600; text-transform:uppercase; letter-spacing:0.07em; font-size:13px; } .ds-dr-key { font-family:var(--font-mono); font-size:14px; font-variant-numeric:tabular-nums slashed-zero; } .ds-dr-t { padding:16px 20px 12px; font-family:var(--font-sans); font-size:22px; font-weight:600; line-height:1.375; } .ds-dr-rows { margin:0; border-top:1px solid var(--rule); } .ds-dr-rows div { display:grid; grid-template-columns:112px 1fr; align-items:center; gap:12px; min-height:41px; padding:0 20px; border-bottom:1px solid var(--rule); } .ds-dr-rows dt { font-family:var(--font-stamp); font-weight:600; text-transform:uppercase; letter-spacing:0.07em; font-size:11px; color:var(--pencil); } .ds-dr-rows dd { margin:0; padding:6px 4px 4px; border-bottom:1px solid var(--rule-strong); font-size:14px; } .ds-dr-dash { color:var(--pencil); } .ds-dr-late { font-family:var(--font-mono); font-size:13px; font-weight:600; color:var(--attention); } .ds-tag { display:inline-flex; align-items:center; gap:6px; padding:1px 6px; border:1px solid var(--rule-mid); font-size:12px; line-height:18px; } .ds-sw { width:8px; height:8px; }"
+    },
+    {
+      "name": "Board Tile",
+      "kind": "card",
+      "refersTo": "entry-tile",
+      "description": "A board entry as a page tile on a lane washed with the board's ink: title, stamps and epic tag, then type, key, priority and edit-in-place points, due and assignee. No shadow.",
+      "html": "<section class=\"ds-lane\"><header class=\"ds-lane-h\"><svg width=\"10\" height=\"10\" viewBox=\"0 0 10 10\"><rect x=\".5\" y=\".5\" width=\"9\" height=\"9\" fill=\"none\" stroke=\"currentColor\"/><rect x=\".5\" y=\".5\" width=\"4.5\" height=\"9\" fill=\"currentColor\"/></svg><span class=\"ds-lane-n\">In progress</span><span class=\"ds-lane-c\">3 / 4</span></header><ol class=\"ds-lane-l\"><li class=\"ds-tile\"><a class=\"ds-tile-t\" href=\"#\">Transect B: river embankment, 3 visits</a><div class=\"ds-tile-m\"><span class=\"ds-stamp\"><svg width=\"11\" height=\"11\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><path d=\"M4 22V4a1 1 0 0 1 .4-.8A6 6 0 0 1 8 2c3 0 5 2 7.3 2.9a6 6 0 0 0 4.3-.2.5.5 0 0 1 .7.5v10.3a1 1 0 0 1-.4.8 6 6 0 0 1-3.6 1.2c-3 0-5-2-7.3-2.9a6 6 0 0 0-4.3.2\"/></svg>Milestone</span><span class=\"ds-epic\"><span class=\"ds-epic-k\"></span>Spring survey</span><span class=\"ds-lab\"><span class=\"ds-sw\"></span>field</span></div><div class=\"ds-tile-f\"><span class=\"ds-key\">MS-12</span><svg width=\"15\" height=\"15\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"var(--attention)\" stroke-width=\"2\"><path d=\"m17 11-5-5-5 5M17 18l-5-5-5 5\"/></svg><span class=\"ds-slots\"><span class=\"ds-slot\"><span class=\"ds-dot\"></span></span><span class=\"ds-slot ds-late\">01 OCT</span><span class=\"ds-slot\"><span class=\"ds-who\">TS</span></span></span></div></li><li class=\"ds-tile ds-open\"><a class=\"ds-tile-t\" href=\"#\">Write field protocol v2</a><div class=\"ds-tile-f\"><span class=\"ds-key\">MS-3</span><span class=\"ds-slots\"><span class=\"ds-slot ds-pen\">–pt</span></span></div></li></ol></section>",
+      "css": ".ds-lane { width:300px; padding-bottom:8px; border-radius:2px; background:color-mix(in oklab, var(--ink-epic-1) var(--lane-tint, 10%), var(--ground)); color:var(--ink); } .ds-lane-h { display:flex; align-items:center; gap:8px; padding:8px 12px 4px; } .ds-lane-n { font-family:var(--font-stamp); font-weight:600; text-transform:uppercase; letter-spacing:0.07em; font-size:14px; } .ds-lane-c { margin-left:auto; font-family:var(--font-mono); font-size:12px; color:var(--pencil); } .ds-lane-l { list-style:none; margin:0; padding:4px 8px 0; display:flex; flex-direction:column; gap:8px; } .ds-tile { padding:10px 12px 8px; border:1px solid var(--rule-mid); border-radius:2px; background:var(--page); cursor:pointer; } .ds-tile:hover { border-color:var(--ink); } .ds-tile:hover .ds-tile-t { text-decoration:underline; } .ds-open { border-color:var(--ink); outline:1px solid var(--ink); } .ds-tile-t { display:block; color:var(--ink); text-decoration:none; font-family:var(--font-sans); font-size:15px; line-height:1.375; } .ds-tile-m { margin-top:8px; display:flex; flex-wrap:wrap; align-items:center; gap:6px; } .ds-stamp { display:inline-flex; align-items:center; gap:4px; padding:0 6px; border:1px solid var(--ink); font-family:var(--font-stamp); font-weight:600; text-transform:uppercase; letter-spacing:0.07em; font-size:11px; line-height:18px; } .ds-epic { display:inline-flex; align-items:center; gap:6px; padding:0 6px; border:1px solid var(--rule-mid); font-size:12px; line-height:18px; color:var(--pencil); } .ds-epic-k { width:3px; height:12px; background:var(--ink-epic-2); } .ds-lab { display:inline-flex; align-items:center; gap:4px; font-size:12px; line-height:18px; color:var(--pencil); } .ds-sw { width:8px; height:8px; background:var(--ink-epic-3); } .ds-tile-f { margin-top:8px; display:flex; align-items:center; gap:6px; white-space:nowrap; } .ds-key { font-family:var(--font-mono); font-variant-numeric:tabular-nums slashed-zero; font-size:12px; color:var(--pencil); } .ds-slots { margin-left:auto; display:flex; gap:2px; } .ds-slot { display:flex; align-items:center; justify-content:center; height:28px; min-width:28px; padding:0 4px; border-radius:2px; font-family:var(--font-mono); font-size:12px; } .ds-slot:hover { background:var(--page-sunk); } .ds-late { color:var(--attention); font-weight:600; } .ds-pen { color:var(--pencil); } .ds-dot { width:9px; height:9px; border-radius:9999px; background:var(--ink); } .ds-who { display:flex; align-items:center; justify-content:center; width:24px; height:24px; border:1px solid var(--ink); font-size:10px; font-weight:600; }"
+    },
+    {
+      "name": "Command Palette",
+      "kind": "custom",
+      "refersTo": "command-palette",
+      "description": "Search and jump: a page in a 2px ink frame over the scrim, written input on the double rule, grouped options with a page-sunk active row.",
+      "html": "<div class=\"ds-pal-wrap\"><div class=\"ds-pal\" role=\"dialog\" aria-label=\"Search and jump\"><div class=\"ds-pal-in\"><svg width=\"17\" height=\"17\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\"><circle cx=\"11\" cy=\"11\" r=\"8\"/><path d=\"m21 21-4.3-4.3\"/></svg><input placeholder=\"Find an entry, board or page…\"><kbd>ESC</kbd></div><p class=\"ds-pal-g\">Entries</p><ul class=\"ds-pal-l\"><li class=\"ds-on\"><span class=\"ds-pal-k\">MS-12</span>Transect B: river embankment</li><li><span class=\"ds-pal-k\">MS-3</span>Write field protocol v2</li></ul><p class=\"ds-pal-f\">↑↓ to move · ↵ to open · ? for all shortcuts</p></div></div>",
+      "css": ".ds-pal-wrap { padding:24px 16px; background:var(--scrim); } .ds-pal { max-width:620px; margin:0 auto; border:2px solid var(--ink); background:var(--page); color:var(--ink); } .ds-pal-in { display:flex; align-items:center; gap:12px; padding:0 16px; border-bottom:3px double var(--rule-strong); color:var(--pencil); } .ds-pal-in input { flex:1; min-height:48px; border:0; background:transparent; color:var(--ink); font-family:var(--font-sans); font-size:17px; } .ds-pal-in input:focus { outline:none; } .ds-pal-in input::placeholder { color:var(--pencil); } .ds-pal-in kbd, .ds-pal-k { font-family:var(--font-mono); font-size:11px; color:var(--pencil); } .ds-pal-k { font-size:12px; width:48px; } .ds-pal-g { margin:0; padding:8px 16px 4px; font-family:var(--font-stamp); font-weight:600; text-transform:uppercase; letter-spacing:0.07em; font-size:11px; color:var(--pencil); } .ds-pal-l { list-style:none; margin:0; padding:0 0 4px; } .ds-pal-l li { display:flex; align-items:center; gap:12px; padding:8px 16px; font-family:var(--font-sans); font-size:15px; cursor:pointer; } .ds-pal-l li:hover, .ds-pal-l .ds-on { background:var(--page-sunk); } .ds-pal-f { margin:0; padding:8px 16px; border-top:1px solid var(--rule); font-size:12px; color:var(--pencil); }"
+    },
+    {
+      "name": "Drawn Checkbox",
+      "kind": "input",
+      "refersTo": "check",
+      "description": "Checkboxes drawn from the palette: a 16px square with a rule-strong border that fills ink with a page tick when checked.",
+      "html": "<label class=\"ds-chk-l\"><input type=\"checkbox\" class=\"ds-chk\" checked> Show subtasks</label> <label class=\"ds-chk-l\"><input type=\"checkbox\" class=\"ds-chk\"> Step two</label>",
+      "css": ".ds-chk-l { display:inline-flex; align-items:center; gap:8px; font-family:var(--font-sans); font-size:13px; color:var(--pencil); } .ds-chk { appearance:none; display:inline-grid; place-content:center; width:16px; height:16px; margin:0; border:1px solid var(--rule-strong); border-radius:2px; background:var(--page); cursor:pointer; } .ds-chk::before { content:''; width:9px; height:5px; border-bottom:2px solid var(--page); border-left:2px solid var(--page); transform:translate(0,-1px) rotate(-45deg); opacity:0; } .ds-chk:checked { background:var(--ink); border-color:var(--ink); } .ds-chk:checked::before { opacity:1; } .ds-chk:hover { border-color:var(--ink); } .ds-chk:focus-visible { outline:2px solid var(--ink); outline-offset:2px; }"
+    },
+    {
+      "name": "Calendar Chip",
+      "kind": "chip",
+      "refersTo": "calendar-chip",
+      "description": "An entry on a calendar day: a two-line page slip, ink-bordered for a milestone, chestnut title when late.",
+      "html": "<div class=\"ds-cal-day\"><p class=\"ds-cal-n\"><span class=\"ds-today\">14</span></p><div class=\"ds-chip ds-ms\"><span class=\"ds-chip-k\">MS-9</span><span class=\"ds-chip-t\">Field season opens</span></div><div class=\"ds-chip\"><span class=\"ds-chip-k\">MS-11</span><span class=\"ds-chip-t ds-chip-late\">Methods section draft for the spring transect report</span></div></div>",
+      "css": ".ds-cal-day { width:150px; min-height:124px; padding:6px; border:1px solid var(--rule-mid); background:var(--page); color:var(--ink); } .ds-cal-n { margin:0 0 4px; font-family:var(--font-mono); font-size:12px; } .ds-today { padding:0 4px; background:var(--ink); color:var(--page); } .ds-chip { margin-top:4px; padding:4px 6px; border:1px solid var(--rule-mid); border-radius:2px; background:var(--page); font-family:var(--font-sans); font-size:12px; line-height:1.25; cursor:grab; } .ds-chip:hover { border-color:var(--ink); } .ds-ms { border-color:var(--ink); } .ds-ms .ds-chip-t { font-weight:600; } .ds-chip-k { display:block; font-family:var(--font-mono); font-variant-numeric:tabular-nums slashed-zero; font-size:11px; color:var(--pencil); } .ds-chip-t { display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; } .ds-chip-late { color:var(--attention); }"
+    },
+    {
+      "name": "Lifted Slip",
+      "kind": "card",
+      "refersTo": "lifted-slip",
+      "description": "An entry picked up for dragging: tilted, ink-bordered, no shadow.",
+      "html": "<div class=\"ds-slip\"><div class=\"ds-slip-m\"><span class=\"ds-slip-tick\"></span><span class=\"ds-slip-k\">MS-12</span><span class=\"ds-slip-sw\"></span></div><div class=\"ds-slip-t\">Transect B: river embankment, 3 visits</div></div>",
+      "css": ".ds-slip { width:280px; padding:10px 12px; border:1px solid var(--ink); background:var(--page); color:var(--ink); transform:rotate(-1deg); } .ds-slip-m { display:flex; align-items:center; gap:8px; } .ds-slip-tick { width:3px; height:16px; background:var(--ink-epic-2); } .ds-slip-k { font-family:var(--font-mono); font-size:12px; color:var(--pencil); } .ds-slip-sw { width:8px; height:8px; background:var(--ink-epic-3); } .ds-slip-t { margin-top:4px; font-family:var(--font-sans); font-size:15px; line-height:1.375; }"
+    },
+    {
+      "name": "Epic Progress Meter",
+      "kind": "custom",
+      "refersTo": "progress-meter",
+      "description": "Square trough in a strong rule, filled in the epic's own ink, with a mono tally.",
+      "html": "<div class=\"ds-pm\"><span class=\"ds-pm-tick\"></span><span class=\"ds-pm-k\">MS-2</span><span class=\"ds-pm-t\">Paper: plumage variation</span><span class=\"ds-pm-bar\" role=\"meter\" aria-valuenow=\"40\"><span style=\"width:40%\"></span></span><span class=\"ds-pm-n\">8/20 pts</span></div>",
+      "css": ".ds-pm { display:flex; align-items:center; gap:12px; padding:12px 20px; border-bottom:1px solid var(--rule); background:var(--page); color:var(--ink); } .ds-pm-tick { width:3px; height:16px; background:var(--ink-epic-2); } .ds-pm-k { font-family:var(--font-mono); font-size:13px; color:var(--pencil); } .ds-pm-t { font-family:var(--font-sans); font-size:16px; font-weight:600; } .ds-pm-bar { position:relative; flex:1; height:10px; border:1px solid var(--rule-strong); } .ds-pm-bar span { position:absolute; inset:0 auto 0 0; background:var(--ink-epic-2); } .ds-pm-n { width:96px; font-family:var(--font-mono); font-size:12px; color:var(--pencil); }"
+    },
+    {
+      "name": "Velocity Chart",
+      "kind": "custom",
+      "refersTo": "chart-bar",
+      "description": "Paired bars with 4px data ends on rule-minor hairlines, a line-key legend, a reserved readout line and a table view.",
+      "html": "<figure class=\"ds-ch\"><figcaption><span class=\"ds-key\" style=\"--k:var(--chart-plan)\">Committed</span><span class=\"ds-key\" style=\"--k:var(--chart-done)\">Completed</span><span class=\"ds-key ds-key-thin\" style=\"--k:var(--ink)\">Average of last 3</span></figcaption><p class=\"ds-ro\">Point at a sprint for its numbers.</p><svg width=\"320\" height=\"140\" viewBox=\"0 0 320 140\"><line x1=\"30\" x2=\"310\" y1=\"20\" y2=\"20\" stroke=\"var(--rule)\"/><line x1=\"30\" x2=\"310\" y1=\"70\" y2=\"70\" stroke=\"var(--rule)\"/><line x1=\"30\" x2=\"310\" y1=\"120\" y2=\"120\" stroke=\"var(--rule)\"/><line x1=\"30\" x2=\"310\" y1=\"62\" y2=\"62\" stroke=\"var(--ink)\"/><path d=\"M120,120V36Q120,32 124,32H140Q144,32 144,36V120Z\" fill=\"var(--chart-plan)\"/><path d=\"M146,120V58Q146,54 150,54H166Q170,54 170,58V120Z\" fill=\"var(--chart-done)\"/><text x=\"132\" y=\"26\" text-anchor=\"middle\" class=\"ds-v\">13</text><text x=\"158\" y=\"48\" text-anchor=\"middle\" class=\"ds-v\">10</text></svg><details><summary>Show as table</summary></details></figure>",
+      "css": ".ds-ch { margin:0; background:var(--page); color:var(--ink); } .ds-ch figcaption { display:flex; flex-wrap:wrap; gap:4px 24px; font-family:var(--font-sans); font-size:13px; } .ds-key { display:inline-flex; align-items:center; gap:8px; } .ds-key::before { content:''; width:16px; height:2px; background:var(--k); } .ds-key-thin::before { height:1px; } .ds-ro { margin:4px 0 0; min-height:24px; padding:0 4px; border-top:1px solid var(--rule); border-bottom:1px solid var(--rule); font-size:13px; color:var(--pencil); } .ds-v { font-family:var(--font-mono); font-size:11px; fill:var(--ink); } .ds-ch summary { margin-top:8px; font-size:13px; color:var(--pencil); cursor:pointer; } .ds-ch summary:hover { color:var(--ink); }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The All-Weather Field Book",
+    "overview": "Bird-Watcher is one survey notebook carried into every kind of work. The app is the book: a cover-yellow spine runs the full height of the left edge, each workspace is a thumb-indexed section pulled out of it, and every task is a numbered entry: written onto survey-green ruled ledgers on a cool white waterproof page, and on the board carried as a separate page tile in a lane washed with the board's own ink. The page is dense by design. Rows sit at 40px, columns are captioned in pre-printed condensed caps, and numerals are measured in a tabular mono, so a full screen of entries reads as a ledger rather than a feed.\n\nState is printed, never decorated. Done is a strike drawn across the entry key, progress is a half-filled square, story points are a dot that grows on a fixed magnitude ramp, and overdue changes the ink to chestnut without changing the geometry of the row. The ruling continues to the foot of every page body, so empty space is blank lines waiting for entries rather than grey canvas. At night the page turns bottle green and the spine stays yellow, dimmed against glare.\n\nThe world refuses the category default for task trackers: floating rounded cards on a grey canvas, pill badges, and an avatar-heavy sidebar. The board's tiles (a user-directed change for at-a-glance distinction) are not that card: they are page-coloured slips with 2px corners and a 1px rule border, lying flat on a tinted lane with no shadow.",
+    "keyCharacteristics": [
+      "A full-height cover-yellow spine with thumb tabs; the active tab is page-coloured and flush with the page.",
+      "Survey-green ruling at one pixel, with a 3px double rule under every page header and column caption row.",
+      "Barlow Condensed caps for everything pre-printed; Barlow for written entries; Overpass Mono for keys, dates and tallies.",
+      "Corners of 0 to 2px on anything that holds text. Circles exist only as magnitude dots and chart point markers.",
+      "Board lanes are washed with the board's ink; entries on them are page tiles held by a 1px rule-mid border, never a shadow.",
+      "Anything that takes focus over the page (entry drawer, command palette, shortcut sheet) dims the rest with a scrim, holds a 2px ink edge, and closes on an outside click.",
+      "Chestnut is the only attention ink.",
+      "Day page and night page are equal citizens, switched by system preference or an explicit choice."
+    ],
+    "rules": [
+      {
+        "name": "The Single Warning Ink Rule",
+        "body": "Chestnut is the only colour that means \"attend to this\". Overdue, blocking, error and destructive actions use it; nothing else does, and no second alarm colour (red, orange) is ever introduced.",
+        "section": "colors"
+      },
+      {
+        "name": "The Cover Is Material Rule",
+        "body": "Yellow belongs to the cover: the spine, the auth cover, and the primary button that is pressed into it. It never becomes a page background, a highlight band on rows, or a badge fill.",
+        "section": "colors"
+      },
+      {
+        "name": "The Ink Changes, Geometry Doesn't Rule",
+        "body": "Overdue and urgent states change ink colour and weight; they never change row height, add borders, or add badges.",
+        "section": "colors"
+      },
+      {
+        "name": "The Shape Tells The Ink Rule",
+        "body": "Epics and labels share six inks; the mark's shape carries the meaning. A vertical 3px tick is always an epic (16px tall in a margin, 12px inside a tile's epic tag); a square swatch is always a label. Never give a label a tick or an epic a swatch.",
+        "section": "colors"
+      },
+      {
+        "name": "The Lane Wash Rule",
+        "body": "A board's colour reaches the board only as a wash on its lanes: the ink mixed into ground in oklab at the lane-tint strength (10% by day, 4% by night). It never colours text, tile fills, tile borders, the spine or the header.",
+        "section": "colors"
+      },
+      {
+        "name": "The Series Ink Is Not Text Rule",
+        "body": "Chart series inks fill lines, bars, point markers, legend keys and swatches only. Axis values, data labels and readouts are set in ink or pencil.",
+        "section": "colors"
+      },
+      {
+        "name": "The Printed Versus Written Rule",
+        "body": "Anything that would be pre-printed on a field book form (captions, titles, tabs, buttons) is Barlow Condensed uppercase. Anything a person writes (entry titles, epic titles, sprint names, label names, descriptions) is Barlow in sentence case. Never set user content in stamped caps.",
+        "section": "typography"
+      },
+      {
+        "name": "The Measured Numeral Rule",
+        "body": "Every number that is data (keys, dates, tallies, points) is Overpass Mono with tabular figures and a slashed zero.",
+        "section": "typography"
+      },
+      {
+        "name": "The Title Stands Alone Rule",
+        "body": "A page header carries no caption, kicker or label above or before its title. Context comes from a linked breadcrumb (workspace / ) on the same baseline.",
+        "section": "typography"
+      },
+      {
+        "name": "The Ruled To The Foot Rule",
+        "body": "No page body ends on blank canvas. Ruling continues below the last entry to the bottom of the page at the 40px row pitch (My Work, Inbox, Activity, Table, Backlog). Board lanes are the user-directed exception: they hold tiles on tinted ground and are not ruled.",
+        "section": "layout"
+      },
+      {
+        "name": "The Paper Has No Shadow Rule",
+        "body": "Surfaces separate by rule lines, tone (page versus page-sunk versus cover) and overlap, never by drop shadows or blur.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Modal Page Rule",
+        "body": "Anything that takes focus over the page is another page, not a floating panel: the scrim dims what is behind it (160ms fade in), a 2px ink edge or frame holds it, and a click on the scrim closes it. No shadow, no blur, no rounded corners.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Lifted Slip Rule",
+        "body": "Anything picked up is a slip of paper: a -1deg tilt and a 1px ink border. Lift is never a shadow or a scale-up.",
+        "section": "elevation"
+      },
+      {
+        "name": "The No Pills Rule",
+        "body": "No capsule shapes: no pill badges, pill buttons, pill tabs or pill toggles. Radius never exceeds 2px on anything that holds text.",
+        "section": "shapes"
+      }
+    ],
+    "dos": [
+      "Do keep the cover-yellow spine full height on desktop and as a top band on phones; it is the book.",
+      "Do close every page header, ledger caption row, drawer header and palette input with the 3px double rule in rule-strong.",
+      "Do rule every page body to its foot at the 40px row pitch; board lanes end in tinted ground instead.",
+      "Do put board entries on page tiles with a 1px rule-mid border, 2px corners and 8px gaps, on lanes washed with the board's ink.",
+      "Do dim the page with the scrim behind the entry drawer, command palette and shortcut sheet, hold them with a 2px ink edge or frame, and close them on an outside click.",
+      "Do express state as printed marks: struck keys, status squares, magnitude dots, ink changes.",
+      "Do set every data number in Overpass Mono with tabular figures and slashed zero.",
+      "Do design every surface for both the day page and the night page.",
+      "Do use the shared motion curve cubic-bezier(0.16, 1, 0.3, 1): 120ms for state, 160ms for the tab pull, the drop and the scrim fade, 200ms for the drawer slide, 260ms for the strike; collapse to near-zero under reduced motion.",
+      "Do separate epics from labels by shape: the 3x16 tick for an epic, the 8px swatch or printed tag for a label.",
+      "Do give every chart with two or more series a legend and a \"Show as table\" view.",
+      "Do draw checkboxes with the drawn checkbox, never the browser's own."
+    ],
+    "donts": [
+      "Don't use floating rounded cards on a grey canvas, pill badges, or an avatar-heavy sidebar; a board tile lies flat with 2px corners and a rule border.",
+      "Don't round anything that holds text beyond 2px; circles are reserved for magnitude dots.",
+      "Don't add drop shadows or blur for depth.",
+      "Don't introduce a second attention colour beside chestnut.",
+      "Don't draw an epic's ink as a full-height coloured edge stripe on rows or panels; it is a 3x16px tick in the margin.",
+      "Don't set text in a chart series ink or an epic/label ink.",
+      "Don't lift a dragged item with a shadow, or separate the drawer, palette or shortcut sheet from the page with a shadow or blur; the scrim and the 2px ink edge do that work.",
+      "Don't let the board colour reach text, tile fills, tile borders or the spine; it is a lane wash only.",
+      "Don't put a caption, kicker or eyebrow label above or before a page title.",
+      "Don't set user-written content in stamped uppercase."
+    ]
+  }
+}

@@ -77,6 +77,11 @@ curl -X POST localhost:3000/api/cron/email -H "Authorization: Bearer local-dev-c
 Sign-up is disabled. Workspace owners and admins invite people from **Members & settings**;
 new addresses get an email to set a password. The database refuses a sixth account.
 
+If you already have an account but have never set a password, choose **First time here?
+Set your password** on the sign-in page and enter your account email. Open the emailed
+link to choose a password. This uses the same email recovery flow as **Forgot it?**;
+it does not create an account.
+
 ## Deploying
 
 1. Create a Supabase project (free tier), `npx supabase link --project-ref <ref>`, `npx supabase db push`.

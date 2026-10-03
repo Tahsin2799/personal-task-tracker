@@ -48,6 +48,12 @@ export function LoginForm({ next }: { next: string }) {
       <SubmitButton pendingLabel="Opening the book…" className="w-full">
         Sign in
       </SubmitButton>
+      <Link
+        href="/forgot-password?setup=1"
+        className="inline-block text-[15px] text-ink underline underline-offset-4 hover:text-pencil"
+      >
+        First time here? Set your password
+      </Link>
       <p className="text-[13px] text-pencil">
         Bird-Watcher is invite-only. Ask a workspace owner to invite your email.
       </p>

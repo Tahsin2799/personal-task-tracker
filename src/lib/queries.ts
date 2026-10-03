@@ -12,7 +12,7 @@ export const getViewer = cache(async () => {
 
   const { data: profile } = await supabase
     .from("profiles")
-    .select("id, email, display_name, avatar_url, onboarded_at")
+    .select("id, email, display_name, avatar_url, onboarded_at, time_zone, email_notifications, email_due_reminders")
     .eq("id", userId)
     .single();
   if (!profile) redirect("/login");
@@ -117,6 +117,7 @@ export const getBoard = cache(async (boardId: string) => {
        labels(id, name, color),
        tasks(id, number, title, description, type, priority, story_points, start_date, due_date,
              completed_at, archived_at, created_at, updated_at, milestone, experiment, cover_attachment_id,
+             repeat_every, repeat_unit, next_occurrence_id,
              column_id, position, sprint_id, epic_id, parent_id, assignee_id, reporter_id)`,
     )
     .eq("id", boardId)
@@ -171,6 +172,13 @@ export const getBoard = cache(async (boardId: string) => {
     viewerId: profile.id,
     canManage: myRole === "owner" || myRole === "admin",
   };
+});
+
+/** Just the board's name, for page titles: a tab switch shouldn't re-read the whole board. */
+export const getBoardName = cache(async (boardId: string) => {
+  const { supabase } = await getViewer();
+  const { data } = await supabase.from("boards").select("name").eq("id", boardId).maybeSingle();
+  return data?.name ?? "Board";
 });
 
 export type BoardData = Awaited<ReturnType<typeof getBoard>>;

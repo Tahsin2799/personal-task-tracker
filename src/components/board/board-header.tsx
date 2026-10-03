@@ -42,6 +42,8 @@ export function BoardHeader() {
             <Link
               key={tab.href}
               href={tab.href}
+              // Views render from the board already on the page, so prefetching one in full is cheap.
+              prefetch
               aria-current={current ? "page" : undefined}
               className={`stamp -mb-px shrink-0 border border-b-0 px-3.5 py-1.5 text-[13px] ${
                 current

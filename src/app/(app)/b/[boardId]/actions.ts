@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { generateKeyBetween } from "fractional-indexing";
+import { generateKeyBetween, generateNKeysBetween } from "fractional-indexing";
 import type { PostgrestError } from "@supabase/supabase-js";
 import { getViewer } from "@/lib/queries";
 import type { Database } from "@/lib/supabase/database.types";
@@ -25,6 +25,8 @@ const TASK_FIELDS = [
   "milestone",
   "experiment",
   "cover_attachment_id",
+  "repeat_every",
+  "repeat_unit",
 ] as const;
 export type TaskPatch = Partial<Pick<TaskRow, (typeof TASK_FIELDS)[number]>>;
 
@@ -183,6 +185,46 @@ export async function deleteTask(boardId: string, taskId: string): Promise<Resul
   const { error } = await supabase.from("tasks").delete().eq("id", taskId).eq("board_id", boardId);
   if (error) return friendly(error);
   done(boardId);
+}
+
+/** Reading-list import: one unassigned task per reference, at the foot of a column. */
+export async function importReferences(
+  boardId: string,
+  input: { columnId: string; labelId: string | null; items: { title: string; description: string }[] },
+): Promise<{ error?: string; count?: number }> {
+  const items = input.items
+    .map((i) => ({ title: i.title.trim().slice(0, 500), description: i.description.trim() || null }))
+    .filter((i) => i.title);
+  if (!items.length) return { error: "Choose at least one reference." };
+  if (items.length > 300) return { error: "Import at most 300 references at a time." };
+
+  const { supabase } = await getViewer();
+  const positions = generateNKeysBetween(await lastPosition("tasks", input.columnId), null, items.length);
+  const { data, error } = await supabase
+    .from("tasks")
+    .insert(
+      items.map((item, n) => ({
+        board_id: boardId,
+        column_id: input.columnId,
+        title: item.title,
+        description: item.description,
+        type: "task" as const,
+        position: positions[n],
+        assignee_id: null,
+        number: 0,
+      })),
+    )
+    .select("id");
+  if (error) return { error: friendly(error)?.error };
+
+  if (input.labelId) {
+    const { error: labelError } = await supabase
+      .from("task_labels")
+      .insert(data.map((t) => ({ board_id: boardId, task_id: t.id, label_id: input.labelId! })));
+    if (labelError) return { error: friendly(labelError)?.error };
+  }
+  done(boardId);
+  return { count: data.length };
 }
 
 /* ------------------------------------------------------------------ labels */

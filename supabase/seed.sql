@@ -226,3 +226,8 @@ begin
   perform pg_temp.task(personal_board, 'Done', 'Pay electricity bill', 'task', null, nadia, d - 5);
 end;
 $$;
+
+-- Local email worker: pg_cron reaches the dev server through Docker's host alias.
+-- CRON_SECRET in .env.local must match. Production sets its own values (docs/PLAN.md).
+select vault.create_secret('http://host.docker.internal:3000/api/cron/email', 'email_worker_url');
+select vault.create_secret('local-dev-cron-secret', 'cron_secret');

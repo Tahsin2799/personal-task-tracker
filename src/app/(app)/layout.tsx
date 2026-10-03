@@ -32,7 +32,7 @@ export default async function AppLayout({ children }: LayoutProps<"/">) {
       <main className="flex min-w-0 flex-1 flex-col border-t border-rule-strong bg-page md:border-t-0 md:border-l">
         {children}
       </main>
-      <TimeZoneSync current={tz ? decodeURIComponent(tz) : undefined} />
+      <TimeZoneSync current={tz ? decodeURIComponent(tz) : undefined} saved={profile.time_zone} />
       <LiveRefresh channel={`inbox:${profile.id}`} watch={[{ table: "notifications", filter: `user_id=eq.${profile.id}` }]} />
     </div>
   );

@@ -7,6 +7,7 @@ import type { BoardLabel } from "@/lib/queries";
 import { archiveBoard, createLabel, deleteLabel, updateBoard, updateLabel } from "@/app/(app)/b/[boardId]/actions";
 import { useBoard } from "./board-context";
 import { LABEL_INKS, labelInk } from "./bits";
+import { ReferenceImport } from "./reference-import";
 
 const CATEGORY = { todo: "To do", in_progress: "In progress", done: "Done" } as const;
 
@@ -118,6 +119,13 @@ export function BoardSettings() {
             </Link>
             : click a column&apos;s name, or drag its grip.
           </p>
+        </section>
+
+        <section aria-labelledby="import-heading">
+          <h2 id="import-heading" className="stamp border-b border-rule-strong pb-1.5 text-[14px]">
+            Import references
+          </h2>
+          <ReferenceImport />
         </section>
 
         {board.canManage && (

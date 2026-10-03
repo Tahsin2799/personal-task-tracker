@@ -2,9 +2,9 @@
 
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { FlaskConical, Flag, Paperclip, MessageSquare } from "lucide-react";
+import { FlaskConical, Flag, Paperclip, MessageSquare, Repeat } from "lucide-react";
 import { TypeGlyph } from "@/components/marks";
-import { epicInk, taskKey } from "@/lib/format";
+import { epicInk, repeatPhrase, taskKey } from "@/lib/format";
 import type { BoardTask } from "@/lib/queries";
 import { useBoard } from "./board-context";
 import { labelInk, useTaskHref } from "./bits";
@@ -109,6 +109,11 @@ export function EntryCard({ task, lifted = false }: { task: BoardTask; lifted?: 
           <TypeGlyph type={task.type} />
           <span className={`font-mono shrink-0 text-[12px] ${done ? "struck" : "text-pencil"}`}>{taskKey(board.key, task.number)}</span>
           <PriorityMark priority={task.priority} />
+          {task.repeat_every != null && task.repeat_unit && (
+            <Repeat size={13} strokeWidth={1.8} role="img" aria-label={`Repeats ${repeatPhrase(task.repeat_every, task.repeat_unit)}`} className="shrink-0 text-pencil">
+              <title>{`Repeats ${repeatPhrase(task.repeat_every, task.repeat_unit)}`}</title>
+            </Repeat>
+          )}
           <span className="ml-auto flex shrink-0 items-center gap-0.5">
             <TilePoints task={task} interactive={interactive} />
             <TileDue task={task} interactive={interactive} />

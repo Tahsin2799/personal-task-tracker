@@ -169,13 +169,13 @@ isOneToOne: false
                   ]
                 },"notifications": {
                   Row: {
-                    "actor_id": string | null,"board_id": string | null,"created_at": string,"data": NonNullable<Json>,"id": number,"kind": string,"read_at": string | null,"task_id": string | null,"user_id": string
+                    "actor_id": string | null,"board_id": string | null,"created_at": string,"data": NonNullable<Json>,"emailed_at": string | null,"id": number,"kind": string,"read_at": string | null,"task_id": string | null,"user_id": string
                   }
                   Insert: {
-                    "actor_id"?: string | null,"board_id"?: string | null,"created_at"?: string,"data"?: NonNullable<Json>,"id"?: never,"kind": string,"read_at"?: string | null,"task_id"?: string | null,"user_id": string
+                    "actor_id"?: string | null,"board_id"?: string | null,"created_at"?: string,"data"?: NonNullable<Json>,"emailed_at"?: string | null,"id"?: never,"kind": string,"read_at"?: string | null,"task_id"?: string | null,"user_id": string
                   }
                   Update: {
-                    "actor_id"?: string | null,"board_id"?: string | null,"created_at"?: string,"data"?: NonNullable<Json>,"id"?: never,"kind"?: string,"read_at"?: string | null,"task_id"?: string | null,"user_id"?: string
+                    "actor_id"?: string | null,"board_id"?: string | null,"created_at"?: string,"data"?: NonNullable<Json>,"emailed_at"?: string | null,"id"?: never,"kind"?: string,"read_at"?: string | null,"task_id"?: string | null,"user_id"?: string
                   }
                   Relationships: [
                     {
@@ -206,13 +206,13 @@ isOneToOne: false
                   ]
                 },"profiles": {
                   Row: {
-                    "avatar_url": string | null,"created_at": string,"display_name": string,"email": string,"id": string,"onboarded_at": string | null
+                    "avatar_url": string | null,"created_at": string,"display_name": string,"email": string,"email_due_reminders": boolean,"email_notifications": boolean,"id": string,"onboarded_at": string | null,"reminded_on": string | null,"time_zone": string
                   }
                   Insert: {
-                    "avatar_url"?: string | null,"created_at"?: string,"display_name": string,"email": string,"id": string,"onboarded_at"?: string | null
+                    "avatar_url"?: string | null,"created_at"?: string,"display_name": string,"email": string,"email_due_reminders"?: boolean,"email_notifications"?: boolean,"id": string,"onboarded_at"?: string | null,"reminded_on"?: string | null,"time_zone"?: string
                   }
                   Update: {
-                    "avatar_url"?: string | null,"created_at"?: string,"display_name"?: string,"email"?: string,"id"?: string,"onboarded_at"?: string | null
+                    "avatar_url"?: string | null,"created_at"?: string,"display_name"?: string,"email"?: string,"email_due_reminders"?: boolean,"email_notifications"?: boolean,"id"?: string,"onboarded_at"?: string | null,"reminded_on"?: string | null,"time_zone"?: string
                   }
                   Relationships: [
                     
@@ -263,13 +263,13 @@ isOneToOne: false
                   ]
                 },"tasks": {
                   Row: {
-                    "archived_at": string | null,"assignee_id": string | null,"board_id": string,"column_id": string,"completed_at": string | null,"cover_attachment_id": string | null,"created_at": string,"description": string | null,"due_date": string | null,"epic_id": string | null,"experiment": Json | null,"id": string,"milestone": boolean,"number": number,"parent_id": string | null,"position": string,"priority": Database["public"]['Enums']["task_priority"],"reporter_id": string | null,"search": unknown,"sprint_id": string | null,"start_date": string | null,"story_points": number | null,"title": string,"type": Database["public"]['Enums']["task_type"],"updated_at": string
+                    "archived_at": string | null,"assignee_id": string | null,"board_id": string,"column_id": string,"completed_at": string | null,"cover_attachment_id": string | null,"created_at": string,"description": string | null,"due_date": string | null,"epic_id": string | null,"experiment": Json | null,"id": string,"milestone": boolean,"next_occurrence_id": string | null,"number": number,"parent_id": string | null,"position": string,"priority": Database["public"]['Enums']["task_priority"],"repeat_every": number | null,"repeat_unit": string | null,"reporter_id": string | null,"search": unknown,"sprint_id": string | null,"start_date": string | null,"story_points": number | null,"title": string,"type": Database["public"]['Enums']["task_type"],"updated_at": string
                   }
                   Insert: {
-                    "archived_at"?: string | null,"assignee_id"?: string | null,"board_id": string,"column_id": string,"completed_at"?: string | null,"cover_attachment_id"?: string | null,"created_at"?: string,"description"?: string | null,"due_date"?: string | null,"epic_id"?: string | null,"experiment"?: Json | null,"id"?: string,"milestone"?: boolean,"number": number,"parent_id"?: string | null,"position": string,"priority"?: Database["public"]['Enums']["task_priority"],"reporter_id"?: string | null,"search"?: never,"sprint_id"?: string | null,"start_date"?: string | null,"story_points"?: number | null,"title": string,"type"?: Database["public"]['Enums']["task_type"],"updated_at"?: string
+                    "archived_at"?: string | null,"assignee_id"?: string | null,"board_id": string,"column_id": string,"completed_at"?: string | null,"cover_attachment_id"?: string | null,"created_at"?: string,"description"?: string | null,"due_date"?: string | null,"epic_id"?: string | null,"experiment"?: Json | null,"id"?: string,"milestone"?: boolean,"next_occurrence_id"?: string | null,"number": number,"parent_id"?: string | null,"position": string,"priority"?: Database["public"]['Enums']["task_priority"],"repeat_every"?: number | null,"repeat_unit"?: string | null,"reporter_id"?: string | null,"search"?: never,"sprint_id"?: string | null,"start_date"?: string | null,"story_points"?: number | null,"title": string,"type"?: Database["public"]['Enums']["task_type"],"updated_at"?: string
                   }
                   Update: {
-                    "archived_at"?: string | null,"assignee_id"?: string | null,"board_id"?: string,"column_id"?: string,"completed_at"?: string | null,"cover_attachment_id"?: string | null,"created_at"?: string,"description"?: string | null,"due_date"?: string | null,"epic_id"?: string | null,"experiment"?: Json | null,"id"?: string,"milestone"?: boolean,"number"?: number,"parent_id"?: string | null,"position"?: string,"priority"?: Database["public"]['Enums']["task_priority"],"reporter_id"?: string | null,"search"?: never,"sprint_id"?: string | null,"start_date"?: string | null,"story_points"?: number | null,"title"?: string,"type"?: Database["public"]['Enums']["task_type"],"updated_at"?: string
+                    "archived_at"?: string | null,"assignee_id"?: string | null,"board_id"?: string,"column_id"?: string,"completed_at"?: string | null,"cover_attachment_id"?: string | null,"created_at"?: string,"description"?: string | null,"due_date"?: string | null,"epic_id"?: string | null,"experiment"?: Json | null,"id"?: string,"milestone"?: boolean,"next_occurrence_id"?: string | null,"number"?: number,"parent_id"?: string | null,"position"?: string,"priority"?: Database["public"]['Enums']["task_priority"],"repeat_every"?: number | null,"repeat_unit"?: string | null,"reporter_id"?: string | null,"search"?: never,"sprint_id"?: string | null,"start_date"?: string | null,"story_points"?: number | null,"title"?: string,"type"?: Database["public"]['Enums']["task_type"],"updated_at"?: string
                   }
                   Relationships: [
                     {
@@ -313,6 +313,12 @@ isOneToOne: false
       columns: ["cover_attachment_id"]
 isOneToOne: false
       referencedRelation: "attachments"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "tasks_next_occurrence_id_fkey"
+      columns: ["next_occurrence_id"]
+isOneToOne: false
+      referencedRelation: "tasks"
       referencedColumns: ["id"]
     },{
       foreignKeyName: "tasks_reporter_id_fkey"

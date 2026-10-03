@@ -31,3 +31,11 @@ export function epicInk(epicNumber: number) {
 export function formatPoints(points: number) {
   return Number.isInteger(points) ? String(points) : points.toFixed(1);
 }
+
+export type RepeatUnit = "day" | "week" | "month" | "year";
+
+/** "every week", "every 2 weeks", "daily" for a recurrence rule. */
+export function repeatPhrase(every: number, unit: string) {
+  if (every === 1) return { day: "daily", week: "weekly", month: "monthly", year: "yearly" }[unit] ?? `every ${unit}`;
+  return `every ${every} ${unit}s`;
+}

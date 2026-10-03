@@ -181,3 +181,24 @@ export async function updateDisplayName(_prev: ActionState, formData: FormData):
   revalidatePath("/", "layout");
   return { ok: "Saved." };
 }
+
+export async function updateEmailPrefs(prefs: { email_notifications?: boolean; email_due_reminders?: boolean }) {
+  const { supabase, profile } = await getViewer();
+  const { error } = await supabase
+    .from("profiles")
+    .update({ email_notifications: prefs.email_notifications, email_due_reminders: prefs.email_due_reminders })
+    .eq("id", profile.id);
+  if (error) return { error: error.message };
+  revalidatePath("/account");
+}
+
+/** Due-date reminders go out in the morning of the person's own time zone. */
+export async function saveTimeZone(timeZone: string) {
+  try {
+    new Intl.DateTimeFormat("en", { timeZone });
+  } catch {
+    return;
+  }
+  const { supabase, profile } = await getViewer();
+  if (profile.time_zone !== timeZone) await supabase.from("profiles").update({ time_zone: timeZone }).eq("id", profile.id);
+}

@@ -2,7 +2,8 @@ import { NextResponse, type NextRequest } from "next/server";
 import { createServerClient } from "@supabase/ssr";
 import type { Database } from "./database.types";
 
-const PUBLIC_PATHS = ["/login", "/forgot-password", "/auth/"];
+// /api/cron/ checks its own shared secret.
+const PUBLIC_PATHS = ["/login", "/forgot-password", "/auth/", "/api/cron/"];
 
 /** Refreshes the Supabase session cookie and gates every non-public route. */
 export async function updateSession(request: NextRequest) {

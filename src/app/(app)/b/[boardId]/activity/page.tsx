@@ -3,27 +3,30 @@ import type { Metadata } from "next";
 import { describeActivity } from "@/lib/activity-words";
 import { longDate, taskKey } from "@/lib/format";
 import { viewerTimeZone } from "@/lib/dates";
-import { getBoard, getViewer } from "@/lib/queries";
+import { getBoardName, getViewer } from "@/lib/queries";
 
 export async function generateMetadata({ params }: PageProps<"/b/[boardId]/activity">): Promise<Metadata> {
-  const board = await getBoard((await params).boardId);
-  return { title: `Activity · ${board.name}` };
+  const name = await getBoardName((await params).boardId);
+  return { title: `Activity · ${name}` };
 }
 
 /** Everything that happened on the board, newest first, a day per section. */
 export default async function ActivityPage({ params }: PageProps<"/b/[boardId]/activity">) {
   const { boardId } = await params;
-  const [board, { supabase }, timeZone] = await Promise.all([getBoard(boardId), getViewer(), viewerTimeZone()]);
+  const [{ supabase }, timeZone] = await Promise.all([getViewer(), viewerTimeZone()]);
   const dayOf = new Intl.DateTimeFormat("en-CA", { timeZone });
   const timeOf = new Intl.DateTimeFormat("en-GB", { timeZone, hour: "2-digit", minute: "2-digit" });
-  const { data } = await supabase
-    .from("activity")
-    .select("id, kind, data, created_at, task_id, actor:profiles!activity_actor_id_fkey(display_name)")
-    .eq("board_id", boardId)
-    .order("created_at", { ascending: false })
-    .limit(200);
+  // Only this feed and the entries it names: the board itself is already on the page (layout).
+  const [{ data: board }, { data }] = await Promise.all([
+    supabase.from("boards").select("key").eq("id", boardId).single(),
+    supabase
+      .from("activity")
+      .select("id, kind, data, created_at, task_id, actor:profiles!activity_actor_id_fkey(display_name), task:tasks(id, number, title, archived_at)")
+      .eq("board_id", boardId)
+      .order("created_at", { ascending: false })
+      .limit(200),
+  ]);
   const items = data ?? [];
-  const tasks = new Map(board.tasks.map((t) => [t.id, t]));
   const days = new Map<string, typeof items>();
   for (const a of items) {
     const day = dayOf.format(new Date(a.created_at));
@@ -42,7 +45,7 @@ export default async function ActivityPage({ params }: PageProps<"/b/[boardId]/a
           <h2 className="font-mono border-b border-rule-strong bg-page-sunk px-4 pt-3 pb-1.5 text-[12px] md:px-8">{longDate(day)}</h2>
           <ol>
             {list.map((a) => {
-              const task = a.task_id ? tasks.get(a.task_id) : undefined;
+              const task = a.task && !a.task.archived_at ? a.task : undefined;
               const { verb, rest } = describeActivity(a.kind, (a.data ?? {}) as Record<string, unknown>);
               return (
                 <li key={a.id} className="flex min-h-[41px] items-baseline gap-3 border-b border-rule px-4 py-2 text-[14px] md:px-8">
@@ -53,7 +56,7 @@ export default async function ActivityPage({ params }: PageProps<"/b/[boardId]/a
                     <span className="font-semibold">{a.actor?.display_name ?? "Someone"}</span> {verb}{" "}
                     {task ? (
                       <Link href={`/b/${boardId}/activity?task=${task.id}`} scroll={false} className="hover:underline">
-                        <span className="font-mono text-[13px]">{taskKey(board.key, task.number)}</span> {task.title}
+                        <span className="font-mono text-[13px]">{taskKey(board?.key ?? "", task.number)}</span> {task.title}
                       </Link>
                     ) : (
                       "an entry"

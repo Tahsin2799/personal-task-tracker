@@ -5,6 +5,7 @@ import { ThemeSwitch } from "@/components/theme-switch";
 import { getViewer } from "@/lib/queries";
 import { signOut } from "../../(auth)/actions";
 import { DisplayNameForm } from "./display-name-form";
+import { EmailPrefs } from "./email-prefs";
 import { NewWorkspaceForm } from "./new-workspace-form";
 
 export const metadata: Metadata = { title: "Account" };
@@ -30,6 +31,17 @@ export default async function AccountPage() {
           <div className="pt-3">
             <ThemeSwitch theme={theme === "light" || theme === "dark" ? theme : "system"} tone="page" showLabels />
           </div>
+        </section>
+        <section aria-labelledby="email-heading">
+          <h2 id="email-heading" className="stamp border-b border-rule-strong pb-1.5 text-[14px]">
+            Email
+          </h2>
+          <EmailPrefs
+            email={profile.email}
+            timeZone={profile.time_zone}
+            notifications={profile.email_notifications}
+            reminders={profile.email_due_reminders}
+          />
         </section>
         <section aria-labelledby="workspace-heading">
           <h2 id="workspace-heading" className="stamp border-b border-rule-strong pb-1.5 text-[14px]">

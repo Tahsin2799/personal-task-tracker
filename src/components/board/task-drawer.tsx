@@ -5,7 +5,8 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { ExternalLink, Flag, X } from "lucide-react";
 import { PointsDot, StatusMark, TypeGlyph } from "@/components/marks";
-import { epicInk, formatPoints, longDate, taskKey } from "@/lib/format";
+import { epicInk, formatPoints, longDate, repeatPhrase, shortDate, taskKey, type RepeatUnit } from "@/lib/format";
+import { addDays } from "@/lib/day-math";
 import type { BoardTask } from "@/lib/queries";
 import {
   archiveTask,
@@ -282,6 +283,11 @@ function EntryPage({ task }: { task: BoardTask }) {
               onChange={(v) => save({ due_date: v })}
             />
           </Row>
+          {(task.type === "story" || task.type === "task" || task.type === "bug") && (
+            <Row label="Repeat">
+              <RepeatField task={task} save={save} />
+            </Row>
+          )}
           <Row label="Labels">
             <LabelPicker task={task} />
           </Row>
@@ -391,6 +397,110 @@ function DateField({ label, value, late = false, onChange }: { label: string; va
         </span>
       )}
     </span>
+  );
+}
+
+const REPEAT_PRESETS: { every: number; unit: RepeatUnit }[] = [
+  { every: 1, unit: "day" },
+  { every: 1, unit: "week" },
+  { every: 2, unit: "week" },
+  { every: 1, unit: "month" },
+  { every: 1, unit: "year" },
+];
+
+/** The due date the next occurrence would get if this one were finished today (mirrors private.spawn_next_occurrence). */
+function nextDue(due: string | null, today: string, every: number, unit: RepeatUnit) {
+  const step = (iso: string) => {
+    if (unit === "day" || unit === "week") return addDays(iso, unit === "week" ? 7 * every : every);
+    const [y, m, d] = iso.split("-").map(Number);
+    const months = m - 1 + (unit === "year" ? 12 * every : every);
+    const last = new Date(Date.UTC(y + Math.floor(months / 12), (months % 12) + 1, 0)).getUTCDate();
+    return new Date(Date.UTC(y + Math.floor(months / 12), months % 12, Math.min(d, last))).toISOString().slice(0, 10);
+  };
+  let next = due ?? today;
+  do next = step(next);
+  while (next <= today);
+  return next;
+}
+
+function RepeatField({ task, save }: { task: BoardTask; save: (patch: TaskPatch) => void }) {
+  const board = useBoard();
+  const href = useTaskHref();
+  const every = task.repeat_every;
+  const unit = task.repeat_unit as RepeatUnit | null;
+  const preset = REPEAT_PRESETS.findIndex((p) => p.every === every && p.unit === unit);
+  const [custom, setCustom] = useState(every != null && preset < 0);
+  const next = task.next_occurrence_id ? board.tasks.find((t) => t.id === task.next_occurrence_id) : undefined;
+
+  return (
+    <div className="py-1">
+      <div className="flex flex-wrap items-center gap-2">
+        <select
+          aria-label="Repeat"
+          value={custom ? "custom" : every == null ? "" : String(preset)}
+          onChange={(e) => {
+            const v = e.target.value;
+            if (v === "custom") return setCustom(true);
+            setCustom(false);
+            const p = v === "" ? null : REPEAT_PRESETS[Number(v)];
+            save({ repeat_every: p?.every ?? null, repeat_unit: p?.unit ?? null });
+          }}
+          className="field min-h-9 w-auto text-[14px]"
+        >
+          <option value="">Doesn&apos;t repeat</option>
+          {REPEAT_PRESETS.map((p, i) => (
+            <option key={i} value={i}>
+              {repeatPhrase(p.every, p.unit).replace(/^./, (c) => c.toUpperCase())}
+            </option>
+          ))}
+          <option value="custom">Custom…</option>
+        </select>
+        {custom && (
+          <span className="flex items-center gap-2 text-[14px]">
+            every
+            <input
+              type="number"
+              aria-label="Repeat interval"
+              min={1}
+              max={365}
+              defaultValue={every ?? 3}
+              onBlur={(e) => {
+                const n = Math.min(365, Math.max(1, Math.round(Number(e.target.value) || 1)));
+                save({ repeat_every: n, repeat_unit: unit ?? "day" });
+              }}
+              className="field font-mono min-h-9 w-[64px] text-[14px]"
+            />
+            <select
+              aria-label="Repeat unit"
+              value={unit ?? "day"}
+              onChange={(e) => save({ repeat_every: every ?? 3, repeat_unit: e.target.value as RepeatUnit })}
+              className="field min-h-9 w-auto text-[14px]"
+            >
+              {(["day", "week", "month", "year"] as const).map((u) => (
+                <option key={u} value={u}>
+                  {u}s
+                </option>
+              ))}
+            </select>
+          </span>
+        )}
+      </div>
+      {every != null && unit && (
+        <p className="mt-1 text-[12px] leading-snug text-pencil">
+          {next ? (
+            <>
+              Next occurrence:{" "}
+              <Link href={href(next.id)} scroll={false} className="font-mono text-ink underline decoration-rule-mid underline-offset-4 hover:decoration-ink">
+                {taskKey(board.key, next.number)}
+              </Link>
+              {next.due_date && <> due {shortDate(next.due_date)}</>}
+            </>
+          ) : (
+            <>Finishing it adds the next one to To Do, due {shortDate(nextDue(task.due_date, board.today, every, unit))}.</>
+          )}
+        </p>
+      )}
+    </div>
   );
 }
 

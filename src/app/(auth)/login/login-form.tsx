@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useActionState } from "react";
+import { ArrowRight } from "lucide-react";
 import { signIn } from "../actions";
 import { FormMessage, SubmitButton } from "@/components/form-bits";
 
@@ -31,7 +32,7 @@ export function LoginForm({ next }: { next: string }) {
           <label htmlFor="password" className="field-label">
             Password
           </label>
-          <Link href="/forgot-password" className="text-[13px] text-pencil hover:text-ink hover:underline">
+          <Link href="/forgot-password" className="auth-text-link">
             Forgot it?
           </Link>
         </div>
@@ -45,18 +46,17 @@ export function LoginForm({ next }: { next: string }) {
         />
       </div>
       <FormMessage state={state} />
-      <SubmitButton pendingLabel="Opening the book…" className="w-full">
-        Sign in
+      <SubmitButton pendingLabel="Signing in…" className="auth-submit">
+        <span>Sign in</span>
+        <ArrowRight aria-hidden="true" size={21} strokeWidth={1.8} />
       </SubmitButton>
-      <Link
-        href="/forgot-password?setup=1"
-        className="inline-block text-[15px] text-ink underline underline-offset-4 hover:text-pencil"
-      >
-        First time here? Set your password
-      </Link>
-      <p className="text-[13px] text-pencil">
-        Bird-Watcher is invite-only. Ask a workspace owner to invite your email.
-      </p>
+      <div className="auth-invite">
+        <strong>Invited, but haven&apos;t set a password?</strong>
+        <p>Use your invited email to get a setup link.</p>
+        <Link href="/forgot-password?setup=1" className="auth-text-link">
+          Set your password →
+        </Link>
+      </div>
     </form>
   );
 }

@@ -1,18 +1,12 @@
 import Image from "next/image";
+import AuthScene from "./auth-scene";
 import "./auth.css";
 
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="auth-shell">
       <div className="auth-visual">
-        <Image
-          src="/brand/watcher-munia-scene.jpg"
-          alt="A watcher uses binoculars to see a scaly-breasted munia perched on a branch."
-          fill
-          priority
-          sizes="(max-width: 890px) 100vw, 55vw"
-          className="auth-visual-image"
-        />
+        <AuthScene />
         <div className="auth-visual-content">
           <p className="auth-visual-headline">
             Keep every task

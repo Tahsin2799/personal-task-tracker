@@ -38,7 +38,6 @@ export function InviteRow({
             </option>
           ))}
         </datalist>
-        <p className="mt-1 text-[12px] text-pencil">People with an account join right away; anyone new gets an email to set a password.</p>
       </div>
       <div className="w-[120px]">
         <label htmlFor="invite-role" className="field-label">
@@ -50,6 +49,7 @@ export function InviteRow({
         </select>
       </div>
       <SubmitButton pendingLabel="Adding…">Add</SubmitButton>
+      <p className="w-full text-[12px] text-pencil">People with an account join right away; anyone new gets an email to set a password.</p>
       <FormMessage state={state} className="w-full" />
     </form>
   );

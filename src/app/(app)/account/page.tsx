@@ -6,6 +6,7 @@ import { getViewer } from "@/lib/queries";
 import { signOut } from "../../(auth)/actions";
 import { DisplayNameForm } from "./display-name-form";
 import { EmailPrefs } from "./email-prefs";
+import { KeyboardPref } from "./keyboard-pref";
 import { NewWorkspaceForm } from "./new-workspace-form";
 
 export const metadata: Metadata = { title: "Account" };
@@ -63,6 +64,12 @@ export default async function AccountPage() {
             <NewWorkspaceForm />
           )}
         </section>
+        <section aria-labelledby="keyboard-heading">
+          <h2 id="keyboard-heading" className="stamp border-b border-rule-strong pb-1.5 text-[14px]">
+            Keyboard
+          </h2>
+          <KeyboardPref on={store.get("shortcuts")?.value !== "off"} />
+        </section>
         <section aria-labelledby="session-heading">
           <h2 id="session-heading" className="stamp border-b border-rule-strong pb-1.5 text-[14px]">
             Session
@@ -74,7 +81,6 @@ export default async function AccountPage() {
           </form>
         </section>
       </div>
-      <div className="ruled-fill flex-1" aria-hidden />
     </>
   );
 }

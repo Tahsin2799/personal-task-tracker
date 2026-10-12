@@ -1,19 +1,20 @@
-import { Bug, BookMarked, CornerDownRight, SquareCheck, Zap, type LucideIcon } from "lucide-react";
+import { Bug, BookMarked, ChevronDown, ChevronsDown, ChevronsUp, ChevronUp, CornerDownRight, Flag, Minus, Zap, type LucideIcon } from "lucide-react";
 import type { Database } from "@/lib/supabase/database.types";
 import { epicInk, formatPoints } from "@/lib/format";
 
 type TaskType = Database["public"]["Enums"]["task_type"];
 type ColumnCategory = Database["public"]["Enums"]["column_category"];
 
-const TYPE_GLYPHS: Record<TaskType, { icon: LucideIcon; label: string }> = {
+// A plain task is the default type, so it's unmarked (as medium priority is): a ticked box read as "done".
+const TYPE_GLYPHS: Record<Exclude<TaskType, "task">, { icon: LucideIcon; label: string }> = {
   epic: { icon: Zap, label: "Epic" },
   story: { icon: BookMarked, label: "Story" },
-  task: { icon: SquareCheck, label: "Task" },
   bug: { icon: Bug, label: "Bug" },
   subtask: { icon: CornerDownRight, label: "Subtask" },
 };
 
 export function TypeGlyph({ type, className = "" }: { type: TaskType; className?: string }) {
+  if (type === "task") return <span aria-hidden className={`inline-block size-[15px] shrink-0 ${className}`} />;
   const { icon: Icon, label } = TYPE_GLYPHS[type];
   return (
     <Icon
@@ -76,5 +77,39 @@ export function EpicTick({ epicNumber, title }: { epicNumber: number; title: str
       aria-label={`Epic: ${title}`}
       role="img"
     />
+  );
+}
+
+const PRIORITY_ICON = {
+  highest: { icon: ChevronsUp, className: "text-attention" },
+  high: { icon: ChevronUp, className: "text-ink" },
+  low: { icon: ChevronDown, className: "text-pencil" },
+  lowest: { icon: ChevronsDown, className: "text-pencil" },
+} as const;
+
+/**
+ * Priority as a printed chevron; medium is the unmarked default. Where priority is a ranked column
+ * (My Work's margin), medium prints a faint dash so the column reads as one.
+ */
+export function PriorityMark({
+  priority,
+  markMedium = false,
+}: {
+  priority: "highest" | "high" | "medium" | "low" | "lowest";
+  markMedium?: boolean;
+}) {
+  if (priority === "medium") {
+    return markMedium ? <Minus size={15} strokeWidth={2} className="shrink-0 text-pencil/50" aria-label="medium priority" role="img" /> : null;
+  }
+  const { icon: Icon, className } = PRIORITY_ICON[priority];
+  return <Icon size={15} strokeWidth={2} className={`shrink-0 ${className}`} aria-label={`${priority} priority`} role="img" />;
+}
+
+/** The milestone stamp: deadlines, submissions and grants, printed in a 1px ink border. */
+export function MilestoneStamp() {
+  return (
+    <span className="stamp inline-flex shrink-0 items-center gap-1 border border-ink px-1.5 text-[11px] leading-[18px]">
+      <Flag size={11} strokeWidth={2} aria-hidden /> Milestone
+    </span>
   );
 }

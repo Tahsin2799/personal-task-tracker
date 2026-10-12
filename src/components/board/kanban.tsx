@@ -203,8 +203,8 @@ export function Kanban() {
         <p className="border-b border-rule px-4 py-1.5 text-[13px] text-pencil md:px-8">
           {activeSprint.goal && <span className="text-ink">{activeSprint.goal}</span>}
           {activeSprint.end_date && (
-            <span className="font-mono ml-3 whitespace-nowrap text-[12px]">
-              ENDS {shortDate(activeSprint.end_date)}
+            <span className="tnum ml-3 whitespace-nowrap text-[12px]">
+              Ends {shortDate(activeSprint.end_date)}
               {left != null && (left >= 0 ? ` · ${left}d left` : ` · ${-left}d over`)}
             </span>
           )}
@@ -323,7 +323,7 @@ function ColumnLane({
           >
             {column.name}
           </button>
-          <span className={`font-mono ml-auto pr-1 text-[12px] ${overLimit ? "font-semibold text-attention" : "text-pencil"}`}>
+          <span className={`tnum ml-auto pr-1 text-[12px] ${overLimit ? "font-semibold text-attention" : "text-pencil"}`}>
             {filtering && ids.length !== count ? `${ids.length} of ${count}` : count}
             {column.wip_limit != null && ` / ${column.wip_limit}`}
           </span>
@@ -484,7 +484,7 @@ function ColumnEditor({ column, onDone }: { column: BoardColumn; onDone: () => v
             min={1}
             defaultValue={column.wip_limit ?? ""}
             placeholder="None"
-            className="field font-mono min-h-9 text-[14px]"
+            className="field tnum min-h-9 text-[14px]"
           />
         </div>
       </div>

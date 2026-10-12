@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { Avatar } from "@/components/avatar";
 import { PageHeader } from "@/components/page-header";
 import { getViewer } from "@/lib/queries";
-import { initials, longDate } from "@/lib/format";
+import { longDate } from "@/lib/format";
 import {
   deleteWorkspaceAsAdmin,
   removeAccount,
@@ -93,12 +94,7 @@ export default async function AdminPage() {
                   <tr key={p.id} className="border-t border-rule align-top">
                     <td className="py-2.5 pr-3">
                       <span className="flex items-center gap-3">
-                        <span
-                          aria-hidden
-                          className="font-mono flex size-7 shrink-0 items-center justify-center border border-ink text-[11px] font-semibold"
-                        >
-                          {initials(p.display_name)}
-                        </span>
+                        <Avatar name={p.display_name} />
                         <span className="min-w-0">
                           <span className="block truncate text-[15px]">
                             {p.display_name}
@@ -124,7 +120,7 @@ export default async function AdminPage() {
                         />
                       )}
                     </td>
-                    <td className="font-mono hidden py-2.5 pr-3 text-[13px] sm:table-cell">
+                    <td className="tnum hidden py-2.5 pr-3 text-[13px] sm:table-cell">
                       {p.team_workspaces}
                       {p.owned_workspaces > 0 && <span className="text-pencil"> · owns {p.owned_workspaces}</span>}
                     </td>
@@ -170,31 +166,50 @@ export default async function AdminPage() {
           {workspaces.length === 0 ? (
             <p className="py-6 text-[15px] text-pencil">No team workspaces yet.</p>
           ) : (
-            <ul className="mt-6 grid gap-6 xl:grid-cols-2">
+            <ul className="mt-8 space-y-8">
               {workspaces.map((w) => {
                 const members = w.members as Member[];
                 const memberIds = new Set(members.map((m) => m.id));
                 const owner = members.find((m) => m.role === "owner");
                 return (
-                  <li key={w.id} className="min-w-0 border border-rule bg-page p-4">
-                    <RenameWorkspaceForm key={w.name} workspaceId={w.id} name={w.name} />
-                    <p className="mt-1 text-[13px] text-pencil">
-                      Owner {owner?.display_name ?? "none"} · {w.board_count} board{w.board_count === 1 ? "" : "s"} · since{" "}
-                      {longDate(w.created_at.slice(0, 10))}
-                    </p>
+                  <li key={w.id} className="-mx-4 md:-mx-8" aria-label={w.name}>
+                    {/* A section band, like a sprint in the backlog: the name to edit, its tallies, and the delete. */}
+                    <div className="flex flex-wrap items-center gap-x-6 gap-y-1 border-t border-b border-t-rule-strong border-b-rule bg-page-sunk px-4 py-1.5 md:px-8">
+                      <div className="min-w-[220px] flex-1">
+                        <RenameWorkspaceForm key={w.name} workspaceId={w.id} name={w.name} />
+                      </div>
+                      <p className="text-[13px] text-pencil">
+                        Owner <span className="text-ink">{owner?.display_name ?? "none"}</span> ·{" "}
+                        <span className="tnum">{w.board_count}</span> board{w.board_count === 1 ? "" : "s"} · since{" "}
+                        <span className="tnum">{longDate(w.created_at.slice(0, 10))}</span>
+                      </p>
+                      <ActionButton
+                        action={deleteWorkspaceAsAdmin.bind(null, w.id)}
+                        confirm={`Delete ${w.name} and its ${w.board_count} board${w.board_count === 1 ? "" : "s"} for everyone?`}
+                        pendingLabel="Deleting…"
+                        danger
+                      >
+                        Delete
+                      </ActionButton>
+                    </div>
 
-                    <table className="mt-3 w-full border-collapse text-left">
+                    <table className="w-full border-collapse text-left">
                       <caption className="sr-only">Members of {w.name}</caption>
                       <tbody>
                         {members.map((m) => (
-                          <tr key={m.id} className="border-t border-rule align-top">
-                            <td className="py-2 pr-3">
-                              <span className="block truncate text-[14px]">{m.display_name}</span>
-                              <span className="block truncate text-[12px] text-pencil">
-                                {m.email} · {ACCOUNT_LABEL[m.account_role].toLowerCase()} account
+                          <tr key={m.id} className="border-b border-rule align-middle">
+                            <td className="py-2 pr-3 pl-4 md:pl-8">
+                              <span className="flex items-center gap-3">
+                                <Avatar name={m.display_name} size="sm" />
+                                <span className="min-w-0">
+                                  <span className="block truncate text-[14px]">{m.display_name}</span>
+                                  <span className="block truncate text-[12px] text-pencil">
+                                    {m.email} · {ACCOUNT_LABEL[m.account_role].toLowerCase()} account
+                                  </span>
+                                </span>
                               </span>
                             </td>
-                            <td className="w-[120px] py-2 pr-2">
+                            <td className="w-[136px] py-2 pr-2">
                               {m.role === "owner" ? (
                                 <span className="stamp inline-block py-1.5 text-[13px]">Owner</span>
                               ) : (
@@ -211,7 +226,7 @@ export default async function AdminPage() {
                                 />
                               )}
                             </td>
-                            <td className="w-[1%] py-2 text-right whitespace-nowrap">
+                            <td className="w-[1%] py-2 pr-4 text-right whitespace-nowrap md:pr-8">
                               {m.role !== "owner" && (
                                 <ActionButton
                                   action={removeWorkspaceMember.bind(null, w.id, m.id)}
@@ -228,22 +243,13 @@ export default async function AdminPage() {
                       </tbody>
                     </table>
 
-                    <AddMemberForm
-                      workspaceId={w.id}
-                      candidates={people
-                        .filter((p) => !memberIds.has(p.id))
-                        .map((p) => ({ value: p.id, label: `${p.display_name} (${ACCOUNT_LABEL[p.account_role].toLowerCase()})` }))}
-                    />
-
-                    <div className="mt-4 flex justify-end border-t border-rule pt-3">
-                      <ActionButton
-                        action={deleteWorkspaceAsAdmin.bind(null, w.id)}
-                        confirm={`Delete ${w.name} and its ${w.board_count} board${w.board_count === 1 ? "" : "s"} for everyone?`}
-                        pendingLabel="Deleting…"
-                        danger
-                      >
-                        Delete workspace
-                      </ActionButton>
+                    <div className="px-4 md:px-8">
+                      <AddMemberForm
+                        workspaceId={w.id}
+                        candidates={people
+                          .filter((p) => !memberIds.has(p.id))
+                          .map((p) => ({ value: p.id, label: `${p.display_name} (${ACCOUNT_LABEL[p.account_role].toLowerCase()})` }))}
+                      />
                     </div>
                   </li>
                 );
@@ -252,7 +258,6 @@ export default async function AdminPage() {
           )}
         </section>
       </div>
-      <div className="ruled-fill flex-1" aria-hidden />
     </>
   );
 }

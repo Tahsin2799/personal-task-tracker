@@ -2,9 +2,10 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
-import { ArrowRight, Columns3, Inbox, LayoutList, Monitor, Moon, Search, Sun, User } from "lucide-react";
+import { ArrowRight, Columns3, Inbox, LayoutList, Monitor, Moon, PenLine, Search, Sun, User } from "lucide-react";
 import { TypeGlyph } from "@/components/marks";
 import { taskKey } from "@/lib/format";
+import { singleKeysAllowed } from "@/lib/shortcuts";
 import type { Section } from "@/lib/queries";
 import { searchEntries } from "@/app/(app)/search-actions";
 import { setTheme } from "@/app/(app)/actions";
@@ -19,10 +20,6 @@ type Item = {
 };
 
 type Hit = Awaited<ReturnType<typeof searchEntries>>[number];
-
-function isTyping(target: EventTarget | null) {
-  return Boolean((target as HTMLElement | null)?.closest("input, textarea, select, [contenteditable='true']"));
-}
 
 /** ⌘K: jump anywhere, find any entry. "?" lists the keyboard shortcuts. */
 export function CommandPalette({ sections }: { sections: Section[] }) {
@@ -50,7 +47,7 @@ export function CommandPalette({ sections }: { sections: Section[] }) {
         else openPalette();
         return;
       }
-      if (e.metaKey || e.ctrlKey || e.altKey || isTyping(e.target) || document.querySelector("[role=dialog][aria-modal=true]")) return;
+      if (!singleKeysAllowed(e)) return;
       if (e.key === "?") {
         e.preventDefault();
         setHelp(true);
@@ -96,6 +93,9 @@ export function CommandPalette({ sections }: { sections: Section[] }) {
       { id: "inbox", group: "Go to", label: "Inbox", hint: "i", icon: <Inbox size={15} strokeWidth={1.6} />, run: go("/inbox") },
       { id: "account", group: "Go to", label: "Account", icon: <User size={15} strokeWidth={1.6} />, run: go("/account") },
     ].filter((i) => match(i.label));
+    const create: Item[] = [
+      { id: "write", group: "Create", label: "Write an entry", hint: "c", icon: <PenLine size={15} strokeWidth={1.6} />, run: go("/?write=1") },
+    ].filter((i) => match(`${i.label} new create add task`));
     const places: Item[] = sections.flatMap((s, n) => [
       ...(match(s.isPersonal ? "Personal" : s.name)
         ? [{ id: `w-${s.id}`, group: "Workspaces", label: s.isPersonal ? "Personal" : s.name, hint: String(n + 1), icon: <Columns3 size={15} strokeWidth={1.6} />, run: go(`/w/${s.id}`) }]
@@ -127,7 +127,7 @@ export function CommandPalette({ sections }: { sections: Section[] }) {
       { id: "night", group: "Page", label: "Night page", icon: <Moon size={15} strokeWidth={1.6} />, run: () => { setOpen(false); void setTheme("dark"); } },
       { id: "system", group: "Page", label: "Follow system theme", icon: <Monitor size={15} strokeWidth={1.6} />, run: () => { setOpen(false); void setTheme("system"); } },
     ].filter((i) => match(i.label));
-    return [...entries, ...pages, ...places, ...themes];
+    return [...entries, ...create, ...pages, ...places, ...themes];
     // eslint-disable-next-line react-hooks/exhaustive-deps -- go() is stable in effect
   }, [query, hits, sections]);
 
@@ -139,11 +139,11 @@ export function CommandPalette({ sections }: { sections: Section[] }) {
       <button
         type="button"
         onClick={openPalette}
-        className="flex w-full items-center gap-2 border border-cover-ink/40 px-2.5 py-1.5 text-left text-[13px] text-cover-pencil hover:bg-cover-deep hover:text-cover-ink"
+        className="flex w-full items-center gap-2 rounded-[2px] border border-cover-ink/25 bg-cover-deep/25 px-2.5 py-1.5 text-left text-[13px] text-cover-pencil hover:bg-cover-deep/70 hover:text-cover-ink"
       >
         <Search size={14} strokeWidth={1.7} aria-hidden />
         Search
-        <kbd className="font-mono ml-auto text-[11px]">⌘K</kbd>
+        <kbd className="font-mono ml-auto hidden text-[11px] md:inline">⌘K</kbd>
       </button>
 
       {open && (
@@ -229,42 +229,77 @@ export function CommandPalette({ sections }: { sections: Section[] }) {
   );
 }
 
-const SHORTCUTS: [string, string][] = [
-  ["⌘K / Ctrl K", "Search entries, boards and pages"],
-  ["0", "My Work"],
-  ["1 – 9", "Workspace by its tab number"],
-  ["i", "Inbox"],
-  ["c", "Create an entry (on a board)"],
-  ["/", "Filter the board, or open search"],
-  ["Esc", "Close the open entry or dialog"],
-  ["⌘↵", "Send a comment"],
-  ["?", "This sheet"],
+const SHORTCUTS: { group: string; keys: [string, string][] }[] = [
+  {
+    group: "Anywhere",
+    keys: [
+      ["⌘K / Ctrl K", "Search entries, boards and pages"],
+      ["0", "My Work"],
+      ["1 – 9", "Workspace by its tab number"],
+      ["i", "Inbox"],
+      ["Esc", "Close the open entry or dialog"],
+      ["?", "This sheet"],
+    ],
+  },
+  {
+    group: "My Work",
+    keys: [
+      ["c", "Write an entry"],
+      ["j / k", "Next or previous entry"],
+      ["↵", "Open the entry"],
+      ["x", "Mark it done, or reopen it"],
+      ["d / s", "Change its due date or status"],
+      ["u", "Undo the last change"],
+    ],
+  },
+  {
+    group: "On a board",
+    keys: [
+      ["c", "Create an entry"],
+      ["/", "Filter the board"],
+      ["⌘↵ / Ctrl ↵", "Send a comment"],
+    ],
+  },
 ];
 
 function ShortcutSheet({ onClose }: { onClose: () => void }) {
+  const close = useRef<HTMLButtonElement>(null);
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [onClose]);
+  // The sheet takes the keyboard while open and hands it back where it was.
+  useEffect(() => {
+    const before = document.activeElement as HTMLElement | null;
+    close.current?.focus();
+    return () => before?.focus?.();
+  }, []);
   return (
     <div className="fixed inset-0 z-50 flex items-start justify-center bg-[var(--scrim)] px-4 pt-[14vh]" onMouseDown={onClose}>
       <div role="dialog" aria-modal="true" aria-labelledby="shortcuts-title" onMouseDown={(e) => e.stopPropagation()} className="w-full max-w-[460px] border-2 border-ink bg-page">
-        <h2 id="shortcuts-title" className="stamp rule-double px-5 pt-4 pb-2 text-[17px]">
+        <h2 id="shortcuts-title" className="stamp rule-head px-5 pt-4 pb-2 text-[17px]">
           Keyboard shortcuts
         </h2>
-        <dl className="px-5 py-2">
-          {SHORTCUTS.map(([k, v]) => (
-            <div key={k} className="flex min-h-[37px] items-center gap-4 border-b border-rule last:border-0">
-              <dt className="w-28">
-                <kbd className="font-mono border border-rule-strong px-1.5 py-0.5 text-[12px]">{k}</kbd>
-              </dt>
-              <dd className="text-[14px]">{v}</dd>
-            </div>
+        <div className="max-h-[62vh] overflow-y-auto px-5 pb-2">
+          {SHORTCUTS.map(({ group, keys }) => (
+            <section key={group} aria-label={group}>
+              <h3 className="stamp border-b border-rule-strong pt-3 pb-1 text-[11px] text-pencil">{group}</h3>
+              <dl>
+                {keys.map(([k, v]) => (
+                  <div key={k} className="flex min-h-[35px] items-center gap-4 border-b border-rule last:border-0">
+                    <dt className="w-28 shrink-0">
+                      <kbd className="font-mono border border-rule-strong px-1.5 py-0.5 text-[12px]">{k}</kbd>
+                    </dt>
+                    <dd className="text-[14px]">{v}</dd>
+                  </div>
+                ))}
+              </dl>
+            </section>
           ))}
-        </dl>
-        <div className="px-5 pb-4">
-          <button type="button" onClick={onClose} className="btn">
+        </div>
+        <div className="px-5 pt-2 pb-4">
+          <button ref={close} type="button" onClick={onClose} className="btn">
             Close
           </button>
         </div>

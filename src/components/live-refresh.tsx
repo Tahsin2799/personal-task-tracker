@@ -6,14 +6,19 @@ import { createClient } from "@/lib/supabase/client";
 
 type Watch = { table: string; filter?: string };
 
+/** Older than this when the page mounts, the data came from the client cache: read it again once. */
+const CATCH_UP_AFTER_MS = 15_000;
+
 /**
  * Re-renders the page when watched rows change in Postgres (Supabase Realtime, filtered by RLS),
  * and tells open panels which table moved via a "board:changed" window event.
+ * With `renderedAt`, a page shown from a prefetch catches up on what changed before it was opened.
  */
-export function LiveRefresh({ channel, watch }: { channel: string; watch: Watch[] }) {
+export function LiveRefresh({ channel, watch, renderedAt }: { channel: string; watch: Watch[]; renderedAt?: number }) {
   const router = useRouter();
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const key = JSON.stringify(watch);
+  const renderedAtOnMount = useRef(renderedAt);
 
   useEffect(() => {
     const supabase = createClient();
@@ -35,7 +40,14 @@ export function LiveRefresh({ channel, watch }: { channel: string; watch: Watch[
           timer.current = setTimeout(() => router.refresh(), 350);
         });
       }
-      subscription.subscribe();
+      // Subscribe first, then catch up, so nothing lands between the two.
+      subscription.subscribe((status) => {
+        const age = renderedAtOnMount.current ? Date.now() - renderedAtOnMount.current : 0;
+        if (status === "SUBSCRIBED" && age > CATCH_UP_AFTER_MS) {
+          renderedAtOnMount.current = undefined;
+          router.refresh();
+        }
+      });
     })();
 
     return () => {

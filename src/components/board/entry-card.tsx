@@ -2,13 +2,13 @@
 
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { FlaskConical, Flag, Paperclip, MessageSquare, Repeat } from "lucide-react";
-import { TypeGlyph } from "@/components/marks";
+import { FlaskConical, Paperclip, MessageSquare, Repeat } from "lucide-react";
+import { MilestoneStamp, PriorityMark, TypeGlyph } from "@/components/marks";
 import { epicInk, repeatPhrase, taskKey } from "@/lib/format";
 import type { BoardTask } from "@/lib/queries";
 import { useBoard } from "./board-context";
 import { labelInk, useTaskHref } from "./bits";
-import { PriorityMark, TileAssignee, TileDue, TilePoints } from "./tile-editors";
+import { TileAssignee, TileDue, TilePoints } from "./tile-editors";
 
 /**
  * One entry as a board tile: title first, then labels and epic, then a footer with
@@ -60,9 +60,7 @@ export function EntryCard({ task, lifted = false }: { task: BoardTask; lifted?: 
         {(labels.length > 0 || epic || task.milestone || task.experiment || subs.length > 0 || comments > 0 || files > 0) && (
           <div className="mt-2 flex flex-wrap items-center gap-1.5">
             {task.milestone && (
-              <span className="stamp inline-flex items-center gap-1 border border-ink px-1.5 text-[11px] leading-[18px]">
-                <Flag size={11} strokeWidth={2} aria-hidden /> Milestone
-              </span>
+<MilestoneStamp />
             )}
             {task.experiment && (
               <span className="stamp inline-flex items-center gap-1 border border-rule-strong px-1.5 text-[11px] leading-[18px]">
@@ -84,18 +82,18 @@ export function EntryCard({ task, lifted = false }: { task: BoardTask; lifted?: 
             {(subs.length > 0 || comments > 0 || files > 0) && (
               <span className="ml-auto flex items-center gap-2 text-pencil">
                 {subs.length > 0 && (
-                  <span className="font-mono text-[11px]" title="Subtasks done">
+                  <span className="tnum text-[11px]" title="Subtasks done">
                     {subs.filter((s) => s.completed_at).length}/{subs.length}
                   </span>
                 )}
                 {comments > 0 && (
-                  <span className="font-mono flex items-center gap-0.5 text-[11px]" title={`${comments} comments`}>
+                  <span className="tnum flex items-center gap-0.5 text-[11px]" title={`${comments} comments`}>
                     <MessageSquare size={12} strokeWidth={1.6} aria-hidden />
                     {comments}
                   </span>
                 )}
                 {files > 0 && (
-                  <span className="font-mono flex items-center gap-0.5 text-[11px]" title={`${files} attachments`}>
+                  <span className="tnum flex items-center gap-0.5 text-[11px]" title={`${files} attachments`}>
                     <Paperclip size={12} strokeWidth={1.6} aria-hidden />
                     {files}
                   </span>

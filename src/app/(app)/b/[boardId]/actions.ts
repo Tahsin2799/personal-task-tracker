@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { generateKeyBetween, generateNKeysBetween } from "fractional-indexing";
 import type { PostgrestError } from "@supabase/supabase-js";
-import { getViewer } from "@/lib/queries";
+import { getSession } from "@/lib/queries";
 import type { Database } from "@/lib/supabase/database.types";
 
 type TaskRow = Database["public"]["Tables"]["tasks"]["Row"];
@@ -54,7 +54,7 @@ function done(boardId: string) {
 
 /** The last fractional position in a column (for entries) or on a board (for columns). */
 async function lastPosition(table: "tasks" | "board_columns", id: string) {
-  const { supabase } = await getViewer();
+  const { supabase } = await getSession();
   const query =
     table === "tasks"
       ? supabase.from("tasks").select("position").eq("column_id", id)
@@ -64,7 +64,7 @@ async function lastPosition(table: "tasks" | "board_columns", id: string) {
 }
 
 async function firstColumn(boardId: string, category: ColumnCategory) {
-  const { supabase } = await getViewer();
+  const { supabase } = await getSession();
   const { data } = await supabase
     .from("board_columns")
     .select("id")
@@ -101,7 +101,7 @@ export async function createTask(
   const title = input.title.trim();
   if (!title) return { error: "Write the entry first." };
 
-  const { supabase, profile } = await getViewer();
+  const { supabase, userId } = await getSession();
   const columnId = input.columnId ?? (await firstColumn(boardId, "todo"));
   if (!columnId) return { error: "Add a column to this board first." };
 
@@ -116,7 +116,7 @@ export async function createTask(
       sprint_id: input.sprintId ?? null,
       epic_id: input.epicId ?? null,
       parent_id: input.parentId ?? null,
-      assignee_id: input.assigneeId === undefined ? profile.id : input.assigneeId,
+      assignee_id: input.assigneeId === undefined ? userId : input.assigneeId,
       number: 0, // replaced by the per-board sequence trigger
     })
     .select("id")
@@ -138,7 +138,7 @@ export async function updateTask(boardId: string, taskId: string, patch: TaskPat
   }
   if (clean.description !== undefined) clean.description = clean.description?.trim() || null;
 
-  const { supabase } = await getViewer();
+  const { supabase } = await getSession();
   const { error } = await supabase.from("tasks").update(clean).eq("id", taskId).eq("board_id", boardId);
   if (error) return friendly(error);
   done(boardId);
@@ -146,7 +146,7 @@ export async function updateTask(boardId: string, taskId: string, patch: TaskPat
 
 /** Drop an entry into a column at a fractional position the client computed between its new neighbours. */
 export async function moveTask(boardId: string, taskId: string, columnId: string, position: string): Promise<Result> {
-  const { supabase } = await getViewer();
+  const { supabase } = await getSession();
   const { error } = await supabase
     .from("tasks")
     .update({ column_id: columnId, position })
@@ -170,7 +170,7 @@ export async function setSubtaskDone(boardId: string, taskId: string, isDone: bo
 }
 
 export async function archiveTask(boardId: string, taskId: string): Promise<Result> {
-  const { supabase } = await getViewer();
+  const { supabase } = await getSession();
   const { error } = await supabase
     .from("tasks")
     .update({ archived_at: new Date().toISOString() })
@@ -181,7 +181,7 @@ export async function archiveTask(boardId: string, taskId: string): Promise<Resu
 }
 
 export async function deleteTask(boardId: string, taskId: string): Promise<Result> {
-  const { supabase } = await getViewer();
+  const { supabase } = await getSession();
   const { error } = await supabase.from("tasks").delete().eq("id", taskId).eq("board_id", boardId);
   if (error) return friendly(error);
   done(boardId);
@@ -198,7 +198,7 @@ export async function importReferences(
   if (!items.length) return { error: "Choose at least one reference." };
   if (items.length > 300) return { error: "Import at most 300 references at a time." };
 
-  const { supabase } = await getViewer();
+  const { supabase } = await getSession();
   const positions = generateNKeysBetween(await lastPosition("tasks", input.columnId), null, items.length);
   const { data, error } = await supabase
     .from("tasks")
@@ -230,7 +230,7 @@ export async function importReferences(
 /* ------------------------------------------------------------------ labels */
 
 export async function setTaskLabel(boardId: string, taskId: string, labelId: string, on: boolean): Promise<Result> {
-  const { supabase } = await getViewer();
+  const { supabase } = await getSession();
   const { error } = on
     ? await supabase.from("task_labels").upsert({ board_id: boardId, task_id: taskId, label_id: labelId })
     : await supabase.from("task_labels").delete().eq("task_id", taskId).eq("label_id", labelId);
@@ -243,7 +243,7 @@ export async function createLabel(boardId: string, name: string, color: string):
   if (!clean) return { error: "Name the label." };
   if (!/^ink-[1-6]$/.test(color)) return { error: "Pick one of the label inks." };
 
-  const { supabase } = await getViewer();
+  const { supabase } = await getSession();
   const { data, error } = await supabase
     .from("labels")
     .insert({ board_id: boardId, name: clean, color })
@@ -262,14 +262,14 @@ export async function updateLabel(boardId: string, labelId: string, patch: { nam
   }
   if (patch.color !== undefined) clean.color = patch.color;
 
-  const { supabase } = await getViewer();
+  const { supabase } = await getSession();
   const { error } = await supabase.from("labels").update(clean).eq("id", labelId).eq("board_id", boardId);
   if (error) return friendly(error);
   done(boardId);
 }
 
 export async function deleteLabel(boardId: string, labelId: string): Promise<Result> {
-  const { supabase } = await getViewer();
+  const { supabase } = await getSession();
   const { error } = await supabase.from("labels").delete().eq("id", labelId).eq("board_id", boardId);
   if (error) return friendly(error);
   done(boardId);
@@ -281,7 +281,7 @@ export async function createColumn(boardId: string, name: string, category: Colu
   const clean = name.trim();
   if (!clean) return { error: "Name the column." };
 
-  const { supabase } = await getViewer();
+  const { supabase } = await getSession();
   const { error } = await supabase.from("board_columns").insert({
     board_id: boardId,
     name: clean,
@@ -302,7 +302,7 @@ export async function updateColumn(
     return { error: "A WIP limit is a whole number above zero, or empty for none." };
   }
 
-  const { supabase } = await getViewer();
+  const { supabase } = await getSession();
   const { error } = await supabase
     .from("board_columns")
     .update({ ...patch, name: patch.name?.trim() })
@@ -313,14 +313,14 @@ export async function updateColumn(
 }
 
 export async function moveColumn(boardId: string, columnId: string, position: string): Promise<Result> {
-  const { supabase } = await getViewer();
+  const { supabase } = await getSession();
   const { error } = await supabase.from("board_columns").update({ position }).eq("id", columnId).eq("board_id", boardId);
   if (error) return friendly(error);
   done(boardId);
 }
 
 export async function deleteColumn(boardId: string, columnId: string): Promise<Result> {
-  const { supabase } = await getViewer();
+  const { supabase } = await getSession();
   const { count } = await supabase
     .from("tasks")
     .select("id", { count: "exact", head: true })
@@ -335,7 +335,7 @@ export async function deleteColumn(boardId: string, columnId: string): Promise<R
 /* ------------------------------------------------------------------ sprints */
 
 export async function createSprint(boardId: string): Promise<Result> {
-  const { supabase } = await getViewer();
+  const { supabase } = await getSession();
   const { count } = await supabase.from("sprints").select("id", { count: "exact", head: true }).eq("board_id", boardId);
   const { data, error } = await supabase
     .from("sprints")
@@ -349,7 +349,7 @@ export async function createSprint(boardId: string): Promise<Result> {
 
 export async function updateSprint(boardId: string, sprintId: string, patch: { name?: string; goal?: string | null }): Promise<Result> {
   if (patch.name !== undefined && !patch.name.trim()) return { error: "Name the sprint." };
-  const { supabase } = await getViewer();
+  const { supabase } = await getSession();
   const { error } = await supabase
     .from("sprints")
     .update({ name: patch.name?.trim(), goal: patch.goal === undefined ? undefined : patch.goal?.trim() || null })
@@ -361,21 +361,21 @@ export async function updateSprint(boardId: string, sprintId: string, patch: { n
 
 export async function startSprint(boardId: string, sprintId: string, starts: string, ends: string, goal: string): Promise<Result> {
   if (!starts || !ends) return { error: "Give the sprint a start and an end date." };
-  const { supabase } = await getViewer();
+  const { supabase } = await getSession();
   const { error } = await supabase.rpc("start_sprint", { sprint: sprintId, starts, ends, sprint_goal: goal });
   if (error) return friendly(error);
   done(boardId);
 }
 
 export async function completeSprint(boardId: string, sprintId: string, carryTo: string | null): Promise<Result> {
-  const { supabase } = await getViewer();
+  const { supabase } = await getSession();
   const { error } = await supabase.rpc("complete_sprint", { sprint: sprintId, carry_to: carryTo as string });
   if (error) return friendly(error);
   done(boardId);
 }
 
 export async function deleteSprint(boardId: string, sprintId: string): Promise<Result> {
-  const { supabase } = await getViewer();
+  const { supabase } = await getSession();
   const { error } = await supabase
     .from("sprints")
     .delete()
@@ -394,7 +394,7 @@ export async function updateBoard(
 ): Promise<Result> {
   if (patch.name !== undefined && !patch.name.trim()) return { error: "Name the board." };
   if (patch.color != null && !/^ink-[1-6]$/.test(patch.color)) return { error: "Pick one of the board inks." };
-  const { supabase } = await getViewer();
+  const { supabase } = await getSession();
   const { error } = await supabase
     .from("boards")
     .update({
@@ -408,7 +408,7 @@ export async function updateBoard(
 }
 
 export async function archiveBoard(boardId: string, workspaceId: string) {
-  const { supabase } = await getViewer();
+  const { supabase } = await getSession();
   await supabase.from("boards").update({ archived_at: new Date().toISOString() }).eq("id", boardId);
   revalidatePath("/", "layout");
   redirect(`/w/${workspaceId}`);

@@ -1,11 +1,13 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import { AtSign, MessageSquare, UserCheck } from "lucide-react";
+import { ArrowRight, AtSign, MessageSquare, UserCheck } from "lucide-react";
+import { CatchUp } from "@/components/catch-up";
 import { PageHeader } from "@/components/page-header";
 import { TypeGlyph } from "@/components/marks";
 import { daysBetween, viewerToday } from "@/lib/dates";
 import { shortDate, taskKey } from "@/lib/format";
-import { getInbox, getMyWork, type InboxItem } from "@/lib/queries";
+import { getInbox, getMyWork, requestTime, type InboxItem } from "@/lib/queries";
+import { byUrgency } from "@/lib/urgency";
 import { clearRead, markAllRead, openNotification } from "./actions";
 
 export const metadata: Metadata = { title: "Inbox" };
@@ -23,16 +25,20 @@ function ago(iso: string) {
   return shortDate(iso.slice(0, 10));
 }
 
+/** The inbox is for what people sent you; the full due list lives on My Work. */
+const DUE_SOON_SHOWN = 5;
+
 export default async function InboxPage() {
   const [items, work, today] = await Promise.all([getInbox(), getMyWork(), viewerToday()]);
   const unread = items.filter((n) => !n.read_at);
   const earlier = items.filter((n) => n.read_at);
   const dueSoon = work
     .filter((t) => !t.completed_at && t.due_date && daysBetween(today, t.due_date) <= 2)
-    .sort((a, b) => (a.due_date! < b.due_date! ? -1 : 1));
+    .sort(byUrgency); // the same order as My Work: milestones, then priority, then date
 
   return (
     <>
+      <CatchUp renderedAt={requestTime()} />
       <PageHeader
         title="Inbox"
         fields={[
@@ -62,10 +68,10 @@ export default async function InboxPage() {
       {dueSoon.length > 0 && (
         <section aria-labelledby="due-heading">
           <h2 id="due-heading" className="stamp border-b border-rule-strong bg-page-sunk px-4 pt-3 pb-1.5 text-[13px] md:px-8">
-            Due soon <span className="font-mono text-[12px] text-pencil">{dueSoon.length}</span>
+            Due soon <span className="tnum text-[12px] text-pencil">{dueSoon.length}</span>
           </h2>
           <ul>
-            {dueSoon.map((t) => {
+            {dueSoon.slice(0, DUE_SOON_SHOWN).map((t) => {
               const late = t.due_date! < today;
               return (
                 <li key={t.id} className="border-b border-rule">
@@ -73,21 +79,28 @@ export default async function InboxPage() {
                     <TypeGlyph type={t.type} />
                     <span className="font-mono w-[56px] shrink-0 text-[12px] text-pencil">{taskKey(t.board!.key, t.number)}</span>
                     <span className="min-w-0 flex-1 truncate text-[15px]">{t.title}</span>
-                    <span className={`font-mono shrink-0 text-[13px] ${late ? "font-semibold text-attention" : ""}`}>
-                      {t.due_date === today ? "TODAY" : shortDate(t.due_date!)}
+                    <span className={`tnum shrink-0 text-[13px] ${late ? "font-semibold text-attention" : ""}`}>
+                      {t.due_date === today ? "Today" : shortDate(t.due_date!)}
                       {late && ` · ${daysBetween(t.due_date!, today)}d late`}
                     </span>
                   </Link>
                 </li>
               );
             })}
+            {dueSoon.length > DUE_SOON_SHOWN && (
+              <li className="border-b border-rule">
+                <Link href="/" className="flex min-h-[41px] items-center gap-2 px-4 py-2 text-[14px] text-pencil hover:bg-page-sunk hover:text-ink md:px-8">
+                  <span className="tnum">{dueSoon.length - DUE_SOON_SHOWN}</span> more due soon, all on My Work
+                  <ArrowRight size={14} strokeWidth={1.7} aria-hidden />
+                </Link>
+              </li>
+            )}
           </ul>
         </section>
       )}
 
       <Group title="Unread" items={unread} empty="You're all caught up." />
       {earlier.length > 0 && <Group title="Earlier" items={earlier} />}
-      <div className="ruled-fill flex-1" aria-hidden />
     </>
   );
 }
@@ -96,7 +109,7 @@ function Group({ title, items, empty }: { title: string; items: InboxItem[]; emp
   return (
     <section aria-label={title}>
       <h2 className="stamp border-b border-rule-strong bg-page-sunk px-4 pt-3 pb-1.5 text-[13px] md:px-8">
-        {title} <span className="font-mono text-[12px] text-pencil">{items.length}</span>
+        {title} <span className="tnum text-[12px] text-pencil">{items.length}</span>
       </h2>
       {items.length === 0 && empty && <p className="border-b border-rule px-4 py-3 text-[15px] text-pencil md:px-8">{empty}</p>}
       <ul>
@@ -118,12 +131,10 @@ function Group({ title, items, empty }: { title: string; items: InboxItem[]; emp
                       {task?.title ?? data.title}
                     </span>
                     {data.excerpt && (
-                      <span className="mt-0.5 block truncate text-[13px] text-pencil">
-                        {data.excerpt.replace(/@\[([^\]]+)\]\([0-9a-f-]{36}\)/g, "@$1")}
-                      </span>
+                      <Excerpt text={data.excerpt.replace(/@\[([^\]]+)\]\([0-9a-f-]{36}\)/g, "@$1")} />
                     )}
                   </span>
-                  <span className="font-mono shrink-0 text-[12px] text-pencil">{ago(n.created_at)}</span>
+                  <span className="tnum shrink-0 text-[12px] text-pencil">{ago(n.created_at)}</span>
                   {!n.read_at && <span className="mt-1.5 size-2 shrink-0 bg-ink" aria-label="Unread" role="img" />}
                 </button>
               </form>
@@ -132,5 +143,14 @@ function Group({ title, items, empty }: { title: string; items: InboxItem[]; emp
         })}
       </ul>
     </section>
+  );
+}
+
+/** One line of the comment; the whole of it on hover. */
+function Excerpt({ text }: { text: string }) {
+  return (
+    <span className="mt-0.5 block truncate text-[13px] text-pencil" title={text}>
+      {text}
+    </span>
   );
 }

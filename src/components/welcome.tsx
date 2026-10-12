@@ -43,7 +43,7 @@ export function Welcome({
     {
       done: steps.team,
       title: "Start a team workspace",
-      body: "Shared boards for a lab, a project or a side business. Use “New team workspace” in the spine.",
+      body: "Shared boards for a lab, a project or a side business, with the people you add.",
       href: "/account",
       cta: "Create one",
     },
@@ -102,7 +102,7 @@ function Checklist({
         {items.map((item, i) => (
           <li key={item.title} className="flex min-h-[41px] flex-wrap items-center gap-x-3 gap-y-1 border-t border-rule px-4 py-2 md:px-8">
             <span
-              className={`font-mono flex size-5 shrink-0 items-center justify-center border text-[11px] ${
+              className={`tnum flex size-5 shrink-0 items-center justify-center border text-[11px] ${
                 item.done ? "border-done bg-done text-page" : "border-ink"
               }`}
             >

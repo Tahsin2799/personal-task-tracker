@@ -7,16 +7,19 @@ import Link from "next/link";
 export function PageHeader({
   title,
   crumb,
+  subtitle,
   fields = [],
   actions,
 }: {
   title: string;
   crumb?: { href: string; label: string };
+  /** Written after the title on its baseline, in pencil: context that needs no caption (a date, a count). */
+  subtitle?: React.ReactNode;
   fields?: { label: string; value: React.ReactNode; attention?: boolean }[];
   actions?: React.ReactNode;
 }) {
   return (
-    <header className="rule-double flex flex-wrap items-end gap-x-8 gap-y-3 px-4 pt-5 pb-3 md:px-8 md:pt-7">
+    <header className="rule-head flex flex-wrap items-end gap-x-8 gap-y-3 px-4 pt-5 pb-3 md:px-8 md:pt-7">
       <div className="flex min-w-0 items-baseline gap-2">
         {crumb && (
           <nav aria-label="Breadcrumb" className="flex shrink-0 items-baseline gap-2 text-[15px] text-pencil">
@@ -29,6 +32,7 @@ export function PageHeader({
         <h1 className="truncate font-stamp text-[30px] font-semibold uppercase leading-none tracking-[0.02em] md:text-[34px]">
           {title}
         </h1>
+        {subtitle && <span className="tnum shrink-0 text-[15px] text-pencil">{subtitle}</span>}
       </div>
       {(fields.length > 0 || actions) && (
         <div className="flex flex-wrap items-center gap-x-6 gap-y-2 md:ml-auto">
@@ -37,7 +41,7 @@ export function PageHeader({
               {fields.map((f) => (
                 <div key={f.label} className="flex items-baseline gap-2">
                   <dt className="stamp text-[11px] text-pencil">{f.label}</dt>
-                  <dd className={`font-mono text-[14px] ${f.attention ? "font-semibold text-attention" : ""}`}>
+                  <dd className={`tnum text-[14px] ${f.attention ? "font-semibold text-attention" : ""}`}>
                     {f.value}
                   </dd>
                 </div>

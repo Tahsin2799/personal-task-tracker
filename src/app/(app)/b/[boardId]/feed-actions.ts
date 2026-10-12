@@ -1,7 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { getViewer } from "@/lib/queries";
+import { getSession } from "@/lib/queries";
 import type { Result } from "./actions";
 
 export type FeedComment = {
@@ -31,7 +31,7 @@ export type TaskFeed = { comments: FeedComment[]; activity: FeedActivity[]; atta
 
 /** Comments, history and files for one entry, read on demand when its drawer opens. */
 export async function getTaskFeed(taskId: string): Promise<TaskFeed> {
-  const { supabase } = await getViewer();
+  const { supabase } = await getSession();
   const [{ data: comments }, { data: activity }, { data: attachments }] = await Promise.all([
     supabase
       .from("comments")
@@ -90,10 +90,10 @@ function done(boardId: string) {
 export async function addComment(boardId: string, taskId: string, body: string): Promise<Result> {
   const clean = body.trim();
   if (!clean) return { error: "Write something first." };
-  const { supabase, profile } = await getViewer();
+  const { supabase, userId } = await getSession();
   const { error } = await supabase
     .from("comments")
-    .insert({ board_id: boardId, task_id: taskId, body: clean, author_id: profile.id });
+    .insert({ board_id: boardId, task_id: taskId, body: clean, author_id: userId });
   if (error) return { error: error.message };
   done(boardId);
 }
@@ -101,7 +101,7 @@ export async function addComment(boardId: string, taskId: string, body: string):
 export async function editComment(boardId: string, commentId: string, body: string): Promise<Result> {
   const clean = body.trim();
   if (!clean) return { error: "A comment can't be empty. Delete it instead." };
-  const { supabase } = await getViewer();
+  const { supabase } = await getSession();
   const { error } = await supabase
     .from("comments")
     .update({ body: clean, edited_at: new Date().toISOString() })
@@ -111,7 +111,7 @@ export async function editComment(boardId: string, commentId: string, body: stri
 }
 
 export async function deleteComment(boardId: string, commentId: string): Promise<Result> {
-  const { supabase } = await getViewer();
+  const { supabase } = await getSession();
   const { error } = await supabase.from("comments").delete().eq("id", commentId);
   if (error) return { error: error.message };
   done(boardId);
@@ -124,10 +124,10 @@ export async function registerAttachment(
   file: { name: string; path: string; size: number; mime: string | null },
 ): Promise<Result> {
   if (!file.path.startsWith(`${boardId}/${taskId}/`)) return { error: "That upload doesn't belong to this entry." };
-  const { supabase, profile } = await getViewer();
+  const { supabase, userId } = await getSession();
   const { data, error } = await supabase
     .from("attachments")
-    .insert({ board_id: boardId, task_id: taskId, uploader_id: profile.id, ...file })
+    .insert({ board_id: boardId, task_id: taskId, uploader_id: userId, ...file })
     .select("id")
     .single();
   if (error) return { error: error.message };
@@ -136,7 +136,7 @@ export async function registerAttachment(
 }
 
 export async function deleteAttachment(boardId: string, attachmentId: string): Promise<Result> {
-  const { supabase } = await getViewer();
+  const { supabase } = await getSession();
   const { data: row } = await supabase.from("attachments").select("path").eq("id", attachmentId).maybeSingle();
   if (!row) return { error: "That file is already gone." };
   await supabase.storage.from("attachments").remove([row.path]);

@@ -25,7 +25,7 @@ export function Epics() {
       </div>
       <div
         aria-hidden
-        className="rule-double stamp hidden grid-cols-[28px_minmax(0,1fr)_260px_120px_88px] gap-x-2 pr-8 pl-5 pt-3 pb-1.5 text-[11px] text-pencil md:grid"
+        className="rule-head stamp hidden grid-cols-[28px_minmax(0,1fr)_260px_120px_88px] gap-x-2 pr-8 pl-5 pt-3 pb-1.5 text-[11px] text-pencil md:grid"
       >
         <span />
         <span>Epic</span>
@@ -39,7 +39,6 @@ export function Epics() {
         ))}
       </ul>
       <NewEpic />
-      <div className="ruled-fill flex-1" aria-hidden />
     </>
   );
 }
@@ -86,7 +85,7 @@ function EpicRow({ epic }: { epic: BoardTask }) {
           >
             <span className="absolute inset-y-0 left-0" style={{ width: `${share * 100}%`, background: epicInk(epic.number) }} />
           </span>
-          <span className="font-mono w-[96px] shrink-0 text-[12px] text-pencil">
+          <span className="tnum w-[96px] shrink-0 text-[12px] text-pencil">
             {total > 0 ? `${formatPoints(done)}/${formatPoints(total)} pts` : `${doneCount}/${entries.length} done`}
           </span>
         </div>
@@ -115,7 +114,7 @@ function EpicRow({ epic }: { epic: BoardTask }) {
                   </Link>
                   {c && <StatusMark category={c.category} />}
                   <span className="font-mono w-8 text-right text-[12px] text-pencil">{t.story_points != null ? formatPoints(t.story_points) : "—"}</span>
-                  {t.due_date && <span className="font-mono hidden text-[12px] text-pencil sm:inline">{shortDate(t.due_date)}</span>}
+                  {t.due_date && <span className="tnum hidden text-[12px] text-pencil sm:inline">{shortDate(t.due_date)}</span>}
                 </li>
               );
             })}

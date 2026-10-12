@@ -33,7 +33,7 @@ export function EmailPrefs({ email, timeZone, notifications, reminders }: { emai
         </span>
       </label>
       <p className="mt-2 text-[13px] leading-snug text-pencil">
-        Sent to <span className="text-ink">{email}</span> · your time zone is <span className="font-mono text-[12px]">{timeZone}</span>, taken from this browser.
+        Sent to <span className="text-ink">{email}</span> · your time zone is <span className="text-ink">{timeZone}</span>, taken from this browser.
       </p>
     </div>
   );

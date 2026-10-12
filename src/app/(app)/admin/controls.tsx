@@ -237,7 +237,7 @@ export function RenameWorkspaceForm({ workspaceId, name }: { workspaceId: string
         defaultValue={name}
         required
         maxLength={80}
-        className="field min-h-9 w-auto min-w-0 flex-1 basis-[200px] py-1 font-stamp text-[20px] font-semibold uppercase tracking-[0.02em]"
+        className="field min-h-9 w-auto min-w-0 flex-1 basis-[200px] border-b-transparent py-1 font-stamp text-[17px] font-semibold uppercase tracking-[0.03em] hover:border-b-rule-strong focus:border-b-rule-strong"
       />
       <SubmitButton pendingLabel="Saving…" variant="quiet" className="min-h-8 px-2 text-[13px]">
         Rename
@@ -251,11 +251,11 @@ export function AddMemberForm({ workspaceId, candidates }: { workspaceId: string
   const [state, formAction] = useActionState(addWorkspaceMember, undefined);
 
   if (!candidates.length) {
-    return <p className="border-t border-rule pt-2 text-[13px] text-pencil">Everyone with an account is already here. Invite someone new above.</p>;
+    return <p className="py-2.5 text-[13px] text-pencil">Everyone with an account is already here. Invite someone new above.</p>;
   }
 
   return (
-    <form action={formAction} className="flex flex-wrap items-end gap-x-3 gap-y-2 border-t border-rule pt-3">
+    <form action={formAction} className="flex flex-wrap items-end gap-x-3 gap-y-2 pt-2 pb-1">
       <input type="hidden" name="workspace_id" value={workspaceId} />
       <div className="min-w-[200px] flex-1">
         <label htmlFor={`add-${workspaceId}`} className="field-label">

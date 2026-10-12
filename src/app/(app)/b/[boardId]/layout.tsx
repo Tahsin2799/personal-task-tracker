@@ -21,6 +21,7 @@ export default async function BoardLayout({ children, params }: LayoutProps<"/b/
       <BoardNote />
       <LiveRefresh
         channel={`board:${board.id}`}
+        renderedAt={board.renderedAt}
         watch={["tasks", "task_labels", "board_columns", "sprints", "comments", "attachments", "activity"].map((table) => ({
           table,
           filter: `board_id=eq.${board.id}`,

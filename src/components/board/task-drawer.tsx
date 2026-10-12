@@ -114,7 +114,7 @@ function EntryPage({ task }: { task: BoardTask }) {
 
   return (
     <>
-      <header className="rule-double flex items-center gap-3 bg-page-sunk px-5 py-3 md:h-[79px]">
+      <header className="rule-head flex items-center gap-3 bg-page-sunk px-5 py-3 md:h-[79px]">
         <TypeGlyph type={task.type} />
         <label htmlFor="entry-type" className="sr-only">
           Type
@@ -317,7 +317,7 @@ function EntryPage({ task }: { task: BoardTask }) {
             defaultValue={task.description ?? ""}
             placeholder="Context, protocol, results, links. DOIs and URLs become references below."
             onBlur={(e) => (e.target.value.trim() || null) !== (task.description ?? null) && save({ description: e.target.value })}
-            className="ruled-fill min-h-[164px] w-full resize-y bg-transparent py-[9px] text-[15px] leading-[41px] [field-sizing:content] placeholder:text-pencil focus:outline-none focus-visible:outline-2 focus-visible:outline-ink"
+            className="min-h-[164px] w-full resize-y bg-transparent py-[9px] text-[15px] leading-[41px] [field-sizing:content] placeholder:text-pencil focus:outline-none focus-visible:outline-2 focus-visible:outline-ink"
           />
           <References text={task.description ?? ""} />
         </section>
@@ -387,7 +387,7 @@ function DateField({ label, value, late = false, onChange }: { label: string; va
           setCurrent(e.target.value);
           onChange(e.target.value || null);
         }}
-        className={`field font-mono min-h-9 text-[13px] ${late ? "font-semibold text-attention" : ""} ${
+        className={`field tnum min-h-9 text-[13px] ${late ? "font-semibold text-attention" : ""} ${
           current ? "" : "text-transparent focus:text-ink"
         }`}
       />
@@ -468,7 +468,7 @@ function RepeatField({ task, save }: { task: BoardTask; save: (patch: TaskPatch)
                 const n = Math.min(365, Math.max(1, Math.round(Number(e.target.value) || 1)));
                 save({ repeat_every: n, repeat_unit: unit ?? "day" });
               }}
-              className="field font-mono min-h-9 w-[64px] text-[14px]"
+              className="field tnum min-h-9 w-[64px] text-[14px]"
             />
             <select
               aria-label="Repeat unit"
@@ -628,7 +628,7 @@ function Subtasks({ task, subtasks }: { task: BoardTask; subtasks: BoardTask[] }
   return (
     <section className="px-5 pt-6">
       <h3 className="field-label">
-        Subtasks <span className="font-mono">{subtasks.length > 0 && `${done}/${subtasks.length}`}</span>
+        Subtasks <span className="tnum">{subtasks.length > 0 && `${done}/${subtasks.length}`}</span>
       </h3>
       <ul className="border-t border-rule">
         {subtasks.map((s) => {
@@ -688,7 +688,7 @@ function EpicChildren({ epic, entries }: { epic: BoardTask; entries: BoardTask[]
     <section className="px-5 pt-6">
       <h3 className="field-label">
         In this epic{" "}
-        <span className="font-mono">
+        <span className="tnum">
           {entries.filter((t) => t.completed_at).length}/{entries.length} · {formatPoints(donePts)}/{formatPoints(total)} pts
         </span>
       </h3>

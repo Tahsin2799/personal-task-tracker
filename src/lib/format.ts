@@ -1,17 +1,17 @@
-const MONTHS = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
-const WEEKDAYS = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
+const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+const WEEKDAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
-/** "2026-10-02" -> "02 OCT" */
+/** "2026-10-02" -> "2 Oct" */
 export function shortDate(iso: string) {
   const [, m, d] = iso.split("-");
-  return `${d} ${MONTHS[Number(m) - 1]}`;
+  return `${Number(d)} ${MONTHS[Number(m) - 1]}`;
 }
 
-/** "2026-10-02" -> "FRI 02 OCT 2026" */
+/** "2026-10-02" -> "Fri 2 Oct 2026" */
 export function longDate(iso: string) {
   const [y, m, d] = iso.split("-");
   const weekday = WEEKDAYS[new Date(`${iso}T12:00:00Z`).getUTCDay()];
-  return `${weekday} ${d} ${MONTHS[Number(m) - 1]} ${y}`;
+  return `${weekday} ${Number(d)} ${MONTHS[Number(m) - 1]} ${y}`;
 }
 
 export function taskKey(boardKey: string, number: number) {

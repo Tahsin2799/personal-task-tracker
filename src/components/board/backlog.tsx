@@ -100,7 +100,7 @@ export function Backlog() {
         onDragEnd={onDragEnd}
         onDragCancel={() => setDragging(null)}
       >
-        <div aria-hidden className="rule-double stamp hidden items-center gap-3 pr-8 pl-5 pt-3 pb-1.5 text-[11px] text-pencil md:flex">
+        <div aria-hidden className="rule-head stamp hidden items-center gap-3 pr-8 pl-5 pt-3 pb-1.5 text-[11px] text-pencil md:flex">
           <span className="w-[22px]" />
           <span className="w-[3px]" />
           <span className="w-[15px]" />
@@ -129,7 +129,7 @@ export function Backlog() {
           id={BACKLOG}
           title="Backlog"
           meta={
-            <span className="font-mono text-[12px] text-pencil">
+            <span className="tnum text-[12px] text-pencil">
               {visible.filter((t) => !t.sprint_id && !t.completed_at).length} open · {formatPoints(points(visible.filter((t) => !t.sprint_id && !t.completed_at)))} pts
             </span>
           }
@@ -146,7 +146,7 @@ export function Backlog() {
           )}
         </DragOverlay>
       </DndContext>
-      <div className="ruled-fill min-h-20 flex-1" aria-hidden />
+      <div className="min-h-20 flex-1" aria-hidden />
     </>
   );
 }
@@ -214,7 +214,7 @@ function SprintSection({
         )
       }
       meta={
-        <span className="font-mono flex flex-wrap gap-x-3 text-[12px] text-pencil">
+        <span className="tnum flex flex-wrap gap-x-3 text-[12px] text-pencil">
           {isActive && <span className="stamp text-[11px] text-ink">Active</span>}
           {sprint.start_date && sprint.end_date && (
             <span>
@@ -289,13 +289,13 @@ function StartForm({ sprint, onDone }: { sprint: BoardSprint; onDone: () => void
         <label className="field-label" htmlFor={`starts-${sprint.id}`}>
           Starts
         </label>
-        <input id={`starts-${sprint.id}`} name="starts" type="date" required defaultValue={board.today} className="field font-mono min-h-9 text-[14px]" />
+        <input id={`starts-${sprint.id}`} name="starts" type="date" required defaultValue={board.today} className="field tnum min-h-9 text-[14px]" />
       </div>
       <div>
         <label className="field-label" htmlFor={`ends-${sprint.id}`}>
           Ends
         </label>
-        <input id={`ends-${sprint.id}`} name="ends" type="date" required defaultValue={addDays(board.today, 13)} className="field font-mono min-h-9 text-[14px]" />
+        <input id={`ends-${sprint.id}`} name="ends" type="date" required defaultValue={addDays(board.today, 13)} className="field tnum min-h-9 text-[14px]" />
       </div>
       <div className="min-w-[220px] flex-1">
         <label className="field-label" htmlFor={`goal-${sprint.id}`}>

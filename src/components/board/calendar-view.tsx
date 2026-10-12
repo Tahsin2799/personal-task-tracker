@@ -74,7 +74,7 @@ export function CalendarView() {
             <ChevronLeft size={16} strokeWidth={1.7} aria-hidden />
           </button>
           <h2 className="stamp w-[150px] text-center text-[15px]" aria-live="polite">
-            {MONTHS[m - 1]} <span className="font-mono">{y}</span>
+            {MONTHS[m - 1]} <span className="tnum">{y}</span>
           </h2>
           <button type="button" onClick={() => setMonth(shiftMonth(month, 1))} className="btn btn-quiet min-h-8 px-2" aria-label="Next month">
             <ChevronRight size={16} strokeWidth={1.7} aria-hidden />
@@ -128,7 +128,7 @@ function Day({ day, inMonth, tasks }: { day: string; inMonth: boolean; tasks: Bo
       ref={setNodeRef}
       className={`min-h-[124px] border-r border-b border-rule-mid p-1.5 ${inMonth ? "bg-page" : "bg-ground"} ${isOver ? "outline-2 -outline-offset-2 outline-ink" : ""}`}
     >
-      <p className={`font-mono mb-1 flex items-center justify-between text-[12px] ${inMonth ? "" : "text-pencil"}`}>
+      <p className={`tnum mb-1 flex items-center justify-between text-[12px] ${inMonth ? "" : "text-pencil"}`}>
         <span className={isToday ? "bg-ink px-1 text-page" : ""}>{Number(day.slice(8))}</span>
         {tasks.length > 3 && <span className="text-[11px] text-pencil">+{tasks.length - 3}</span>}
       </p>
@@ -179,7 +179,7 @@ function Unscheduled({ tasks }: { tasks: BoardTask[] }) {
   return (
     <aside ref={setNodeRef} aria-labelledby="unscheduled-heading" className={`w-full shrink-0 rounded-[2px] bg-ground p-2 xl:w-[260px] ${isOver ? "outline-2 outline-ink" : ""}`}>
       <h2 id="unscheduled-heading" className="stamp px-1 pb-2 text-[13px]">
-        Unscheduled <span className="font-mono text-[12px] text-pencil">{tasks.length}</span>
+        Unscheduled <span className="tnum text-[12px] text-pencil">{tasks.length}</span>
       </h2>
       <ul className="space-y-1">
         {tasks.map((t) => (
@@ -203,7 +203,7 @@ function Agenda({ days, byDay }: { days: string[]; byDay: Map<string, BoardTask[
       {dated.length === 0 && <p className="border-b border-rule py-3 text-[14px] text-pencil">Nothing is due this month.</p>}
       {dated.map((day) => (
         <section key={day} aria-label={longDate(day)}>
-          <h3 className={`font-mono border-b border-rule-strong bg-ground px-2 pt-2 pb-1 text-[12px] ${day === board.today ? "font-semibold" : ""}`}>
+          <h3 className={`tnum border-b border-rule-strong bg-ground px-2 pt-2 pb-1 text-[12px] ${day === board.today ? "font-semibold" : ""}`}>
             {longDate(day)}
             {day === board.today && <span className="stamp ml-2 text-[11px]">Today</span>}
           </h3>

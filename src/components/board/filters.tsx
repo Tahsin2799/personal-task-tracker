@@ -1,8 +1,8 @@
 "use client";
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useMemo } from "react";
-import { X } from "lucide-react";
+import { useMemo, useState } from "react";
+import { SlidersHorizontal, X } from "lucide-react";
 import type { BoardTask } from "@/lib/queries";
 import { taskKey } from "@/lib/format";
 import { useBoard } from "./board-context";
@@ -61,10 +61,13 @@ export function FilterBar({ children }: { children?: React.ReactNode }) {
   const board = useBoard();
   const { values, set, clear, active } = useFilters();
   const epics = board.tasks.filter((t) => t.type === "epic");
+  // Phones fold the selects behind one button so the lanes start in the first screen.
+  const [open, setOpen] = useState(false);
+  const chosen = [values.who && values.who !== "me", values.label, values.type, values.epic].filter(Boolean).length;
 
   return (
     <div className="flex flex-wrap items-end gap-x-4 gap-y-2 border-b border-rule px-4 py-2.5 md:px-8">
-      <div className="w-[180px]">
+      <div className="min-w-0 flex-1 md:w-[180px] md:flex-none">
         <label htmlFor="filter-q" className="sr-only">
           Search entries
         </label>
@@ -85,45 +88,58 @@ export function FilterBar({ children }: { children?: React.ReactNode }) {
       >
         Only mine
       </button>
-      <FilterSelect label="Assignee" value={values.who} onChange={(v) => set("who", v)}>
-        <option value="">Anyone</option>
-        <option value="none">Unassigned</option>
-        {board.members.map((m) => (
-          <option key={m.id} value={m.id}>
-            {m.id === board.viewerId ? `${m.name} (you)` : m.name}
-          </option>
-        ))}
-      </FilterSelect>
-      <FilterSelect label="Label" value={values.label} onChange={(v) => set("label", v)}>
-        <option value="">Any label</option>
-        {board.labels.map((l) => (
-          <option key={l.id} value={l.id}>
-            {l.name}
-          </option>
-        ))}
-      </FilterSelect>
-      <FilterSelect label="Type" value={values.type} onChange={(v) => set("type", v)}>
-        <option value="">Any type</option>
-        <option value="story">Story</option>
-        <option value="task">Task</option>
-        <option value="bug">Bug</option>
-      </FilterSelect>
-      {epics.length > 0 && (
-        <FilterSelect label="Epic" value={values.epic} onChange={(v) => set("epic", v)}>
-          <option value="">Any epic</option>
-          {epics.map((e) => (
-            <option key={e.id} value={e.id}>
-              {taskKey(board.key, e.number)} {e.title}
+      <button
+        type="button"
+        aria-expanded={open}
+        aria-controls="board-filters"
+        onClick={() => setOpen((o) => !o)}
+        className={`btn min-h-8 px-2.5 md:hidden ${open ? "bg-page-sunk" : ""}`}
+      >
+        <SlidersHorizontal size={14} strokeWidth={1.7} aria-hidden />
+        Filters
+        {chosen > 0 && <span className="tnum font-sans text-[13px] font-semibold tracking-normal">{chosen}</span>}
+      </button>
+      <div id="board-filters" className={`${open ? "flex" : "hidden"} w-full flex-wrap items-end gap-x-4 gap-y-2 md:contents`}>
+        <FilterSelect label="Assignee" value={values.who} onChange={(v) => set("who", v)}>
+          <option value="">Anyone</option>
+          <option value="none">Unassigned</option>
+          {board.members.map((m) => (
+            <option key={m.id} value={m.id}>
+              {m.id === board.viewerId ? `${m.name} (you)` : m.name}
             </option>
           ))}
         </FilterSelect>
-      )}
-      {active && (
-        <button type="button" onClick={clear} className="btn btn-quiet min-h-8 px-2">
-          <X size={14} strokeWidth={1.7} aria-hidden />
-          Clear
-        </button>
-      )}
+        <FilterSelect label="Label" value={values.label} onChange={(v) => set("label", v)}>
+          <option value="">Any label</option>
+          {board.labels.map((l) => (
+            <option key={l.id} value={l.id}>
+              {l.name}
+            </option>
+          ))}
+        </FilterSelect>
+        <FilterSelect label="Type" value={values.type} onChange={(v) => set("type", v)}>
+          <option value="">Any type</option>
+          <option value="story">Story</option>
+          <option value="task">Task</option>
+          <option value="bug">Bug</option>
+        </FilterSelect>
+        {epics.length > 0 && (
+          <FilterSelect label="Epic" value={values.epic} onChange={(v) => set("epic", v)}>
+            <option value="">Any epic</option>
+            {epics.map((e) => (
+              <option key={e.id} value={e.id}>
+                {taskKey(board.key, e.number)} {e.title}
+              </option>
+            ))}
+          </FilterSelect>
+        )}
+        {active && (
+          <button type="button" onClick={clear} className="btn btn-quiet min-h-8 px-2">
+            <X size={14} strokeWidth={1.7} aria-hidden />
+            Clear
+          </button>
+        )}
+      </div>
       {children && <div className="ml-auto flex items-center gap-2">{children}</div>}
     </div>
   );

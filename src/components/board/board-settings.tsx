@@ -105,8 +105,8 @@ export function BoardSettings() {
                 <StatusMark category={c.category} />
                 <span className="flex-1">{c.name}</span>
                 <span className="text-[13px] text-pencil">{CATEGORY[c.category]}</span>
-                <span className="font-mono w-16 text-right text-[12px] text-pencil">{c.wip_limit != null ? `WIP ${c.wip_limit}` : ""}</span>
-                <span className="font-mono w-20 text-right text-[12px] text-pencil">
+                <span className="tnum w-16 text-right text-[12px] text-pencil">{c.wip_limit != null ? `WIP ${c.wip_limit}` : ""}</span>
+                <span className="tnum w-20 text-right text-[12px] text-pencil">
                   {board.tasks.filter((t) => t.column_id === c.id).length} entries
                 </span>
               </li>
@@ -153,7 +153,6 @@ export function BoardSettings() {
           </section>
         )}
       </div>
-      <div className="ruled-fill flex-1" aria-hidden />
     </div>
   );
 }
@@ -189,7 +188,7 @@ function LabelRow({ label, uses }: { label: BoardLabel; uses: number }) {
         className="field min-h-8 w-40 text-[14px]"
       />
       <InkPicker value={label.color} name={label.name} onChange={(color) => void board.run(null, () => updateLabel(board.id, label.id, { color }))} />
-      <span className="font-mono ml-auto text-[12px] text-pencil">{uses} uses</span>
+      <span className="tnum ml-auto text-[12px] text-pencil">{uses} uses</span>
       <button type="button" className="btn btn-quiet min-h-8 px-2" onClick={() => void board.run(null, () => deleteLabel(board.id, label.id))}>
         Delete
       </button>

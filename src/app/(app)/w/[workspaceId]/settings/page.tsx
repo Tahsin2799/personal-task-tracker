@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
+import { Avatar } from "@/components/avatar";
 import { PageHeader } from "@/components/page-header";
 import { getViewer, getWorkspace, getWorkspaceMembers } from "@/lib/queries";
-import { initials } from "@/lib/format";
 import { removeMember } from "../../../actions";
 import { InviteRow, RenameForm } from "./forms";
 
@@ -63,12 +63,7 @@ export default async function WorkspaceSettingsPage({ params }: PageProps<"/w/[w
                     <tr key={p.id} className="border-t border-rule">
                       <td className="py-2.5 pr-3">
                         <span className="flex items-center gap-3">
-                          <span
-                            aria-hidden
-                            className="font-mono flex size-7 shrink-0 items-center justify-center border border-ink text-[11px] font-semibold"
-                          >
-                            {initials(p.display_name)}
-                          </span>
+                          <Avatar name={p.display_name} />
                           <span className="min-w-0">
                             <span className="block truncate text-[15px]">
                               {p.display_name}
@@ -112,7 +107,6 @@ export default async function WorkspaceSettingsPage({ params }: PageProps<"/w/[w
           )}
         </section>
       </div>
-      <div className="ruled-fill flex-1" aria-hidden />
     </>
   );
 }

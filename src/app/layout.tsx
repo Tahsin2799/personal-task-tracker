@@ -27,13 +27,15 @@ export const metadata: Metadata = {
 };
 
 export default async function RootLayout({ children }: LayoutProps<"/">) {
-  const theme = (await cookies()).get("theme")?.value;
+  const store = await cookies();
+  const theme = store.get("theme")?.value;
   const dataTheme = theme === "light" || theme === "dark" ? theme : undefined;
 
   return (
     <html
       lang="en"
       data-theme={dataTheme}
+      data-shortcuts={store.get("shortcuts")?.value === "off" ? "off" : undefined}
       className={`${barlow.variable} ${barlowCondensed.variable} ${overpassMono.variable} h-full antialiased`}
     >
       <body className="min-h-full">{children}</body>

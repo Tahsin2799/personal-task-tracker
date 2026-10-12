@@ -5,7 +5,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { generateKeyBetween } from "fractional-indexing";
 import { createAdminClient } from "@/lib/supabase/admin";
-import { getViewer } from "@/lib/queries";
+import { getSession, getViewer } from "@/lib/queries";
 import type { ActionState } from "@/lib/action-state";
 
 export async function createWorkspace(_prev: ActionState, formData: FormData): Promise<ActionState> {
@@ -33,7 +33,7 @@ export async function renameWorkspace(_prev: ActionState, formData: FormData): P
   const name = String(formData.get("name") ?? "").trim();
   if (!name) return { error: "Name the workspace." };
 
-  const { supabase } = await getViewer();
+  const { supabase } = await getSession();
   const { data, error } = await supabase.from("workspaces").update({ name }).eq("id", workspaceId).select("id");
   if (error) return { error: error.message };
   if (!data.length) return { error: "Only owners and admins can rename this workspace." };
@@ -60,10 +60,10 @@ export async function createBoard(_prev: ActionState, formData: FormData): Promi
     return { error: "Keys are 2–10 letters or digits and start with a letter, like MS or LAB2.", values };
   }
 
-  const { supabase, profile } = await getViewer();
+  const { supabase, userId } = await getSession();
   const { data, error } = await supabase
     .from("boards")
-    .insert({ workspace_id: workspaceId, name, key, created_by: profile.id })
+    .insert({ workspace_id: workspaceId, name, key, created_by: userId })
     .select("id")
     .single();
   if (error) {
@@ -81,7 +81,7 @@ export async function addEntry(_prev: ActionState, formData: FormData): Promise<
   const title = String(formData.get("title") ?? "").trim();
   if (!title) return { error: "Write the entry first." };
 
-  const { supabase, profile } = await getViewer();
+  const { supabase, userId } = await getSession();
   const { data: last } = await supabase
     .from("tasks")
     .select("position")
@@ -95,7 +95,7 @@ export async function addEntry(_prev: ActionState, formData: FormData): Promise<
     column_id: columnId,
     title,
     position: generateKeyBetween(last?.position ?? null, null),
-    assignee_id: profile.id,
+    assignee_id: userId,
     number: 0, // replaced by the per-board sequence trigger
   });
   if (error) return { error: error.message, values: { title } };
@@ -112,7 +112,7 @@ export async function inviteMember(_prev: ActionState, formData: FormData): Prom
   const values = { email, role };
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return { error: "That doesn't look like an email address.", values };
 
-  const { supabase, profile } = await getViewer();
+  const { supabase, userId } = await getSession();
 
   // Confirm the caller may manage this workspace before using the service key.
   const { data: canManage } = await supabase
@@ -120,7 +120,7 @@ export async function inviteMember(_prev: ActionState, formData: FormData): Prom
     .select("role")
     .eq("workspace_id", workspaceId)
     .in("role", ["owner", "admin"])
-    .eq("user_id", profile.id)
+    .eq("user_id", userId)
     .maybeSingle();
   if (!canManage) return { error: "Only owners and admins can invite people.", values };
 
@@ -153,12 +153,20 @@ export async function inviteMember(_prev: ActionState, formData: FormData): Prom
 }
 
 export async function removeMember(workspaceId: string, userId: string) {
-  const { supabase, profile } = await getViewer();
+  const { supabase, userId: viewerId } = await getSession();
   await supabase.from("workspace_members").delete().eq("workspace_id", workspaceId).eq("user_id", userId);
 
   revalidatePath("/", "layout");
-  if (userId === profile.id) redirect("/");
+  if (userId === viewerId) redirect("/");
   revalidatePath(`/w/${workspaceId}/settings`);
+}
+
+/** Single-character keyboard shortcuts on or off for this browser (Account → Keyboard). */
+export async function setSingleKeyShortcuts(on: boolean) {
+  const store = await cookies();
+  if (on) store.delete("shortcuts");
+  else store.set("shortcuts", "off", { path: "/", maxAge: 60 * 60 * 24 * 365, sameSite: "lax" });
+  revalidatePath("/", "layout");
 }
 
 export async function setTheme(theme: "light" | "dark" | "system") {
@@ -173,8 +181,8 @@ export async function updateDisplayName(_prev: ActionState, formData: FormData):
   if (!displayName) return { error: "Your name can't be empty." };
   if (displayName.length > 80) return { error: "Keep it under 80 characters." };
 
-  const { supabase, profile } = await getViewer();
-  const { error } = await supabase.from("profiles").update({ display_name: displayName }).eq("id", profile.id);
+  const { supabase, userId } = await getSession();
+  const { error } = await supabase.from("profiles").update({ display_name: displayName }).eq("id", userId);
   if (error) return { error: error.message };
 
   revalidatePath("/", "layout");
@@ -182,11 +190,11 @@ export async function updateDisplayName(_prev: ActionState, formData: FormData):
 }
 
 export async function updateEmailPrefs(prefs: { email_notifications?: boolean; email_due_reminders?: boolean }) {
-  const { supabase, profile } = await getViewer();
+  const { supabase, userId } = await getSession();
   const { error } = await supabase
     .from("profiles")
     .update({ email_notifications: prefs.email_notifications, email_due_reminders: prefs.email_due_reminders })
-    .eq("id", profile.id);
+    .eq("id", userId);
   if (error) return { error: error.message };
   revalidatePath("/account");
 }

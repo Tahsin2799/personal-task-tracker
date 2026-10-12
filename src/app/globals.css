@@ -13,8 +13,8 @@
   --rule: #c7dccc;
   --rule-mid: #8db59a;
   --rule-strong: #5f8f6e;
-  --cover: #e2cc2a;
-  --cover-deep: #cdb71d;
+  --cover: #e3d372;
+  --cover-deep: #d2c26b;
   --cover-ink: #1b2420;
   --cover-pencil: #4b4411;
   --attention: #8a4a22;
@@ -49,10 +49,10 @@
     --rule: #284a40;
     --rule-mid: #3c6a5b;
     --rule-strong: #6f9f80;
-    --cover: #cdb824;
-    --cover-deep: #b5a11a;
+    --cover: #ccb35d;
+    --cover-deep: #b7a054;
     --cover-ink: #1b2420;
-    --cover-pencil: #3f3a0d;
+    --cover-pencil: #332f0a;
     --attention: #e59d6c;
     --attention-wash: #3a2c1f;
     --done: #86b894;
@@ -82,10 +82,10 @@
   --rule: #284a40;
   --rule-mid: #3c6a5b;
   --rule-strong: #6f9f80;
-  --cover: #cdb824;
-  --cover-deep: #b5a11a;
+  --cover: #ccb35d;
+  --cover-deep: #b7a054;
   --cover-ink: #1b2420;
-  --cover-pencil: #3f3a0d;
+  --cover-pencil: #332f0a;
   --attention: #e59d6c;
   --attention-wash: #3a2c1f;
   --done: #86b894;
@@ -154,6 +154,11 @@
     text-decoration-thickness: 1px;
   }
 
+  /* Table headers take the stamp's weight, not the browser's bold. */
+  th {
+    font-weight: inherit;
+  }
+
   :focus-visible {
     outline: 2px solid var(--ink);
     outline-offset: 2px;
@@ -163,10 +168,11 @@
     scrollbar-width: thin;
   }
 
-  /* Numerals in data are measurement: always tabular. */
+  /* Numerals in data are measurement: always tabular. Mono is kept for keys and points;
+     dates, times and counts are Barlow's own tabular figures (.tnum). */
   .font-mono,
   .tnum {
-    font-variant-numeric: tabular-nums slashed-zero;
+    font-variant-numeric: tabular-nums;
   }
 }
 
@@ -182,9 +188,9 @@
     letter-spacing: 0.07em;
   }
 
-  /* The header double rule under a field book's column captions. */
-  .rule-double {
-    border-bottom: 3px double var(--rule-strong);
+  /* The header rule under a page header, a ledger's column captions and a drawer header. */
+  .rule-head {
+    border-bottom: 1px solid var(--rule-strong);
   }
 
   /* ------------------------------------------------------------- controls */
@@ -356,17 +362,6 @@
   input[type="date"]::-webkit-calendar-picker-indicator {
     opacity: 0.55;
     cursor: pointer;
-  }
-
-  /* Ruled to the foot of the page: blank lines waiting for entries. */
-  .ruled-fill {
-    background-image: repeating-linear-gradient(
-      to bottom,
-      transparent 0,
-      transparent 40px,
-      var(--rule) 40px,
-      var(--rule) 41px
-    );
   }
 }
 

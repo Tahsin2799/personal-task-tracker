@@ -1,9 +1,10 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { Settings2 } from "lucide-react";
+import { CatchUp } from "@/components/catch-up";
 import { PageHeader } from "@/components/page-header";
 import { PointsDot } from "@/components/marks";
-import { getWorkspace } from "@/lib/queries";
+import { getWorkspace, requestTime } from "@/lib/queries";
 import { NewBoardRow } from "./new-board-row";
 
 export async function generateMetadata({ params }: PageProps<"/w/[workspaceId]">): Promise<Metadata> {
@@ -33,6 +34,7 @@ export default async function WorkspacePage({ params }: PageProps<"/w/[workspace
 
   return (
     <>
+      <CatchUp renderedAt={requestTime()} />
       <PageHeader
         title={workspace.is_personal ? "Personal" : workspace.name}
         fields={[
@@ -79,7 +81,7 @@ export default async function WorkspacePage({ params }: PageProps<"/w/[workspace
                 </span>
               </td>
               <td className="py-3 pr-4 pl-3 align-top">
-                <Link href={`/b/${b.id}`} className="font-stamp text-[19px] font-semibold uppercase tracking-[0.02em] hover:underline">
+                <Link href={`/b/${b.id}`} prefetch className="font-stamp text-[19px] font-semibold uppercase tracking-[0.02em] hover:underline">
                   {b.name}
                 </Link>
                 {b.description && <p className="mt-0.5 max-w-[70ch] text-[13px] text-pencil">{b.description}</p>}
@@ -87,8 +89,8 @@ export default async function WorkspacePage({ params }: PageProps<"/w/[workspace
               <td className="hidden py-3 pl-3 align-top text-[14px] md:table-cell">
                 {b.sprint ? b.sprint.name : <span className="text-pencil">—</span>}
               </td>
-              <td className="font-mono py-3 pl-3 align-top text-[14px]">{b.open}</td>
-              <td className="font-mono hidden py-3 pl-3 align-top text-[14px] text-pencil sm:table-cell">{b.done}</td>
+              <td className="tnum py-3 pl-3 align-top text-[14px]">{b.open}</td>
+              <td className="tnum hidden py-3 pl-3 align-top text-[14px] text-pencil sm:table-cell">{b.done}</td>
               <td className="hidden py-3 pr-8 pl-3 align-top md:table-cell">
                 <PointsDot points={b.openPoints || null} />
               </td>
@@ -97,7 +99,6 @@ export default async function WorkspacePage({ params }: PageProps<"/w/[workspace
           <NewBoardRow workspaceId={workspace.id} isFirst={boards.length === 0} />
         </tbody>
       </table>
-      <div className="ruled-fill flex-1" aria-hidden />
     </>
   );
 }

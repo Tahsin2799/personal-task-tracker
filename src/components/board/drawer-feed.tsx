@@ -2,8 +2,9 @@
 
 import { Fragment, useCallback, useEffect, useRef, useState, useTransition } from "react";
 import { Download, FileText, ImageIcon, Paperclip, Star, Trash2 } from "lucide-react";
+import { Avatar } from "@/components/avatar";
 import { describeActivity } from "@/lib/activity-words";
-import { initials, shortDate } from "@/lib/format";
+import { shortDate } from "@/lib/format";
 import type { BoardTask } from "@/lib/queries";
 import { createClient } from "@/lib/supabase/client";
 import { updateTask } from "@/app/(app)/b/[boardId]/actions";
@@ -113,9 +114,7 @@ function Comments({ task, feed, reload }: { task: BoardTask; feed: TaskFeed | nu
       <ol className="divide-y divide-rule">
         {feed.comments.map((c) => (
           <li key={c.id} className="flex gap-3 py-3">
-            <span aria-hidden className="font-mono flex size-7 shrink-0 items-center justify-center border border-pencil text-[11px] font-semibold">
-              {initials(c.author.name)}
-            </span>
+            <Avatar name={c.author.name} />
             <div className="min-w-0 flex-1">
               <p className="text-[13px]">
                 <span className="font-semibold">{c.author.name}</span>{" "}
@@ -285,7 +284,7 @@ function Composer({
                 }}
                 className={`flex w-full items-center gap-2 px-3 py-1.5 text-left text-[14px] ${i === active ? "bg-page-sunk" : ""}`}
               >
-                <span className="font-mono flex size-6 items-center justify-center border border-pencil text-[11px] font-semibold">{initials(m.name)}</span>
+                <Avatar name={m.name} size="sm" />
                 {m.name}
               </button>
             </li>
@@ -314,7 +313,7 @@ function History({ items }: { items: FeedActivity[] | null }) {
     <ol className="divide-y divide-rule">
       {items.map((a) => (
         <li key={a.id} className="flex items-baseline gap-3 py-2 text-[14px]">
-          <span className="font-mono w-16 shrink-0 text-[12px] text-pencil">{when(a.created_at)}</span>
+          <span className="tnum w-16 shrink-0 text-[12px] text-pencil">{when(a.created_at)}</span>
           <span>
             <span className="font-semibold">{a.actor ?? "Someone"}</span> {describeActivity(a.kind, a.data).verb} it {describeActivity(a.kind, a.data).rest}
           </span>
@@ -374,7 +373,7 @@ export function DrawerAttachments({ task, files, reload }: { task: BoardTask; fi
     >
       <div className="flex items-baseline justify-between">
         <h3 id="files-heading" className="field-label">
-          Files {files && files.length > 0 && <span className="font-mono">{files.length}</span>}
+          Files {files && files.length > 0 && <span className="tnum">{files.length}</span>}
         </h3>
         <button type="button" onClick={() => input.current?.click()} className="btn btn-quiet min-h-7 px-2 text-[12px]">
           <Paperclip size={13} strokeWidth={1.7} aria-hidden />
@@ -398,7 +397,7 @@ export function DrawerAttachments({ task, files, reload }: { task: BoardTask; fi
               )}
               <span className="min-w-0 flex-1">
                 <span className="block truncate">{f.name}</span>
-                <span className="font-mono block text-[11px] text-pencil">
+                <span className="tnum block text-[11px] text-pencil">
                   {bytes(f.size)} · {f.uploader ?? "someone"} · {shortDate(f.created_at.slice(0, 10))}
                 </span>
               </span>

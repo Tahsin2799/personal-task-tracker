@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import { CalendarPlus, ChevronDown, ChevronsDown, ChevronsUp, ChevronUp, UserPlus } from "lucide-react";
+import { CalendarPlus, UserPlus } from "lucide-react";
 import { PointsDot } from "@/components/marks";
 import { formatPoints, shortDate } from "@/lib/format";
 import type { BoardTask } from "@/lib/queries";
@@ -78,10 +78,10 @@ export function TileDue({ task, interactive }: { task: BoardTask; interactive: b
             input.current?.focus();
           }
         }}
-        className={`font-mono flex items-center whitespace-nowrap text-[12px] ${late ? "font-semibold text-attention" : task.due_date ? "text-ink" : "text-pencil"}`}
+        className={`tnum flex items-center whitespace-nowrap text-[12px] ${late ? "font-semibold text-attention" : task.due_date ? "text-ink" : "text-pencil"}`}
       >
         {task.due_date ? (
-          task.due_date === board.today && !done ? "TODAY" : shortDate(task.due_date)
+          task.due_date === board.today && !done ? "Today" : shortDate(task.due_date)
         ) : (
           <CalendarPlus size={14} strokeWidth={1.6} aria-hidden />
         )}
@@ -134,18 +134,4 @@ export function TileAssignee({ task, interactive }: { task: BoardTask; interacti
       )}
     </span>
   );
-}
-
-const PRIORITY_ICON = {
-  highest: { icon: ChevronsUp, className: "text-attention" },
-  high: { icon: ChevronUp, className: "text-ink" },
-  low: { icon: ChevronDown, className: "text-pencil" },
-  lowest: { icon: ChevronsDown, className: "text-pencil" },
-} as const;
-
-/** Priority as a printed chevron; medium is the unmarked default. */
-export function PriorityMark({ priority }: { priority: BoardTask["priority"] }) {
-  if (priority === "medium") return null;
-  const { icon: Icon, className } = PRIORITY_ICON[priority];
-  return <Icon size={15} strokeWidth={2} className={`shrink-0 ${className}`} aria-label={`${priority} priority`} role="img" />;
 }

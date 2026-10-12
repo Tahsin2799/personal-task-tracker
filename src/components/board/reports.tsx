@@ -67,7 +67,6 @@ export function Reports() {
             Plan one in the Backlog
           </Link>
         </p>
-        <div className="ruled-fill flex-1" aria-hidden />
       </div>
     );
   }
@@ -111,7 +110,6 @@ export function Reports() {
           <Throughput />
         </Section>
       </div>
-      <div className="ruled-fill flex-1" aria-hidden />
     </div>
   );
 }
@@ -137,7 +135,7 @@ function Section({
         <h2 id={`${id}-heading`} className="stamp text-[15px]">
           {title}
         </h2>
-        {note && <span className="font-mono text-[12px] text-pencil">{note}</span>}
+        {note && <span className="tnum text-[12px] text-pencil">{note}</span>}
         {action}
       </div>
       {children}
@@ -155,7 +153,7 @@ function TallyStrip({ cells }: { cells: Cell[] }) {
       {cells.map((c) => (
         <div key={c.label} className="-mr-px -mb-px border-r border-b border-rule px-4 py-3 md:px-6">
           <dt className="stamp text-[11px] text-pencil">{c.label}</dt>
-          <dd className={`font-mono mt-1 text-[24px] leading-tight ${c.tone === "attention" ? "font-semibold text-attention" : ""}`}>{c.value}</dd>
+          <dd className={`tnum mt-1 text-[24px] leading-tight ${c.tone === "attention" ? "font-semibold text-attention" : ""}`}>{c.value}</dd>
           {c.sub && (
             <dd className="mt-0.5 text-[12px] leading-snug text-pencil">
               {c.sub}
@@ -283,8 +281,8 @@ function Breakdown({ tasks }: { tasks: BoardTask[] }) {
             <li key={c.key} className="flex min-h-8 items-center gap-3 border-b border-rule text-[14px] last:border-b-0">
               <StatusMark category={c.key} />
               <span className="flex-1">{c.label}</span>
-              <span className="font-mono text-[13px]">{c.count}</span>
-              <span className="font-mono w-[64px] text-right text-[12px] text-pencil">{usePoints ? `${formatPoints(c.points)} pts` : ""}</span>
+              <span className="tnum text-[13px]">{c.count}</span>
+              <span className="tnum w-[64px] text-right text-[12px] text-pencil">{usePoints ? `${formatPoints(c.points)} pts` : ""}</span>
             </li>
           ))}
         </ul>
@@ -307,7 +305,7 @@ function Breakdown({ tasks }: { tasks: BoardTask[] }) {
               >
                 <span className="absolute inset-y-0 left-0" style={{ width: `${p.total ? (p.done / p.total) * 100 : 0}%`, background: DONE }} />
               </span>
-              <span className="font-mono w-[64px] shrink-0 text-right text-[12px] text-pencil">
+              <span className="tnum w-[64px] shrink-0 text-right text-[12px] text-pencil">
                 {formatPoints(p.done)}/{formatPoints(p.total)}
               </span>
             </li>
@@ -324,7 +322,7 @@ function Breakdown({ tasks }: { tasks: BoardTask[] }) {
               <li key={t.type} className="flex items-center gap-1.5 text-[14px]">
                 <TypeGlyph type={t.type} />
                 <span className="capitalize">{t.type}</span>
-                <span className="font-mono text-[13px] text-pencil">{t.count}</span>
+                <span className="tnum text-[13px] text-pencil">{t.count}</span>
               </li>
             ))}
           </ul>
@@ -373,17 +371,17 @@ function Throughput() {
       <figcaption className="flex flex-wrap items-baseline gap-x-6 gap-y-1 text-[13px] text-pencil">
         <Legend color={DONE} label="Entries finished per week" />
         <Legend color="var(--ink)" label="Average" thin />
-        <span className="font-mono text-[12px]">{formatPoints(Math.round(avg * 10) / 10)} / wk</span>
+        <span className="tnum text-[12px]">{formatPoints(Math.round(avg * 10) / 10)} / wk</span>
       </figcaption>
       <p aria-live="polite" className="mt-1 flex min-h-6 flex-wrap items-center gap-x-4 border-y border-rule px-1 text-[13px]">
         {hover != null ? (
           <>
             <span className="font-semibold">Week of {shortDate(weeks[hover].start)}</span>
             <span>
-              <Swatch color={DONE} /> Finished <span className="font-mono">{weeks[hover].count}</span>
+              <Swatch color={DONE} /> Finished <span className="tnum">{weeks[hover].count}</span>
             </span>
             <span className="text-pencil">
-              <span className="font-mono">{formatPoints(weeks[hover].points)}</span> pts
+              <span className="tnum">{formatPoints(weeks[hover].points)}</span> pts
             </span>
           </>
         ) : (
@@ -395,7 +393,7 @@ function Throughput() {
           {ticks(max).map((t) => (
             <g key={t}>
               <line x1={m.left} x2={m.left + w} y1={y(t)} y2={y(t)} stroke="var(--rule)" strokeWidth={1} shapeRendering="crispEdges" />
-              <text x={m.left - 8} y={y(t)} dy="0.32em" textAnchor="end" className="font-mono fill-pencil text-[11px]">
+              <text x={m.left - 8} y={y(t)} dy="0.32em" textAnchor="end" className="tnum fill-pencil text-[11px]">
                 {t}
               </text>
             </g>
@@ -408,12 +406,12 @@ function Throughput() {
                 {hover === i && <rect x={m.left + band * i} y={m.top} width={band} height={h} fill="var(--page-sunk)" />}
                 {wk.count > 0 && <path d={column(cx, bar, y(wk.count), m.top + h)} fill={DONE} />}
                 {wk.count > 0 && (
-                  <text x={cx + bar / 2} y={y(wk.count) - 6} textAnchor="middle" className="font-mono fill-ink text-[11px]">
+                  <text x={cx + bar / 2} y={y(wk.count) - 6} textAnchor="middle" className="tnum fill-ink text-[11px]">
                     {wk.count}
                   </text>
                 )}
                 {(WEEKS - 1 - i) % step === 0 && (
-                  <text x={m.left + band * i + band / 2} y={height - 8} textAnchor="middle" className="font-mono fill-pencil text-[11px]">
+                  <text x={m.left + band * i + band / 2} y={height - 8} textAnchor="middle" className="tnum fill-pencil text-[11px]">
                     {i === WEEKS - 1 ? "THIS WK" : shortDate(wk.start)}
                   </text>
                 )}
@@ -499,7 +497,7 @@ function Burndown({ sprint, tasks, today }: { sprint: BoardSprint; tasks: BoardT
         <Legend color={IDEAL} label="Ideal" />
         {behind && sprint.status === "active" && (
           <span className="text-attention">
-            Behind the ideal line by <span className="font-mono">{formatPoints(Math.round((last!.remaining! - last!.ideal) * 10) / 10)}</span> pts
+            Behind the ideal line by <span className="tnum">{formatPoints(Math.round((last!.remaining! - last!.ideal) * 10) / 10)}</span> pts
           </span>
         )}
       </figcaption>
@@ -520,7 +518,7 @@ function Burndown({ sprint, tasks, today }: { sprint: BoardSprint; tasks: BoardT
           {ticks(max).map((t) => (
             <g key={t}>
               <line x1={m.left} x2={m.left + w} y1={y(t)} y2={y(t)} stroke="var(--rule)" strokeWidth={1} shapeRendering="crispEdges" />
-              <text x={m.left - 8} y={y(t)} dy="0.32em" textAnchor="end" className="font-mono fill-pencil text-[11px]">
+              <text x={m.left - 8} y={y(t)} dy="0.32em" textAnchor="end" className="tnum fill-pencil text-[11px]">
                 {t}
               </text>
             </g>
@@ -529,7 +527,7 @@ function Burndown({ sprint, tasks, today }: { sprint: BoardSprint; tasks: BoardT
             // Stepped labels plus the last day, dropping a stepped label that would crowd the last one.
             .filter((d) => d.i === length || (d.i % step === 0 && length - d.i >= step))
             .map((d) => (
-              <text key={d.i} x={x(d.i)} y={height - 8} textAnchor="middle" className="font-mono fill-pencil text-[11px]">
+              <text key={d.i} x={x(d.i)} y={height - 8} textAnchor="middle" className="tnum fill-pencil text-[11px]">
                 {shortDate(d.date)}
               </text>
             ))}
@@ -546,7 +544,7 @@ function Burndown({ sprint, tasks, today }: { sprint: BoardSprint; tasks: BoardT
           {last && (
             <>
               <circle cx={x(last.i)} cy={y(last.remaining!)} r={5} fill={PLAN} stroke="var(--page)" strokeWidth={2} />
-              <text x={x(last.i) + 10} y={y(last.remaining!)} dy="0.32em" className="font-mono fill-ink text-[12px]">
+              <text x={x(last.i) + 10} y={y(last.remaining!)} dy="0.32em" className="tnum fill-ink text-[12px]">
                 {formatPoints(last.remaining!)} left
               </text>
             </>
@@ -561,15 +559,15 @@ function Burndown({ sprint, tasks, today }: { sprint: BoardSprint; tasks: BoardT
         </svg>
         {hover != null && (
           <Tooltip left={Math.min(x(hover) + 12, width - 170)} top={m.top}>
-            <p className="font-mono text-[12px] text-pencil">
+            <p className="tnum text-[12px] text-pencil">
               {shortDate(days[hover].date)} · day {hover}
             </p>
             <p>
               <Swatch color={PLAN} /> Remaining{" "}
-              <span className="font-mono">{days[hover].remaining != null ? formatPoints(days[hover].remaining!) : "—"}</span>
+              <span className="tnum">{days[hover].remaining != null ? formatPoints(days[hover].remaining!) : "—"}</span>
             </p>
             <p>
-              <Swatch color={IDEAL} /> Ideal <span className="font-mono">{formatPoints(Math.round(days[hover].ideal * 10) / 10)}</span>
+              <Swatch color={IDEAL} /> Ideal <span className="tnum">{formatPoints(Math.round(days[hover].ideal * 10) / 10)}</span>
             </p>
           </Tooltip>
         )}
@@ -626,7 +624,7 @@ function Velocity() {
         <Legend color={PLAN} label="Committed" />
         <Legend color={DONE} label="Completed" />
         <Legend color="var(--ink)" label={`Average of last ${Math.min(3, rows.length)}`} thin />
-        <span className="font-mono text-[12px]">{formatPoints(Math.round(avg * 10) / 10)} pts</span>
+        <span className="tnum text-[12px]">{formatPoints(Math.round(avg * 10) / 10)} pts</span>
       </figcaption>
       {/* Hover readout lives on its own line above the plot, so it never covers a bar or its value. */}
       <p aria-live="polite" className="mt-1 flex min-h-6 flex-wrap items-center gap-x-4 border-y border-rule px-1 text-[13px]">
@@ -634,10 +632,10 @@ function Velocity() {
           <>
             <span className="font-semibold">{rows[hover].sprint.name}</span>
             <span>
-              <Swatch color={PLAN} /> Committed <span className="font-mono">{formatPoints(rows[hover].committed)}</span>
+              <Swatch color={PLAN} /> Committed <span className="tnum">{formatPoints(rows[hover].committed)}</span>
             </span>
             <span>
-              <Swatch color={DONE} /> Completed <span className="font-mono">{formatPoints(rows[hover].completed)}</span>
+              <Swatch color={DONE} /> Completed <span className="tnum">{formatPoints(rows[hover].completed)}</span>
             </span>
           </>
         ) : (
@@ -649,7 +647,7 @@ function Velocity() {
           {ticks(max).map((t) => (
             <g key={t}>
               <line x1={m.left} x2={m.left + w} y1={y(t)} y2={y(t)} stroke="var(--rule)" strokeWidth={1} shapeRendering="crispEdges" />
-              <text x={m.left - 8} y={y(t)} dy="0.32em" textAnchor="end" className="font-mono fill-pencil text-[11px]">
+              <text x={m.left - 8} y={y(t)} dy="0.32em" textAnchor="end" className="tnum fill-pencil text-[11px]">
                 {t}
               </text>
             </g>
@@ -671,10 +669,10 @@ function Velocity() {
                   onPointerEnter={() => setHover(i)}
                   onPointerLeave={() => setHover(null)}
                 />
-                <text x={cx + bar / 2} y={y(r.committed) - 6} textAnchor="middle" className="font-mono fill-ink text-[11px]">
+                <text x={cx + bar / 2} y={y(r.committed) - 6} textAnchor="middle" className="tnum fill-ink text-[11px]">
                   {formatPoints(r.committed)}
                 </text>
-                <text x={cx + bar * 1.5 + 2} y={y(r.completed) - 6} textAnchor="middle" className="font-mono fill-ink text-[11px]">
+                <text x={cx + bar * 1.5 + 2} y={y(r.completed) - 6} textAnchor="middle" className="tnum fill-ink text-[11px]">
                   {formatPoints(r.completed)}
                 </text>
                 <text x={m.left + band * i + band / 2} y={height - 8} textAnchor="middle" className="fill-pencil text-[12px]">
@@ -726,7 +724,7 @@ function TableView({ caption, head, children }: { caption: string; head: string[
   return (
     <details className="mt-2">
       <summary className="cursor-pointer text-[13px] text-pencil hover:text-ink">Show as table</summary>
-      <table className="font-mono mt-2 text-left text-[13px]">
+      <table className="tnum mt-2 text-left text-[13px]">
         <caption className="sr-only">{caption}</caption>
         <thead>
           <tr className="stamp text-[11px] text-pencil">

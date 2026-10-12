@@ -84,12 +84,12 @@ export function DrawerExperiment({ task }: { task: BoardTask }) {
         </div>
         <div>
           <p className="field-label">
-            Protocol <span className="font-mono">{exp.protocol.length > 0 && `${done}/${exp.protocol.length}`}</span>
+            Protocol <span className="tnum">{exp.protocol.length > 0 && `${done}/${exp.protocol.length}`}</span>
           </p>
           <ol className="border-t border-rule">
             {exp.protocol.map((step, i) => (
               <li key={i} className="flex min-h-9 items-center gap-3 border-b border-rule">
-                <span className="font-mono w-5 text-right text-[12px] text-pencil">{i + 1}.</span>
+                <span className="tnum w-5 text-right text-[12px] text-pencil">{i + 1}.</span>
                 <input
                   type="checkbox"
                   checked={step.done}

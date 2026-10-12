@@ -23,7 +23,7 @@ task is a numbered entry on ruled columns. It refuses the category default of fl
 on grey canvas, pill badges and an avatar-heavy sidebar.
 
 OWN-WORLD: Cool white waterproof page (#FAFBF8) ruled in survey green (#8DB59A minor, #5F8F6E header
-double rule) at one device pixel; ink #1B2420, pencil #69736E. Cover yellow (#E2CC2A) owns the full-height
+double rule) at one device pixel; ink #1B2420, pencil #5C6762. Cover yellow (#E3D372, calmed 2026-10-12) owns the full-height
 spine; chestnut (#8A4A22) is the only attention ink (overdue, blocking). Night page: bottle green
 (#102722 ground, #15302A page, #2D5146 rules), yellow spine kept. Barlow body, Barlow Condensed caps for
 stamped headers and labels, Overpass Mono for keys, dates and numerals. Radius 0–2px; no pills. States are
@@ -48,13 +48,13 @@ FORM: Field Book (all-weather survey field book), position 7 of 7 on the ordered
 FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
 
 ## Recorded adaptations
-- Night spine yellow is dimmed (#CDB824) to cut glare on the night page; still the cover, still full height.
+- Night spine yellow is a warm honey (#CCB35D; day #E3D372, both lower in chroma than the original, 2026-10-12) to cut glare on the night page; still the cover, still full height.
 - DONE THIS WEEK closes the index: it is where "done entries draw their strike across the key" is seen.
 - Epic line ink renders as a 3×16px tick in the ruled margin, not a full-height edge stripe (craft floor refuses coloured side stripes).
 - Phone widths: the spine becomes a cover band with horizontal thumb tabs plus an account link; account, theme,
   new workspace and sign-out live on /account. My Work rows keep key, status, where and due; type, points and sprint drop.
 - Header strips carry no caption above or before the title; boards and settings use a linked workspace breadcrumb.
-- Page ruling continues below the last entry to the foot of every page.
+- Ruling marks real rows only; a page ends where its content ends (2026-10-12, replaced ruled fill).
 
 - Board views (Phases 2–3) extend the same world:
   - View tabs (Board · Backlog · Epics · Reports · Settings) are the thumb-tab grammar turned horizontal, standing on the header's double rule.

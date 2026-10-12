@@ -3,13 +3,13 @@
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { ArrowDown, ArrowUp, Flag } from "lucide-react";
-import { StatusMark, TypeGlyph } from "@/components/marks";
+import { PriorityMark, StatusMark, TypeGlyph } from "@/components/marks";
 import { epicInk, shortDate, taskKey } from "@/lib/format";
 import type { BoardTask } from "@/lib/queries";
 import { useBoard } from "./board-context";
 import { useTaskHref } from "./bits";
 import { FilterBar, useFilteredTasks } from "./filters";
-import { PriorityMark, TileAssignee, TileDue, TilePoints } from "./tile-editors";
+import { TileAssignee, TileDue, TilePoints } from "./tile-editors";
 
 type SortKey = "key" | "title" | "status" | "assignee" | "priority" | "points" | "sprint" | "due" | "updated";
 const PRIORITY_ORDER = ["highest", "high", "medium", "low", "lowest"];
@@ -63,7 +63,7 @@ export function TableView() {
       <div className="overflow-x-auto">
         <table className="w-full border-collapse text-left md:min-w-[980px]">
           <caption className="sr-only">All entries on {board.name}</caption>
-          <thead className="rule-double">
+          <thead className="rule-head">
             <tr>
               <SortHead sort={sort} onSort={setSort} k="key" className="w-[84px] pl-4 md:w-[92px] md:pl-8">Key</SortHead>
               <SortHead sort={sort} onSort={setSort} k="title" className="pr-4 md:pr-0">Entry</SortHead>
@@ -137,7 +137,7 @@ export function TableView() {
                     <TileAssignee task={t} interactive />
                   </td>
                   <td className="hidden py-1.5 pl-3 text-[13px] text-pencil md:table-cell">{sprint(t.sprint_id)?.name ?? "Backlog"}</td>
-                  <td className="font-mono hidden py-1.5 pr-4 pl-3 text-[12px] text-pencil md:table-cell md:pr-8">{shortDate(t.updated_at.slice(0, 10))}</td>
+                  <td className="tnum hidden py-1.5 pr-4 pl-3 text-[12px] text-pencil md:table-cell md:pr-8">{shortDate(t.updated_at.slice(0, 10))}</td>
                 </tr>
               );
             })}
@@ -145,7 +145,6 @@ export function TableView() {
         </table>
         {rows.length === 0 && <p className="px-4 py-6 text-[15px] text-pencil md:px-8">No entries match. Clear the filters, or press c on the Board to create one.</p>}
       </div>
-      <div className="ruled-fill flex-1" aria-hidden />
     </>
   );
 }

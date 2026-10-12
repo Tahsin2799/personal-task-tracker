@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { describeActivity } from "@/lib/activity-words";
 import { longDate, taskKey } from "@/lib/format";
 import { viewerTimeZone } from "@/lib/dates";
-import { getBoardName, getViewer } from "@/lib/queries";
+import { getBoardName, getSession } from "@/lib/queries";
 
 export async function generateMetadata({ params }: PageProps<"/b/[boardId]/activity">): Promise<Metadata> {
   const name = await getBoardName((await params).boardId);
@@ -13,7 +13,7 @@ export async function generateMetadata({ params }: PageProps<"/b/[boardId]/activ
 /** Everything that happened on the board, newest first, a day per section. */
 export default async function ActivityPage({ params }: PageProps<"/b/[boardId]/activity">) {
   const { boardId } = await params;
-  const [{ supabase }, timeZone] = await Promise.all([getViewer(), viewerTimeZone()]);
+  const [{ supabase }, timeZone] = await Promise.all([getSession(), viewerTimeZone()]);
   const dayOf = new Intl.DateTimeFormat("en-CA", { timeZone });
   const timeOf = new Intl.DateTimeFormat("en-GB", { timeZone, hour: "2-digit", minute: "2-digit" });
   // Only this feed and the entries it names: the board itself is already on the page (layout).
@@ -42,14 +42,14 @@ export default async function ActivityPage({ params }: PageProps<"/b/[boardId]/a
       )}
       {[...days.entries()].map(([day, list]) => (
         <section key={day} aria-label={longDate(day)}>
-          <h2 className="font-mono border-b border-rule-strong bg-page-sunk px-4 pt-3 pb-1.5 text-[12px] md:px-8">{longDate(day)}</h2>
+          <h2 className="tnum border-b border-rule-strong bg-page-sunk px-4 pt-3 pb-1.5 text-[12px] md:px-8">{longDate(day)}</h2>
           <ol>
             {list.map((a) => {
               const task = a.task && !a.task.archived_at ? a.task : undefined;
               const { verb, rest } = describeActivity(a.kind, (a.data ?? {}) as Record<string, unknown>);
               return (
                 <li key={a.id} className="flex min-h-[41px] items-baseline gap-3 border-b border-rule px-4 py-2 text-[14px] md:px-8">
-                  <span className="font-mono w-12 shrink-0 text-[12px] text-pencil">
+                  <span className="tnum w-12 shrink-0 text-[12px] text-pencil">
                     {timeOf.format(new Date(a.created_at))}
                   </span>
                   <span className="min-w-0">
@@ -69,7 +69,6 @@ export default async function ActivityPage({ params }: PageProps<"/b/[boardId]/a
           </ol>
         </section>
       ))}
-      <div className="ruled-fill flex-1" aria-hidden />
     </>
   );
 }

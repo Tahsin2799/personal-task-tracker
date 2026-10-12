@@ -3,7 +3,8 @@
 import { usePathname, useSearchParams } from "next/navigation";
 import { useCallback } from "react";
 import { X } from "lucide-react";
-import { initials, shortDate } from "@/lib/format";
+import { Avatar } from "@/components/avatar";
+import { shortDate } from "@/lib/format";
 
 export const LABEL_INKS = ["ink-1", "ink-2", "ink-3", "ink-4", "ink-5", "ink-6"] as const;
 
@@ -38,24 +39,15 @@ export function labelInk(color: string) {
 }
 
 export function AssigneeStamp({ name, size = "md" }: { name: string; size?: "sm" | "md" }) {
-  return (
-    <span
-      title={name}
-      className={`font-mono flex shrink-0 items-center justify-center border border-pencil font-semibold text-ink ${
-        size === "sm" ? "size-6 text-[11px]" : "size-7 text-[12px]"
-      }`}
-    >
-      {initials(name)}
-    </span>
-  );
+  return <Avatar name={name} size={size} />;
 }
 
 export function DueMark({ due, today, done }: { due: string | null; today: string; done: boolean }) {
   if (!due) return null;
   const late = !done && due < today;
   return (
-    <span className={`font-mono text-[12px] ${late ? "font-semibold text-attention" : "text-pencil"}`}>
-      {due === today && !done ? "TODAY" : shortDate(due)}
+    <span className={`tnum text-[12px] ${late ? "font-semibold text-attention" : "text-pencil"}`}>
+      {due === today && !done ? "Today" : shortDate(due)}
     </span>
   );
 }

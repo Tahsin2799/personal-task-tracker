@@ -4,13 +4,14 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { useActionState, useEffect, useRef, useState } from "react";
-import { LogOut, Plus, Settings2, X } from "lucide-react";
+import { Flag, LogOut, Plus, Settings2, X } from "lucide-react";
 import { createWorkspace } from "@/app/(app)/actions";
 import { signOut } from "@/app/(auth)/actions";
 import { FormMessage, SubmitButton } from "@/components/form-bits";
 import { ThemeSwitch, type Theme } from "@/components/theme-switch";
 import { CommandPalette } from "@/components/command-palette";
 import { initials } from "@/lib/format";
+import { singleKeysAllowed } from "@/lib/shortcuts";
 import type { Section } from "@/lib/queries";
 
 export function Spine({
@@ -21,6 +22,7 @@ export function Spine({
   openCount,
   unread,
   accountRole,
+  milestones,
 }: {
   sections: Section[];
   boardSection: Record<string, string>;
@@ -29,6 +31,7 @@ export function Spine({
   openCount: number;
   unread: number;
   accountRole: "admin" | "owner" | "user";
+  milestones: { id: string; href: string; key: string; title: string; when: string; late: boolean }[];
 }) {
   const pathname = usePathname();
   const router = useRouter();
@@ -37,19 +40,18 @@ export function Spine({
     pathname.match(/^\/w\/([^/]+)/)?.[1] ?? boardSection[pathname.match(/^\/b\/([^/]+)/)?.[1] ?? ""] ?? null;
   const onIndex = pathname === "/";
 
-  // 0 opens the index, 1–9 pull the matching section tab.
+  // 0 opens the index, 1–9 pull the matching section tab, a the admin page.
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
-      if (e.metaKey || e.ctrlKey || e.altKey || e.defaultPrevented) return;
-      const target = e.target as HTMLElement | null;
-      if (target?.closest("input, textarea, select, [contenteditable='true']")) return;
+      if (!singleKeysAllowed(e)) return;
       if (e.key === "0") router.push("/");
+      else if (e.key === "a" && accountRole === "admin") router.push("/admin");
       const n = Number(e.key);
       if (n >= 1 && n <= sections.length) router.push(`/w/${sections[n - 1].id}`);
     }
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [router, sections]);
+  }, [router, sections, accountRole]);
 
   return (
     <aside className="relative z-10 flex flex-col bg-cover text-cover-ink md:sticky md:top-0 md:h-dvh">
@@ -71,7 +73,7 @@ export function Spine({
         <Link
           href="/account"
           aria-label="Account, theme and sign out"
-          className="font-mono ml-auto flex size-9 items-center justify-center border border-cover-ink text-[12px] font-semibold md:hidden"
+          className="ml-auto flex size-9 items-center justify-center rounded-[2px] border border-cover-ink/40 bg-cover-deep text-[12.5px] font-semibold tracking-[0.02em] md:hidden"
         >
           {initials(viewerName)}
         </Link>
@@ -81,8 +83,13 @@ export function Spine({
         <CommandPalette sections={sections} />
       </div>
 
-      <nav aria-label="Sections" className="flex min-h-0 flex-1 flex-col">
-        <div className="flex gap-1 overflow-x-auto px-4 pb-0 md:block md:overflow-visible md:px-0 md:pb-2">
+      <nav aria-label="Workspaces" className="flex min-h-0 flex-1 flex-col">
+        {/* Scrolls when there are many workspaces; reaches 1px past the spine so the active tab still meets the page.
+            On phones the band scrolls sideways and fades at the right edge to say so. */}
+        <div
+          className="flex gap-1 overflow-x-auto px-4 pb-0 [mask-image:linear-gradient(to_right,#000_calc(100%-28px),transparent)] md:-mr-px md:block md:min-h-0 md:space-y-0.5 md:overflow-x-hidden md:overflow-y-auto md:px-0 md:pb-2 md:[mask-image:none]"
+          style={{ scrollbarColor: "color-mix(in oklab, var(--cover-ink) 30%, transparent) transparent" }}
+        >
           <ThumbTab href="/" active={onIndex} number={0} label="My Work" trailing={String(openCount)} />
           <ThumbTab
             href="/inbox"
@@ -93,11 +100,9 @@ export function Spine({
             trailingLabel={`${unread} unread`}
             attention={unread > 0}
           />
-          {accountRole === "admin" && (
-            <ThumbTab href="/admin" active={pathname === "/admin"} number="a" label="Admin" trailing="" />
-          )}
-          <p className="stamp hidden px-5 pt-5 pb-2 text-[11px] text-cover-pencil md:block">Sections</p>
-          <ul className="contents md:block md:space-y-px">
+          {accountRole === "admin" && <ThumbTab href="/admin" active={pathname === "/admin"} number="a" label="Admin" />}
+          <p className="stamp hidden px-5 pt-6 pb-2 text-[11px] text-cover-pencil md:block">Workspaces</p>
+          <ul className="contents md:block md:space-y-0.5">
             {sections.map((s, i) => (
               <li key={s.id} className="contents md:block">
                 <ThumbTab
@@ -105,17 +110,17 @@ export function Spine({
                   active={s.id === activeSectionId}
                   number={i + 1}
                   label={s.isPersonal ? "Personal" : s.name}
-                  trailing={s.isPersonal ? "private" : `${s.memberCount}`}
-                  trailingLabel={s.isPersonal ? undefined : `${s.memberCount} members`}
+                  written
                 />
                 {s.id === activeSectionId && (
-                  <ul className="relative z-10 hidden border-l border-rule-strong bg-page pt-1 pb-2 text-ink md:-mr-px md:ml-5 md:block">
+                  <ul className="relative z-10 hidden border-l border-rule-strong bg-page pt-1 pb-2 text-ink md:ml-5 md:block">
                     {s.boards.map((b) => {
                       const current = pathname === `/b/${b.id}`;
                       return (
                         <li key={b.id}>
                           <Link
                             href={`/b/${b.id}`}
+                            prefetch
                             aria-current={current ? "page" : undefined}
                             className={`flex items-baseline gap-2 py-1 pr-3 pl-4 text-[14px] hover:bg-page-sunk ${
                               current ? "font-semibold" : ""
@@ -140,7 +145,7 @@ export function Spine({
                         className="flex items-center gap-2 py-1 pr-3 pl-4 text-[13px] text-pencil hover:bg-page-sunk hover:text-ink"
                       >
                         <Settings2 size={13} strokeWidth={1.6} aria-hidden />
-                        {s.isPersonal ? "Section settings" : "Members & settings"}
+                        {s.isPersonal ? "Workspace settings" : "Members & settings"}
                       </Link>
                     </li>
                   </ul>
@@ -150,6 +155,32 @@ export function Spine({
           </ul>
         </div>
         {accountRole !== "user" && <NewSection />}
+        {milestones.length > 0 && (
+          // The cover's lower half carries what's coming: every workspace's milestones, a month ahead.
+          <section aria-labelledby="milestones-heading" className="mx-5 mt-6 hidden shrink-0 border-t border-cover-ink/20 pt-3 md:block">
+            {/* A caption, not a heading: the page's own title should be the first heading read. */}
+            <p id="milestones-heading" className="stamp text-[11px] text-cover-pencil">
+              Milestones · 30 days
+            </p>
+            <ul className="mt-1.5">
+              {milestones.map((m) => (
+                <li key={m.id}>
+                  <Link
+                    href={m.href}
+                    title={`${m.key} ${m.title}`}
+                    className="-mx-1.5 flex items-start gap-2 rounded-[2px] px-1.5 py-1 text-[13px] leading-snug hover:bg-cover-deep/70"
+                  >
+                    <Flag size={11} strokeWidth={2} className="mt-[3px] shrink-0" aria-hidden />
+                    <span className="line-clamp-2 min-w-0 flex-1">{m.title}</span>
+                    <span className={`tnum shrink-0 text-[12px] ${m.late ? "font-semibold text-cover-ink" : "text-cover-pencil"}`}>
+                      {m.when}
+                    </span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
       </nav>
 
       <div className="hidden border-t border-cover-ink/25 px-5 py-3 md:block">
@@ -179,37 +210,50 @@ function ThumbTab({
   trailing,
   trailingLabel,
   attention = false,
+  written = false,
 }: {
   href: string;
   active: boolean;
   number: number | string;
   label: string;
-  trailing: string;
+  /** Only what's waiting for you (open entries, unread), so the number always means one thing. */
+  trailing?: string;
+  /** A name someone typed (a workspace): written in Barlow, sentence case, not stamped. */
+  written?: boolean;
   trailingLabel?: string;
   attention?: boolean;
 }) {
   return (
     <Link
       href={href}
+      // The spine is always on screen and short: load each page in full ahead of the click.
+      prefetch
       aria-current={active ? "page" : undefined}
-      className={`group flex shrink-0 items-center gap-3 border border-b-0 px-3 py-2 transition-[transform,background-color,border-color] duration-[160ms] ease-[cubic-bezier(0.16,1,0.3,1)] md:ml-5 md:border-r-0 md:border-b md:py-[9px] md:pl-3 ${
+      className={`group flex shrink-0 items-center gap-3 border border-b-0 px-3 py-2 transition-[background-color,border-color] duration-[160ms] ease-[cubic-bezier(0.16,1,0.3,1)] md:ml-5 md:border-r-0 md:border-b md:py-2 md:pl-3 ${
         active
-          ? "relative z-10 border-rule-strong bg-page text-ink md:-mr-px md:translate-x-0"
-          : "border-cover-ink/25 bg-cover-deep/60 hover:bg-cover-deep md:-translate-x-2 md:hover:-translate-x-1"
+          ? "relative z-10 border-rule-strong bg-page text-ink"
+          : "border-transparent hover:bg-cover-deep/70 md:mr-px"
       }`}
     >
-      <span className={`font-mono text-[12px] ${active ? "text-pencil" : "text-cover-pencil"}`} aria-hidden>
+      {/* Index numbers are keyboard shortcuts: shown where there's a keyboard. */}
+      <span className={`tnum hidden w-3 shrink-0 text-right text-[12px] md:inline-block ${active ? "text-pencil" : "text-cover-pencil"}`} aria-hidden>
         {number}
       </span>
-      <span className="truncate font-stamp text-[17px] font-semibold uppercase leading-tight tracking-[0.03em]">
+      <span
+        className={`truncate leading-tight ${
+          written ? "text-[16px] font-semibold" : "font-stamp text-[17px] font-semibold uppercase tracking-[0.03em]"
+        }`}
+      >
         {label}
       </span>
-      <span
-        className={`font-mono ml-auto hidden text-[11px] md:inline ${active ? (attention ? "font-semibold text-ink" : "text-pencil") : attention ? "font-semibold text-cover-ink" : "text-cover-pencil"}`}
-        aria-label={trailingLabel}
-      >
-        {trailing}
-      </span>
+      {trailing && (
+        <span
+          className={`tnum ml-auto text-[11px] ${active ? (attention ? "font-semibold text-ink" : "text-pencil") : attention ? "font-semibold text-cover-ink" : "text-cover-pencil"}`}
+        >
+          <span aria-hidden>{trailing}</span>
+          <span className="sr-only">{trailingLabel ?? `${trailing} open`}</span>
+        </span>
+      )}
     </Link>
   );
 }

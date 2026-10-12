@@ -12,7 +12,7 @@ export const getViewer = cache(async () => {
 
   const { data: profile } = await supabase
     .from("profiles")
-    .select("id, email, display_name, avatar_url, onboarded_at, time_zone, email_notifications, email_due_reminders")
+    .select("id, email, display_name, avatar_url, onboarded_at, time_zone, email_notifications, email_due_reminders, account_role")
     .eq("id", userId)
     .single();
   if (!profile) redirect("/login");

@@ -206,13 +206,13 @@ isOneToOne: false
                   ]
                 },"profiles": {
                   Row: {
-                    "avatar_url": string | null,"created_at": string,"display_name": string,"email": string,"email_due_reminders": boolean,"email_notifications": boolean,"id": string,"onboarded_at": string | null,"reminded_on": string | null,"time_zone": string
+                    "account_role": Database["public"]['Enums']["account_role"],"avatar_url": string | null,"created_at": string,"display_name": string,"email": string,"email_due_reminders": boolean,"email_notifications": boolean,"id": string,"onboarded_at": string | null,"reminded_on": string | null,"time_zone": string
                   }
                   Insert: {
-                    "avatar_url"?: string | null,"created_at"?: string,"display_name": string,"email": string,"email_due_reminders"?: boolean,"email_notifications"?: boolean,"id": string,"onboarded_at"?: string | null,"reminded_on"?: string | null,"time_zone"?: string
+                    "account_role"?: Database["public"]['Enums']["account_role"],"avatar_url"?: string | null,"created_at"?: string,"display_name": string,"email": string,"email_due_reminders"?: boolean,"email_notifications"?: boolean,"id": string,"onboarded_at"?: string | null,"reminded_on"?: string | null,"time_zone"?: string
                   }
                   Update: {
-                    "avatar_url"?: string | null,"created_at"?: string,"display_name"?: string,"email"?: string,"email_due_reminders"?: boolean,"email_notifications"?: boolean,"id"?: string,"onboarded_at"?: string | null,"reminded_on"?: string | null,"time_zone"?: string
+                    "account_role"?: Database["public"]['Enums']["account_role"],"avatar_url"?: string | null,"created_at"?: string,"display_name"?: string,"email"?: string,"email_due_reminders"?: boolean,"email_notifications"?: boolean,"id"?: string,"onboarded_at"?: string | null,"reminded_on"?: string | null,"time_zone"?: string
                   }
                   Relationships: [
                     
@@ -378,7 +378,35 @@ isOneToOne: false
             [_ in never]: never
           }
           Functions: {
-            "complete_sprint":
+            "admin_create_workspace":
+{ Args: { "owner": string,"ws_name": string }; Returns: string
+                           },
+"admin_delete_workspace":
+{ Args: { "ws": string }; Returns: undefined
+                           },
+"admin_people":
+{ Args: Record<PropertyKey, never>; Returns: {
+              "account_role": Database["public"]['Enums']["account_role"],"created_at": string,"display_name": string,"email": string,"id": string,"last_sign_in_at": string,"owned_workspaces": number,"team_workspaces": number
+            }[]
+                           },
+"admin_remove_member":
+{ Args: { "member": string,"ws": string }; Returns: undefined
+                           },
+"admin_rename_workspace":
+{ Args: { "ws": string,"ws_name": string }; Returns: undefined
+                           },
+"admin_set_account_role":
+{ Args: { "new_role": Database["public"]['Enums']["account_role"],"target": string }; Returns: undefined
+                           },
+"admin_set_member":
+{ Args: { "member": string,"member_role": Database["public"]['Enums']["workspace_role"],"ws": string }; Returns: undefined
+                           },
+"admin_workspaces":
+{ Args: Record<PropertyKey, never>; Returns: {
+              "board_count": number,"created_at": string,"id": string,"members": Json,"name": string
+            }[]
+                           },
+"complete_sprint":
 { Args: { "carry_to": string,"sprint": string }; Returns: number
                            },
 "search_entries":
@@ -391,7 +419,7 @@ isOneToOne: false
                            }
           }
           Enums: {
-            "column_category": "todo"|"in_progress"|"done","sprint_status": "planned"|"active"|"completed","task_priority": "lowest"|"low"|"medium"|"high"|"highest","task_type": "epic"|"story"|"task"|"bug"|"subtask","workspace_role": "owner"|"admin"|"member"
+            "account_role": "admin"|"owner"|"user","column_category": "todo"|"in_progress"|"done","sprint_status": "planned"|"active"|"completed","task_priority": "lowest"|"low"|"medium"|"high"|"highest","task_type": "epic"|"story"|"task"|"bug"|"subtask","workspace_role": "owner"|"admin"|"member"
           }
           CompositeTypes: {
             [_ in never]: never
@@ -511,7 +539,7 @@ export const Constants = {
           }
         },"public": {
           Enums: {
-            "column_category": ["todo", "in_progress", "done"],"sprint_status": ["planned", "active", "completed"],"task_priority": ["lowest", "low", "medium", "high", "highest"],"task_type": ["epic", "story", "task", "bug", "subtask"],"workspace_role": ["owner", "admin", "member"]
+            "account_role": ["admin", "owner", "user"],"column_category": ["todo", "in_progress", "done"],"sprint_status": ["planned", "active", "completed"],"task_priority": ["lowest", "low", "medium", "high", "highest"],"task_type": ["epic", "story", "task", "bug", "subtask"],"workspace_role": ["owner", "admin", "member"]
           }
         }
 } as const

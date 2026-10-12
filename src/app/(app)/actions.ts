@@ -8,14 +8,15 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { getViewer } from "@/lib/queries";
 import type { ActionState } from "@/lib/action-state";
 
-const MAX_USERS = 5;
-
 export async function createWorkspace(_prev: ActionState, formData: FormData): Promise<ActionState> {
   const name = String(formData.get("name") ?? "").trim();
   if (!name) return { error: "Name the workspace." };
   if (name.length > 80) return { error: "Keep the name under 80 characters.", values: { name } };
 
   const { supabase, profile } = await getViewer();
+  if (profile.account_role === "user") {
+    return { error: "Only owner accounts can create team workspaces. Ask the admin.", values: { name } };
+  }
   const { data, error } = await supabase
     .from("workspaces")
     .insert({ name, created_by: profile.id })
@@ -113,25 +114,23 @@ export async function inviteMember(_prev: ActionState, formData: FormData): Prom
 
   const { supabase, profile } = await getViewer();
 
-  let { data: existing } = await supabase.from("profiles").select("id").eq("email", email).maybeSingle();
+  // Confirm the caller may manage this workspace before using the service key.
+  const { data: canManage } = await supabase
+    .from("workspace_members")
+    .select("role")
+    .eq("workspace_id", workspaceId)
+    .in("role", ["owner", "admin"])
+    .eq("user_id", profile.id)
+    .maybeSingle();
+  if (!canManage) return { error: "Only owners and admins can invite people.", values };
 
+  // Workspace users only see people they already work with, so look the address up with the service key.
+  const admin = createAdminClient();
+  let { data: existing } = await admin.from("profiles").select("id").eq("email", email).maybeSingle();
+  const isNew = !existing;
+
+  // New people join as workspace users: no owner seat, no Personal workspace.
   if (!existing) {
-    const { count } = await supabase.from("profiles").select("id", { count: "exact", head: true });
-    if ((count ?? 0) >= MAX_USERS) {
-      return { error: `Bird-Watcher is limited to ${MAX_USERS} accounts, and all of them are taken.`, values };
-    }
-
-    // Confirm the caller may manage this workspace before sending email with the service key.
-    const { data: canManage } = await supabase
-      .from("workspace_members")
-      .select("role")
-      .eq("workspace_id", workspaceId)
-      .in("role", ["owner", "admin"])
-      .eq("user_id", profile.id)
-      .maybeSingle();
-    if (!canManage) return { error: "Only owners and admins can invite people.", values };
-
-    const admin = createAdminClient();
     const { data: invited, error: inviteError } = await admin.auth.admin.inviteUserByEmail(email);
     if (inviteError || !invited.user) {
       return { error: inviteError?.message ?? "The invite could not be sent.", values };
@@ -150,7 +149,7 @@ export async function inviteMember(_prev: ActionState, formData: FormData): Prom
 
   revalidatePath(`/w/${workspaceId}/settings`);
   revalidatePath("/", "layout");
-  return { ok: `Added ${email}. New accounts get an email to set a password.` };
+  return { ok: isNew ? `Invited ${email}. They'll get an email to set a password.` : `Added ${email}.` };
 }
 
 export async function removeMember(workspaceId: string, userId: string) {

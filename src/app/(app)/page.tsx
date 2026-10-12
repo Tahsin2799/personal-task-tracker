@@ -60,6 +60,8 @@ export default async function MyWorkPage() {
       {!profile.onboarded_at && (
         <Welcome
           personalBoard={sections.find((s) => s.isPersonal)?.boards[0]?.id ?? null}
+          firstBoard={sections.flatMap((s) => s.boards)[0]?.id ?? null}
+          canCreateWorkspaces={profile.account_role !== "user"}
           steps={{
             entry: entries.length > 0,
             team: sections.some((s) => !s.isPersonal),

@@ -9,11 +9,15 @@ export const metadata: Metadata = { title: "Members & settings" };
 
 export default async function WorkspaceSettingsPage({ params }: PageProps<"/w/[workspaceId]/settings">) {
   const { workspaceId } = await params;
-  const [{ profile }, workspace, members] = await Promise.all([
+  const [{ supabase, profile }, workspace, members] = await Promise.all([
     getViewer(),
     getWorkspace(workspaceId),
     getWorkspaceMembers(workspaceId),
   ]);
+  // Suggestions for "add existing": everyone the viewer can see who isn't here yet.
+  const memberIds = new Set(members.map((m) => m.profile?.id));
+  const { data: visiblePeople } = await supabase.from("profiles").select("id, email, display_name").order("display_name");
+  const people = (visiblePeople ?? []).filter((p) => !memberIds.has(p.id));
 
   const myRole = members.find((m) => m.profile?.id === profile.id)?.role ?? "member";
   const canManage = myRole === "owner" || myRole === "admin";
@@ -91,7 +95,7 @@ export default async function WorkspaceSettingsPage({ params }: PageProps<"/w/[w
               </tbody>
             </table>
           )}
-          {!workspace.is_personal && canManage && <InviteRow workspaceId={workspace.id} />}
+          {!workspace.is_personal && canManage && <InviteRow workspaceId={workspace.id} people={people} />}
           {!workspace.is_personal && !canManage && (
             <p className="mt-4 text-[13px] text-pencil">Only owners and admins can invite people.</p>
           )}

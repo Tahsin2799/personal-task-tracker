@@ -20,6 +20,7 @@ export function Spine({
   theme,
   openCount,
   unread,
+  accountRole,
 }: {
   sections: Section[];
   boardSection: Record<string, string>;
@@ -27,6 +28,7 @@ export function Spine({
   theme: Theme;
   openCount: number;
   unread: number;
+  accountRole: "admin" | "owner" | "user";
 }) {
   const pathname = usePathname();
   const router = useRouter();
@@ -91,6 +93,9 @@ export function Spine({
             trailingLabel={`${unread} unread`}
             attention={unread > 0}
           />
+          {accountRole === "admin" && (
+            <ThumbTab href="/admin" active={pathname === "/admin"} number="a" label="Admin" trailing="" />
+          )}
           <p className="stamp hidden px-5 pt-5 pb-2 text-[11px] text-cover-pencil md:block">Sections</p>
           <ul className="contents md:block md:space-y-px">
             {sections.map((s, i) => (
@@ -144,7 +149,7 @@ export function Spine({
             ))}
           </ul>
         </div>
-        <NewSection />
+        {accountRole !== "user" && <NewSection />}
       </nav>
 
       <div className="hidden border-t border-cover-ink/25 px-5 py-3 md:block">

@@ -1,9 +1,9 @@
 -- =============================================================================
 -- LOCAL DEVELOPMENT DEMO DATA. Synthetic people and tasks; never run in production.
 -- Sign in with any of these (password: birdwatcher):
---   nadia@example.com  (owner of "Field Lab" and "Weekend Build")
---   ishan@example.com
---   clara@example.com
+--   nadia@example.com  admin (the first account); owner of "Field Lab" and "Weekend Build"
+--   ishan@example.com  owner account; admin of "Field Lab"
+--   clara@example.com  workspace user; member of "Field Lab"
 -- Dates are relative to the day you run `supabase db reset`.
 -- =============================================================================
 
@@ -74,6 +74,8 @@ declare
   e_transect uuid; e_paper uuid; e_launch uuid;
   t uuid;
 begin
+  update public.profiles set account_role = 'owner' where id = ishan;
+
   -- Team workspace: research group.
   insert into public.workspaces (name, created_by) values ('Field Lab', nadia) returning id into lab;
   insert into public.workspace_members (workspace_id, user_id, role) values

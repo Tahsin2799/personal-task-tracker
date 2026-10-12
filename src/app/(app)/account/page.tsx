@@ -10,13 +10,21 @@ import { NewWorkspaceForm } from "./new-workspace-form";
 
 export const metadata: Metadata = { title: "Account" };
 
+const ACCOUNT_LABEL = { admin: "Admin", owner: "Owner", user: "Workspace user" } as const;
+
 export default async function AccountPage() {
   const [{ profile }, store] = await Promise.all([getViewer(), cookies()]);
   const theme = store.get("theme")?.value;
 
   return (
     <>
-      <PageHeader title={profile.display_name} fields={[{ label: "Email", value: profile.email }]} />
+      <PageHeader
+        title={profile.display_name}
+        fields={[
+          { label: "Account", value: ACCOUNT_LABEL[profile.account_role] },
+          { label: "Email", value: profile.email },
+        ]}
+      />
       <div className="grid max-w-[1040px] gap-x-12 gap-y-10 px-4 py-6 md:grid-cols-2 md:px-8">
         <section aria-labelledby="name-heading">
           <h2 id="name-heading" className="stamp border-b border-rule-strong pb-1.5 text-[14px]">
@@ -47,7 +55,13 @@ export default async function AccountPage() {
           <h2 id="workspace-heading" className="stamp border-b border-rule-strong pb-1.5 text-[14px]">
             New team workspace
           </h2>
-          <NewWorkspaceForm />
+          {profile.account_role === "user" ? (
+            <p className="max-w-[60ch] py-4 text-[15px] text-pencil">
+              Workspace users work in the team workspaces they&apos;re added to. Ask the admin if you need to start your own.
+            </p>
+          ) : (
+            <NewWorkspaceForm />
+          )}
         </section>
         <section aria-labelledby="session-heading">
           <h2 id="session-heading" className="stamp border-b border-rule-strong pb-1.5 text-[14px]">

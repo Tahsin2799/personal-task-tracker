@@ -27,6 +27,7 @@ export default async function AppLayout({ children }: LayoutProps<"/">) {
           theme={theme === "light" || theme === "dark" ? theme : "system"}
           openCount={myWork.filter((t) => !t.completed_at).length}
           unread={unread}
+          accountRole={profile.account_role}
         />
       </div>
       <main className="flex min-w-0 flex-1 flex-col border-t border-rule-strong bg-page md:border-t-0 md:border-l">

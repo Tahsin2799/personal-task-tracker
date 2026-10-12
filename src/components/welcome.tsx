@@ -8,22 +8,38 @@ import { finishOnboarding } from "@/app/(app)/search-actions";
 /** First-run checklist for a new account; ticks itself off as the person explores. */
 export function Welcome({
   personalBoard,
+  firstBoard,
   teamId,
+  canCreateWorkspaces,
   steps,
 }: {
   personalBoard: string | null;
+  firstBoard: string | null;
   teamId: string | null;
+  canCreateWorkspaces: boolean;
   steps: { entry: boolean; team: boolean; teammate: boolean };
 }) {
   const [pending, start] = useTransition();
+  const firstEntry = personalBoard
+    ? {
+        done: steps.entry,
+        title: "Write your first entry",
+        body: "Open your private My Tasks board and type into “+ Create entry”.",
+        href: `/b/${personalBoard}`,
+        cta: "Open My Tasks",
+      }
+    : {
+        done: steps.entry,
+        title: "Write your first entry",
+        body: "Open one of your team's boards and type into “+ Create entry”.",
+        href: firstBoard ? `/b/${firstBoard}` : null,
+        cta: "Open a board",
+      };
+  // Workspace users can't start workspaces, so their checklist is just the first entry.
+  if (!canCreateWorkspaces) return <Checklist items={[firstEntry]} pending={pending} start={start} />;
+
   const items = [
-    {
-      done: steps.entry,
-      title: "Write your first entry",
-      body: "Open your private My Tasks board and type into “+ Create entry”.",
-      href: personalBoard ? `/b/${personalBoard}` : null,
-      cta: "Open My Tasks",
-    },
+    firstEntry,
     {
       done: steps.team,
       title: "Start a team workspace",
@@ -34,11 +50,25 @@ export function Welcome({
     {
       done: steps.teammate,
       title: "Invite someone",
-      body: "Up to five people in total. They get an email to set a password.",
+      body: "Add people who already have an account, or invite someone new. New people get an email to set a password.",
       href: teamId ? `/w/${teamId}/settings` : null,
       cta: "Invite",
     },
   ];
+  return <Checklist items={items} pending={pending} start={start} />;
+}
+
+type Item = { done: boolean; title: string; body: string; href: string | null; cta: string };
+
+function Checklist({
+  items,
+  pending,
+  start,
+}: {
+  items: Item[];
+  pending: boolean;
+  start: ReturnType<typeof useTransition>[1];
+}) {
   const left = items.filter((i) => !i.done).length;
   const dismiss = (
     <button type="button" disabled={pending} onClick={() => start(() => finishOnboarding())} className="btn btn-quiet ml-auto min-h-8">

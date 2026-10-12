@@ -1,6 +1,6 @@
 # Bird-Watcher
 
-A field book for up to five people's work: Trello-style boards with Jira-style planning
+A field book for a small group's work (one admin, up to five owners, any number of invited workspace users): Trello-style boards with Jira-style planning
 (epics, story points, sprints), for personal errands, team projects and research.
 
 What works today: personal and team workspaces, invite-only accounts, **My Work** and an

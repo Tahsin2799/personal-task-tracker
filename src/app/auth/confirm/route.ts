@@ -16,6 +16,7 @@ export async function GET(request: NextRequest) {
     if (!error) {
       return NextResponse.redirect(new URL(next, request.url));
     }
+    console.error("auth/confirm verifyOtp failed:", type, error.status, error.code, error.message);
   }
 
   return NextResponse.redirect(new URL("/login?error=link", request.url));

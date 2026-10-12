@@ -26,7 +26,19 @@ export async function requestPasswordReset(_prev: ActionState, formData: FormDat
   if (!email) return { error: "Enter the email you were invited with." };
 
   const supabase = await createClient();
-  await supabase.auth.resetPasswordForEmail(email);
+  // Supabase answers success for unknown addresses, so an error here is a real send failure
+  // (rate limit or SMTP), not a sign the account doesn't exist.
+  const { error } = await supabase.auth.resetPasswordForEmail(email);
+  if (error) {
+    console.error("resetPasswordForEmail failed:", error.status, error.code, error.message);
+    return {
+      error:
+        error.status === 429
+          ? "Too many emails were sent recently. Wait a few minutes, then try again."
+          : "We couldn't send the email. Try again shortly, or ask a workspace owner for help.",
+      values: { email },
+    };
+  }
   // Same answer whether or not the account exists.
   return { ok: "If that address has an account, a reset link is on its way. It expires in an hour." };
 }

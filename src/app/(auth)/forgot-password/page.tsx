@@ -23,7 +23,7 @@ export default function ForgotPasswordPage({ searchParams }: PageProps<"/forgot-
           <label htmlFor="email" className="field-label">
             Email
           </label>
-          <input id="email" name="email" type="email" autoComplete="email" required autoFocus className="field" />
+          <input id="email" name="email" type="email" autoComplete="email" required autoFocus defaultValue={state?.values?.email} className="field" />
         </div>
         <FormMessage
           state={firstTime && state?.ok

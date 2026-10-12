@@ -1,4 +1,46 @@
-<h2>You're invited to Bird-Watcher</h2>
-<p>You've been invited to join a shared Bird-Watcher task tracker.</p>
-<p><a href="{{ .SiteURL }}/auth/confirm?token_hash={{ .TokenHash }}&type=invite&next=/set-password">Accept the invitation and set your password</a></p>
-<p>If you weren't expecting this, you can ignore this email.</p>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>You're invited to Bird-Watcher</title>
+</head>
+<body style="margin:0;padding:0;background:#eef2ec">
+<!-- Field-book page, matching the notification emails in src/lib/email.ts. -->
+<div style="display:none;max-height:0;overflow:hidden;opacity:0;color:#eef2ec">You've been added to a shared Bird-Watcher field book. Set a password to sign in.</div>
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#eef2ec">
+  <tr><td align="center" style="padding:32px 12px">
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;background:#fafbf8;border:1px solid #c7dccc">
+      <tr><td style="background:#e2cc2a;padding:14px 28px">
+        <table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr>
+          <td style="font:700 15px/1 'Barlow Condensed','Arial Narrow',Arial,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#1b2420">Bird-Watcher</td>
+          <td align="right" style="font:11px/1 'Courier New',monospace;letter-spacing:.06em;text-transform:uppercase;color:#4b4411">Field book</td>
+        </tr></table>
+      </td></tr>
+      <tr><td style="padding:28px 28px 8px">
+        <div style="padding-bottom:8px;border-bottom:1px solid #5f8f6e;font:600 11px/1 Arial,sans-serif;letter-spacing:.07em;text-transform:uppercase;color:#5c6762">Invitation</div>
+        <h1 style="margin:20px 0 0;font:700 30px/1.1 'Barlow Condensed','Arial Narrow',Arial,sans-serif;letter-spacing:.01em;text-transform:uppercase;color:#1b2420">You're on the team</h1>
+        <p style="margin:14px 0 0;font:16px/1.55 Arial,sans-serif;color:#1b2420">You've been added to a shared Bird-Watcher field book, where the team plans tasks, tracks due dates and keeps notes together.</p>
+        <p style="margin:12px 0 0;font:16px/1.55 Arial,sans-serif;color:#1b2420">Set a password for <strong>{{ .Email }}</strong> to sign in.</p>
+      </td></tr>
+      <tr><td style="padding:24px 28px 0">
+        <table role="presentation" cellpadding="0" cellspacing="0"><tr>
+          <td bgcolor="#e2cc2a" style="background:#e2cc2a;border-radius:3px">
+            <a href="{{ .SiteURL }}/auth/confirm?token_hash={{ .TokenHash }}&type=invite&next=/set-password" style="display:inline-block;padding:15px 26px;font:700 16px/1 'Barlow Condensed','Arial Narrow',Arial,sans-serif;letter-spacing:.06em;text-transform:uppercase;color:#1b2420;text-decoration:none">Accept and set password &rarr;</a>
+          </td>
+        </tr></table>
+        <p style="margin:12px 0 0;font:13px/1.5 Arial,sans-serif;color:#5c6762">The link works once. If it has expired, use <em>Set your password</em> on the sign-in page to get a new one.</p>
+      </td></tr>
+      <tr><td style="padding:24px 28px 28px">
+        <div style="padding-top:16px;border-top:1px solid #c7dccc;font:13px/1.5 Arial,sans-serif;color:#5c6762">
+          If the button doesn't work, paste this into your browser:<br>
+          <a href="{{ .SiteURL }}/auth/confirm?token_hash={{ .TokenHash }}&type=invite&next=/set-password" style="font:12px/1.5 'Courier New',monospace;color:#5f8f6e;word-break:break-all">{{ .SiteURL }}/auth/confirm?token_hash={{ .TokenHash }}&amp;type=invite&amp;next=/set-password</a>
+        </div>
+        <p style="margin:16px 0 0;font:13px/1.5 Arial,sans-serif;color:#5c6762">Not expecting this? You can ignore this email.</p>
+      </td></tr>
+    </table>
+  </td></tr>
+</table>
+</body>
+</html>
